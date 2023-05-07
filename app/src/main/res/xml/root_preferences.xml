@@ -4,15 +4,14 @@
 
         <EditTextPreference
             app:key="signature"
-            app:title="@string/signature_title"
+            app:title="@string/app_name"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
             app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
+
             app:key="reply"
-            app:title="@string/reply_title"
+            app:title="@string/app_name"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
@@ -21,14 +20,14 @@
 
         <SwitchPreferenceCompat
             app:key="sync"
-            app:title="@string/sync_title" />
+            app:title="@string/app_name" />
 
         <SwitchPreferenceCompat
             app:dependency="sync"
             app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+            app:summaryOff="@string/app_name"
+            app:summaryOn="@string/app_name"
+            app:title="@string/app_name" />
 
     </PreferenceCategory>
 
