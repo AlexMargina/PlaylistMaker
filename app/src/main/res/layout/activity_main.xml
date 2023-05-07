@@ -34,49 +34,48 @@
         android:orientation="vertical">
 
         <Button
-            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:backgroundTint="#ffffff"
+            android:backgroundTint="@color/buton_background"
             android:insetLeft="0dp"
             android:text="@string/buton_search"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:cornerRadius="16dp"
+            app:cornerRadius="@dimen/big_button_corner"
             app:icon="@drawable/search"
             app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            app:iconTintMode="multiply"
+            app:iconPadding="@dimen/icon_padding"
+            app:iconTint="@color/text_black"
             tools:ignore="VisualLintButtonSize" />
 
         <Button
-            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:backgroundTint="#ffffff"
+            android:backgroundTint="@color/buton_background"
             android:text="@string/buton_media"
             android:textColor="@color/black"
-            app:cornerRadius="16dp"
+            app:cornerRadius="@dimen/big_button_corner"
             app:icon="@drawable/media"
             app:iconGravity="textStart"
-            app:iconTint="#000000"
+            app:iconPadding="@dimen/icon_padding"
+            app:iconTint="@color/text_black"
             tools:ignore="VisualLintButtonSize" />
 
         <Button
-            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:backgroundTint="#ffffff"
+            android:backgroundTint="@color/buton_background"
             android:text="@string/buton_settings"
             android:textColor="@color/black"
-            app:cornerRadius="16dp"
+            app:cornerRadius="@dimen/big_button_corner"
             app:icon="@drawable/setting"
             app:iconGravity="textStart"
-            app:iconTint="#000000"
+            app:iconPadding="@dimen/icon_padding"
+            app:iconTint="@color/text_black"
             tools:ignore="VisualLintButtonSize" />
     </LinearLayout>
 
