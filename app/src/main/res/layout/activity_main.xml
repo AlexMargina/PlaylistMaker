@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -47,7 +48,8 @@
             app:icon="@drawable/search"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
-            app:iconTintMode="multiply" />
+            app:iconTintMode="multiply"
+            tools:ignore="VisualLintButtonSize" />
 
         <Button
             style="?android:attr/buttonBarButtonStyle"
@@ -60,7 +62,8 @@
             app:cornerRadius="16dp"
             app:icon="@drawable/media"
             app:iconGravity="textStart"
-            app:iconTint="#000000" />
+            app:iconTint="#000000"
+            tools:ignore="VisualLintButtonSize" />
 
         <Button
             style="?android:attr/buttonBarButtonStyle"
@@ -73,7 +76,8 @@
             app:cornerRadius="16dp"
             app:icon="@drawable/setting"
             app:iconGravity="textStart"
-            app:iconTint="#000000" />
+            app:iconTint="#000000"
+            tools:ignore="VisualLintButtonSize" />
     </LinearLayout>
 
 </LinearLayout>

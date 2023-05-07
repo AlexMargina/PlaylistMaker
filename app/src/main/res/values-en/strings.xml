@@ -14,9 +14,8 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="dark_theme">Dark theme</string>
-    <string name="share_app">Share the app</string>
     <string name="share_app">share_app</string>
     <string name="support">Write to support</string>
-    <string name="support">Write to support</string>
     <string name="agreement">User agreement</string>
+    <string name="whitespace">" "</string>
 </resources>
