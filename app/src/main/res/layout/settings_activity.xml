@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/imageView"
@@ -40,14 +41,10 @@
         android:orientation="vertical">
 
 <!-- Второй контейнер: ТЕМНАЯ ТЕМА -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/frame_layout_height">
-
             <Switch
                 android:id="@+id/switch_dark"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/frame_layout_height"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginStart="18dp"
                 android:layout_marginEnd="15dp"
@@ -55,11 +52,8 @@
                 android:showText="true"
                 android:text="@string/dark_theme"
                 android:textOff="@string/whitespace"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_size_medium"
                 tools:ignore="TextSizeCheck,TouchTargetSizeCheck,UseSwitchCompatOrMaterialXml,VisualLintButtonSize" />
-
-
-        </FrameLayout>
 
 <!-- Третий контейнер: ПОДЕЛИТЬСЯ... -->
         <FrameLayout
@@ -74,7 +68,7 @@
                 android:gravity="center"
                 android:text="@string/share_app"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/text_size_medium" />
 
             <ImageButton
                 android:id="@+id/imageButton_share"
@@ -104,7 +98,7 @@
                 android:gravity="center"
                 android:text="@string/support"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_size_medium"
                 tools:ignore="VisualLintOverlap" />
 
             <ImageButton
@@ -116,7 +110,7 @@
                 android:layout_marginEnd="@dimen/margin_end"
                 android:backgroundTint="@color/white"
                 android:contentDescription="@string/support"
-                android:foreground="@drawable/support_girl"
+                android:foreground="@drawable/support_gray"
                 android:tooltipText="@string/support"
                 tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 
@@ -135,7 +129,7 @@
                 android:gravity="center"
                 android:text="@string/agreement"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/text_size_medium" />
 
             <ImageButton
                 android:id="@+id/imageButton_forward"

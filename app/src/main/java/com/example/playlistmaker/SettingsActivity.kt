@@ -12,9 +12,9 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_setings)
 
         //нажатие на стрелку НАЗАД
-        val back_off = findViewById<ImageView>(R.id.back_off)
+        val backOffImage = findViewById<ImageView>(R.id.back_off)
         //вызов экрана MainActivity
-        back_off.setOnClickListener {
+        backOffImage.setOnClickListener {
             val displayIntent = Intent(this, MainActivity::class.java)
             startActivity(displayIntent)
         }
