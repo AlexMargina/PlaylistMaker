@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Создатель плэй-листа</string>
+    <string name="buton_search">Поиск</string>
+    <string name="buton_media">Медиатека</string>
+    <string name="buton_settings">Настройки</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="share_app">Поделиться приложением</string>
+    <string name="support">Написать в поддержку</string>
+    <string name="agreement">Пользовательское соглашение</string>
+    <string name="whitespace"> </string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Сообщения</string>
+    <string name="sync_header">Sync</string>
+    <string name="title_activity_settings">Экран настроек</string>
+    <string name="title_activity_media">МЕДИАТЕКА</string>
+    <string name="title_activity_search">Экран поиска музыки</string>
+    <string name="attachment_title">Загружать входящие вложения</string>
+    <string name="attachment_summary_on">Загружать входящие вложения автоматически</string>
+    <string name="attachment_summary_off">Загружать вложения только по запросу вручную</string>
+    <string name="sync_title">Синхронизация почты</string>
+    <string name="reply_title">Ответ по умолчанию</string>
+    <string name="signature_title">Ваша подпись</string>
 </resources>
