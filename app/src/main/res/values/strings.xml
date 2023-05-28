@@ -14,11 +14,19 @@
     <string name="sync_header">Sync</string>
     <string name="title_activity_settings">Экран настроек</string>
     <string name="title_activity_media">МЕДИАТЕКА</string>
-    <string name="title_activity_search">Экран поиска музыки</string>
+    <string name="title_activity_search">Поиск</string>
+    <string name="input_hint">Поиск</string>
+    <string name="contentDescriptionDelete">Удалить</string>
     <string name="attachment_title">Загружать входящие вложения</string>
     <string name="attachment_summary_on">Загружать входящие вложения автоматически</string>
     <string name="attachment_summary_off">Загружать вложения только по запросу вручную</string>
     <string name="sync_title">Синхронизация почты</string>
     <string name="reply_title">Ответ по умолчанию</string>
     <string name="signature_title">Ваша подпись</string>
+    <string name="extra_send" translatable="false">https://practicum.yandex.ru/android-developer/</string>
+    <string name="send_title" translatable="false">Курс Android-разработчик</string>
+    <string name="extra_mail" translatable="false">"marginali@ya.ru"</string>
+    <string name="extra_subject" translatable="false">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="extra_text" translatable="false">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="ofer_url" translatable="false">https://yandex.ru/legal/practicum_offer/</string>
 </resources>
