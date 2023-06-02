@@ -7,11 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="background">#FF4F6FFF</color>
-    <color name="background_icon">#FFFFFF</color>
+    <color name="background">#000000</color>
+    <color name="background_icon">#000000</color>
     <color name="text_black">#FF000000</color>
-    <color name="text_color">#000000</color>
+    <color name="text_color">#FFFFFFFF</color>
     <color name="buton_background">#FFFFFFFF</color>
     <color name="edit_text_dn">#EFEFEF</color>
-    <color name="gray_500">#BCBCBC</color>
+    <color name="gray_500">#6478DF</color>
 </resources>
