@@ -3,7 +3,7 @@
     <dimen name="margin_end">20dp</dimen>
     <dimen name="icon_padding">10dp</dimen>
     <dimen name="big_button_corner">16dp</dimen>
-    <dimen name="frame_layout_height">61dp</dimen>
+    <dimen name="frame_layout_height">48dp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
 
 </resources>
