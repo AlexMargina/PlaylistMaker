@@ -37,9 +37,9 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/frame_layout_height"
-            android:padding="@dimen/margin_small"
             android:layout_gravity="end"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/margin_small">
 
             <EditText
                 android:id="@+id/inputSearchText"
@@ -81,7 +81,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/layout_search_song"></androidx.recyclerview.widget.RecyclerView>
+            tools:listitem="@layout/layout_search_song">
+
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 

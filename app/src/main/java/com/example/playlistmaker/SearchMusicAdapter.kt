@@ -16,5 +16,4 @@ class SearchMusicAdapter (private val searchSong : ArrayList<Track>) : RecyclerV
     override fun onBindViewHolder(holder: SearchMusicViewHolder, position: Int) {
         holder.bind(searchSong[position])
     }
-
 }

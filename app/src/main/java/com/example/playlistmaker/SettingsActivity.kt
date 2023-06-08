@@ -1,11 +1,11 @@
 package com.example.playlistmaker
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -17,8 +17,7 @@ class SettingsActivity : AppCompatActivity() {
         val backOffImage = findViewById<ImageView>(R.id.back_off)
         //вызов экрана MainActivity
         backOffImage.setOnClickListener {
-            val displayIntent = Intent(this, MainActivity::class.java)
-            startActivity(displayIntent)
+             startActivity(Intent(this, MainActivity::class.java))
         }
 
 //нажатие на пиктограмму ПОДЕЛИТЬСЯ

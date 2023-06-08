@@ -1,13 +1,3 @@
 # PlayListMaker
-Подключение изображения через Glide
+Макет здесь: https://www.figma.com/file/k9z167lAABCA7wt8gONM14/Playlist-Maker-(YP)?type=design&node-id=469-14527&t=Wp1TJBiGM3geiLIb-0
 
-private val imageUrl = "https://img.freepik.com/free-vector/open-blue-book-white_1308-69339.jpg"
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val image = findViewById<ImageView>(R.id.image)
-
-        Glide.with(applicationContext).load(imageUrl).into(image)
-    }

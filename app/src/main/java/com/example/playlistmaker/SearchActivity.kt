@@ -1,6 +1,5 @@
 package com.example.playlistmaker
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -30,8 +29,7 @@ class SearchActivity : AppCompatActivity() {
         val backOffImage = findViewById<ImageView>(R.id.back_off_search)
         //вызов экрана MainActivity
         backOffImage.setOnClickListener {
-            val displayIntent = Intent(this, MainActivity::class.java)
-            startActivity(displayIntent)
+            finish()
         }
 
         val inputSearchText = findViewById<EditText>(R.id.inputSearchText)
