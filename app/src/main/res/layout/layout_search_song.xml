@@ -3,18 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:layout_margin="8dp"   >
+    android:layout_margin="8dp"
+    android:layout_marginStart="@dimen/icon_padding">
 
-    <ImageView
-        android:id="@+id/search_songs"
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="5dp"
         android:layout_width="@dimen/frame_layout_height"
-        android:layout_height="@dimen/frame_layout_height"
-        android:background="@drawable/image_view_rounded"
+        android:layout_height="@dimen/frame_layout_height">
+        <ImageView
+            android:id="@+id/search_songs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.cardview.widget.CardView>
 
-        android:foregroundTint="@color/buton_background"
-        android:foregroundTintMode="src_over"
-        android:padding="2dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -25,8 +28,11 @@
             style="@style/TextSongStyle"
             android:id="@+id/songName"
             android:layout_gravity="top"
-            android:paddingEnd="@dimen/icon_padding"
-            android:paddingTop="5dp"
+            android:layout_marginStart="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_end"
+            android:paddingTop="@dimen/margin_small"
+            android:maxLines="1"
+            android:ellipsize="end"
             tools:text="Название музыкальной композиции" />
 
         <LinearLayout
@@ -40,31 +46,34 @@
                 style="@style/TextArtiStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:maxWidth="250dp"
-                tools:text="Исполнитель" />
-
+                android:layout_margin="@dimen/margin_small"
+                android:maxWidth="220dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Исполнитель или коллектив" />
 
             <TextView
                 style="@style/TextArtiStyle"
                 android:id="@+id/songTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_margin="@dimen/margin_small"
+                android:paddingEnd="@dimen/size_xxl"
+                android:maxLines="1"
                 tools:text="Время" />
         </LinearLayout>
 
         <ImageButton
             android:id="@+id/go_song"
             style="@android:style/Widget.DeviceDefault.ImageButton"
-            android:layout_width="8dp"
-            android:layout_height="16dp"
+            android:layout_width="@dimen/size_xxs"
+            android:layout_height="@dimen/size_l"
             android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/forward" />
+            android:layout_marginRight="@dimen/margin_small"
+            android:background="@drawable/forward"
+            android:contentDescription="@android:string/search_go"
+            tools:ignore="TouchTargetSizeCheck" />
 
     </FrameLayout>
-
-
 
 </LinearLayout>
