@@ -17,7 +17,7 @@ class SettingsActivity : AppCompatActivity() {
         val backOffImage = findViewById<ImageView>(R.id.back_off)
         //вызов экрана MainActivity
         backOffImage.setOnClickListener {
-             startActivity(Intent(this, MainActivity::class.java))
+             finish()
         }
 
 //нажатие на пиктограмму ПОДЕЛИТЬСЯ

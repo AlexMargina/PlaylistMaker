@@ -29,7 +29,7 @@ class SearchMusicViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val imageUrl = track.artworkUrl100
         Glide.with(trackImage)
             .load(imageUrl)
-            .placeholder(R.drawable.media)
+            .placeholder(R.drawable.media_placeholder)
             .transform(RoundedCorners(10))
             .centerCrop()
             .into(trackImage)

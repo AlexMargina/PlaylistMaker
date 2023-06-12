@@ -17,12 +17,8 @@
     <string name="title_activity_search">Поиск</string>
     <string name="input_hint">Поиск</string>
     <string name="contentDescriptionDelete">Удалить</string>
-    <string name="attachment_title">Загружать входящие вложения</string>
-    <string name="attachment_summary_on">Загружать входящие вложения автоматически</string>
-    <string name="attachment_summary_off">Загружать вложения только по запросу вручную</string>
-    <string name="sync_title">Синхронизация почты</string>
-    <string name="reply_title">Ответ по умолчанию</string>
-    <string name="signature_title">Ваша подпись</string>
+
+
     <string name="extra_send" translatable="false">https://practicum.yandex.ru/android-developer/</string>
     <string name="send_title" translatable="false">Курс Android-разработчик</string>
     <string name="extra_mail" translatable="false">"marginali@ya.ru"</string>

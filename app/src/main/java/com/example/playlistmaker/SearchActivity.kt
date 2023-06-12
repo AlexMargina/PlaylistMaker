@@ -15,11 +15,9 @@ class SearchActivity : AppCompatActivity() {
 
     companion object {
         const val SEARCH_STRING = "SEARCH_STRING"
-        var searchValue = ""
     }
 
     /* Основная функции при создании активити поиска:
-
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,16 +25,13 @@ class SearchActivity : AppCompatActivity() {
 
         //нажатие на стрелку НАЗАД
         val backOffImage = findViewById<ImageView>(R.id.back_off_search)
-        //вызов экрана MainActivity
         backOffImage.setOnClickListener {
             finish()
         }
 
-        val inputSearchText = findViewById<EditText>(R.id.inputSearchText)
-
         // при нажатии на крестик очистки поля поиска:
         val clearButton = findViewById<ImageView>(R.id.icon_clear_search)
-        
+        val inputSearchText = findViewById<EditText>(R.id.inputSearchText)
         clearButton.setOnClickListener {
             inputSearchText.setText("")
         }
@@ -58,42 +53,34 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                searchValue = s.toString()
+                s.toString()
             }
         })
 
-        /*
-    Формирование списка найденных песен в recyclerViewSearch
+        /*     Формирование списка найденных песен в recyclerViewSearch
         */
 
         val recyclerViewSearch = findViewById<RecyclerView>(R.id.recyclerViewSearch)
         val songList = makeArrayList ()
 
         recyclerViewSearch.layoutManager = LinearLayoutManager (this)
-
         recyclerViewSearch.adapter = SearchMusicAdapter(songList)
-
     }
-
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         // запоминание текста посиковой строки inputSearchText в переменную
         val inputSearchText = findViewById<EditText>(R.id.inputSearchText)
-        searchValue = inputSearchText.text.toString()
-        outState.putString(SEARCH_STRING, searchValue)
+        outState.putString(SEARCH_STRING, inputSearchText.text.toString())
     }
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         //заполнение тектового поля из предыдущего запуска Активити
         val inputSearchText = findViewById<EditText>(R.id.inputSearchText)
-
         if (savedInstanceState.containsKey(SEARCH_STRING)) {
             val searchText = savedInstanceState.getString(SEARCH_STRING)
             inputSearchText.setText(searchText)
         }
     }
-
-
 }
 
 

@@ -6,9 +6,9 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/frame_layout_height"
         android:layout_gravity="center"
-        android:padding="10dp">
+        android:padding="@dimen/size_xs">
 
 
         <TextView

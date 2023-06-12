@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:foregroundTint="#D9DBDC"
+    android:foregroundTint="@color/gray_500"
     tools:context=".SearchActivity">
 
     <LinearLayout
@@ -38,20 +38,19 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/frame_layout_height"
             android:layout_gravity="end"
-            android:orientation="vertical"
-            android:padding="@dimen/margin_small">
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/inputSearchText"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_xxxl"
+                android:layout_height="@dimen/searchLine_height"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/size_l"
+                android:layout_margin="@dimen/size_sl"
                 android:background="@drawable/edit_text_rounded"
                 android:drawableStart="@drawable/search"
 
                 android:drawablePadding="@dimen/size_xs"
-                android:drawableTint="@color/gray_500"
+                android:drawableTint="@color/icon_search"
                 android:fontFamily="@font/ys_display_regular"
                 android:gravity="center_vertical"
                 android:hint="@string/input_hint"
@@ -61,17 +60,20 @@
                 android:paddingEnd="@dimen/size_xxl"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textColorHint="@color/material_dynamic_neutral60" />
+                android:textColorHint="@color/text_gray"
+                tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck,VisualLintTextFieldSize,TextContrastCheck"
+                android:autofillHints="" />
 
             <ImageView
                 android:id="@+id/icon_clear_search"
-                android:layout_width="@dimen/size_s"
-                android:layout_height="@dimen/size_s"
+                android:layout_width="@dimen/size_xs"
+                android:layout_height="@dimen/size_xs"
                 android:layout_gravity="center|end"
-                android:layout_margin="@dimen/size_xl"
+                android:layout_margin="28dp"
                 android:contentDescription="@string/contentDescriptionDelete"
                 android:foreground="@drawable/delete"
-                android:foregroundTint="#736C6C"
+                android:foregroundTint="@color/foregroundTint_gray"
+                android:padding="@dimen/size_s"
                 android:visibility="invisible" />
 
         </FrameLayout>
