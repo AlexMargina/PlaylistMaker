@@ -16,4 +16,5 @@
     <color name="gray_500">#6478DF</color>
     <color name="icon_search">#BCBCBC</color>
     <color name="view_background">#1E1E1E</color>
+    <color name="gray_black">#1A1B22</color>
 </resources>
