@@ -68,10 +68,10 @@ class SearchActivity : AppCompatActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
         // запоминание текста посиковой строки inputSearchText в переменную
-        val inputSearchText = findViewById<EditText>(R.id.inputSearchText)
-        outState.putString(SEARCH_STRING, inputSearchText.text.toString())
+            val inputSearchText = findViewById<EditText>(R.id.inputSearchText)
+            outState.putString(SEARCH_STRING, inputSearchText.text.toString())
+        super.onSaveInstanceState(outState)
     }
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         //заполнение тектового поля из предыдущего запуска Активити
