@@ -46,9 +46,10 @@
                 android:layout_height="@dimen/searchLine_height"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/size_sl"
+                android:autofillHints=""
                 android:background="@drawable/edit_text_rounded"
-                android:drawableStart="@drawable/search"
 
+                android:drawableStart="@drawable/search"
                 android:drawablePadding="@dimen/size_xs"
                 android:drawableTint="@color/gray_black"
                 android:fontFamily="@font/ys_display_regular"
@@ -61,8 +62,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/yp_black"
                 android:textColorHint="@color/gray_black"
-                tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck,VisualLintTextFieldSize,TextContrastCheck"
-                android:autofillHints="" />
+                tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck,VisualLintTextFieldSize,TextContrastCheck" />
 
             <ImageView
                 android:id="@+id/icon_clear_search"

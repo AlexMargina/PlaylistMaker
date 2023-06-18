@@ -27,10 +27,11 @@ class SearchMusicViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         artistName.text = track.artistName
         trackTime.text = track.trackTime
         val imageUrl = track.artworkUrl100
+
         Glide.with(trackImage)
             .load(imageUrl)
             .placeholder(R.drawable.media_placeholder)
-            .transform(RoundedCorners(10))
+            .transform(RoundedCorners(2))
             .centerCrop()
             .into(trackImage)
     }
