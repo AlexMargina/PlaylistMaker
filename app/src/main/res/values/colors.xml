@@ -12,6 +12,12 @@
     <color name="text_black">#FF000000</color>
     <color name="text_color">#000000</color>
     <color name="buton_background">#FFFFFFFF</color>
+    <color name="view_background">#FFFFFFFF</color>
     <color name="edit_text_dn">#EFEFEF</color>
     <color name="gray_500">#BCBCBC</color>
+    <color name="icon_search">#BCBCBC</color>
+    <color name="gray_black">#AEAFB4</color>
+    <color name="text_gray">#AEAFB4</color>
+    <color name="foregroundTint_gray">#736C6C</color>
+    <color name="yp_black">#1A1B22</color>
 </resources>

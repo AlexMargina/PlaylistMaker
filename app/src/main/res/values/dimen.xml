@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_end">20dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_medium">8dp</dimen>
     <dimen name="icon_padding">10dp</dimen>
     <dimen name="big_button_corner">16dp</dimen>
-    <dimen name="frame_layout_height">61dp</dimen>
+    <dimen name="frame_layout_height">60dp</dimen>
+    <dimen name="card_layout_height">45dp</dimen>
+    <dimen name="searchLine_height">36dp</dimen>
+    <dimen name="maxWindth_songArtist">190dp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
+    <dimen name="size_point">3dp</dimen>
+    <dimen name="size_xxxs">4dp</dimen>
+    <dimen name="size_line">6dp</dimen>
+    <dimen name="size_xxs">8dp</dimen>
+    <dimen name="size_xs">10dp</dimen>
+    <dimen name="size_s">12dp</dimen>
+    <dimen name="margin_bottom">14dp</dimen>
+    <dimen name="size_sl">16dp</dimen>
+    <dimen name="size_l">18dp</dimen>
+    <dimen name="size_xl">24dp</dimen>
+    <dimen name="size_xxl">32dp</dimen>
+    <dimen name="size_xxxl">48dp</dimen>
+
+
 
 </resources>

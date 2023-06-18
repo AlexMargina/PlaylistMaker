@@ -128,8 +128,8 @@
 
                 <ImageButton
                     android:id="@+id/imageButton_forward"
-                    android:layout_width="8dp"
-                    android:layout_height="14dp"
+                    android:layout_width="11dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
                     android:layout_marginVertical="5dp"
                     android:layout_marginEnd="20dp"
