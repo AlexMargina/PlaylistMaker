@@ -48,7 +48,8 @@
                 android:layout_margin="@dimen/size_sl"
                 android:autofillHints=""
                 android:background="@drawable/edit_text_rounded"
-
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:drawableStart="@drawable/search"
                 android:drawablePadding="@dimen/size_xs"
                 android:drawableTint="@color/gray_black"

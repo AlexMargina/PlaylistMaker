@@ -6,7 +6,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
 class SearchMusicViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
@@ -31,7 +30,6 @@ class SearchMusicViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         Glide.with(trackImage)
             .load(imageUrl)
             .placeholder(R.drawable.media_placeholder)
-            .transform(RoundedCorners(2))
             .centerCrop()
             .into(trackImage)
     }
