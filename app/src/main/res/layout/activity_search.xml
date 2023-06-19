@@ -79,6 +79,12 @@
 
         </FrameLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:orientation="vertical">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewSearch"
             android:layout_width="match_parent"
@@ -88,6 +94,15 @@
             tools:listitem="@layout/layout_search_song">
 
         </androidx.recyclerview.widget.RecyclerView>
+
+        <ImageView
+            android:id="@+id/image_crash"
+            android:layout_width="170dp"
+            android:layout_height="154dp"
+            android:layout_gravity="center|center"
+            android:visibility="gone"
+            app:srcCompat="@drawable/song_not_found" />
+        </FrameLayout>
 
     </LinearLayout>
 
