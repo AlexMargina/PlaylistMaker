@@ -63,6 +63,17 @@
         <item name="cornerRadius">@dimen/big_button_corner</item>
     </style>
 
+    <style name="TextNotFoundStyle" parent="TextStyle">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:drawableTop">@drawable/song_not_found</item>
+    </style>
 
+    <style name="TextNotInetStyle" parent="TextStyle">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:drawableTop">@drawable/connection_problem</item>
+        <item name="android:drawableBottom">@drawable/button_update</item>
+    </style>
 
 </resources>

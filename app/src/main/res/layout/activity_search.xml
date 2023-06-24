@@ -95,14 +95,23 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <ImageView
-            android:id="@+id/image_crash"
-            android:layout_width="170dp"
-            android:layout_height="154dp"
-            android:layout_gravity="center|center"
-            android:visibility="gone"
-            app:srcCompat="@drawable/song_not_found" />
+            <TextView
+                android:id="@+id/image_crash"
+                style="@style/TextNotFoundStyle"
+                android:layout_gravity="center|center"
+                android:visibility="gone"
+                android:text="@string/not_found" />
+
+            <TextView
+                android:id="@+id/inet_problem"
+                style="@style/TextNotInetStyle"
+                android:layout_gravity="center|center"
+                android:visibility="gone"
+                android:text="@string/not_internet" />
+
         </FrameLayout>
+
+
 
     </LinearLayout>
 

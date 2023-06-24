@@ -17,6 +17,7 @@
     <string name="title_activity_search">Поиск</string>
     <string name="input_hint">Поиск</string>
     <string name="contentDescriptionDelete">Удалить</string>
+    <string name="not_found">Ничего не нашлось</string>
 
 
     <string name="extra_send" translatable="false">https://practicum.yandex.ru/android-developer/</string>
@@ -25,4 +26,8 @@
     <string name="extra_subject" translatable="false">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="extra_text" translatable="false">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="ofer_url" translatable="false">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="not_internet">Проблемы со связью\n \nЗагрузка не удалась. Проверьте подключение к интернету \n</string>
+    <string name="download_failed">Загрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="check_internet">Проверьте подключение к интернету</string>
+    <string name="update">Обновить</string>
 </resources>
