@@ -48,7 +48,8 @@
                 android:layout_margin="@dimen/size_sl"
                 android:autofillHints=""
                 android:background="@drawable/edit_text_rounded"
-
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:drawableStart="@drawable/search"
                 android:drawablePadding="@dimen/size_xs"
                 android:drawableTint="@color/gray_black"
@@ -78,6 +79,12 @@
 
         </FrameLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:orientation="vertical">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewSearch"
             android:layout_width="match_parent"
@@ -87,6 +94,24 @@
             tools:listitem="@layout/layout_search_song">
 
         </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/image_crash"
+                style="@style/TextNotFoundStyle"
+                android:layout_gravity="center|center"
+                android:visibility="gone"
+                android:text="@string/not_found" />
+
+            <TextView
+                android:id="@+id/inet_problem"
+                style="@style/TextNotInetStyle"
+                android:layout_gravity="center|center"
+                android:visibility="gone"
+                android:text="@string/not_internet" />
+
+        </FrameLayout>
+
+
 
     </LinearLayout>
 

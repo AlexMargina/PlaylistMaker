@@ -16,4 +16,10 @@
     <string name="support">Write to support</string>
     <string name="agreement">User agreement</string>
     <string name="whitespace">" "</string>
+    <string name="not_found">Song not found</string>
+    <string name="not_internet">Communication problems</string>
+    <string name="download_failed">The download failed.</string>
+    <string name="check_internet">Check your internet connection</string>
+    <string name="update">Update</string>
+
 </resources>
