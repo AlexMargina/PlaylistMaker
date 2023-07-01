@@ -14,6 +14,7 @@
     <color name="buton_background">#FFFFFFFF</color>
     <color name="view_background">#FFFFFFFF</color>
     <color name="edit_text_dn">#EFEFEF</color>
+    <color name="color_switch_dn">#EDEFEF</color>
     <color name="gray_500">#BCBCBC</color>
     <color name="icon_search">#BCBCBC</color>
     <color name="gray_black">#AEAFB4</color>

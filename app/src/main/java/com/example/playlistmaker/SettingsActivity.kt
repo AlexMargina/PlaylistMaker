@@ -1,27 +1,51 @@
 package com.example.playlistmaker
 
+import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 
 class SettingsActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setings)
 
-        //нажатие на стрелку НАЗАД
+        // Элементы экрана
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
         val backOffImage = findViewById<ImageView>(R.id.back_off)
-        //вызов экрана MainActivity
+        val imageButton_share = findViewById<ImageView>(R.id.imageButton_share)
+        val imageButtonSupport = findViewById<ImageView>(R.id.imageButton_support)
+        val frameLayout_ofer = findViewById<FrameLayout>(R.id.frameLayout_ofer)
+
+        // изменение темы приложения
+        val sharedPrefs = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
+        themeSwitcher.setChecked (sharedPrefs.getString (DARK_TEME_ENABLED, "false").toBoolean())
+        Log.w("maalmi_SettingActivity", "${themeSwitcher.isChecked}")
+
+        themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
+             sharedPrefs.edit()
+                 .putString(DARK_TEME_ENABLED, checked.toString())
+                 .apply()
+
+            Log.w("maalmi_SettingActivity", "Сохранили значение ${checked}")
+
+            (applicationContext as App).switchTheme(checked)
+         }
+
+        //нажатие на стрелку НАЗАД
         backOffImage.setOnClickListener {
              finish()
         }
 
-//нажатие на пиктограмму ПОДЕЛИТЬСЯ
-        val imageButton_share = findViewById<ImageView>(R.id.imageButton_share)
+        //нажатие на пиктограмму ПОДЕЛИТЬСЯ
         val sendText = this.getText(R.string.extra_send)
         imageButton_share.setOnClickListener {
             val sendIntent: Intent = Intent().apply {
@@ -34,8 +58,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(shareIntent)
         }
 
-//нажатие на пиктограмму НАПИСАТЬ в ПОДДЕРЖКУ
-        val imageButtonSupport = findViewById<ImageView>(R.id.imageButton_support)
+        //нажатие на пиктограмму НАПИСАТЬ в ПОДДЕРЖКУ
         imageButtonSupport.setOnClickListener {
             val mailIntent = Intent(Intent.ACTION_SENDTO)
             val extraText = this.getText(R.string.extra_text).toString()
@@ -48,14 +71,11 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(mailIntent)
         }
 
-//нажатие на фрэйм ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ - когда не попадается по пиктограмме > (слишком она маленькая)
-        val frameLayout_ofer = findViewById<FrameLayout>(R.id.frameLayout_ofer)
-
+        //нажатие на фрэйм ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ - когда не попадается по пиктограмме > (слишком она маленькая)
         frameLayout_ofer.setOnClickListener {
             val oferUrl = this.getText(R.string.ofer_url)
             val oferIntent = Intent(Intent.ACTION_VIEW, Uri.parse(oferUrl as String?))
             startActivity(oferIntent)
         }
-
     }
 }
