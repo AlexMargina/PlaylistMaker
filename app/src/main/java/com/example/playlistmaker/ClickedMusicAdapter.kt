@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class ClickedMusicAdapter (private val clickedSearchSongs: MutableList<Track>) : RecyclerView.Adapter <SearchMusicViewHolder> ()
+class ClickedMusicAdapter (private val clickedSearchSongs: MutableList<Track>, val listener : SearchMusicAdapter.Listener) : RecyclerView.Adapter <SearchMusicViewHolder> ()
 {
     var onClickSearchTrack : Track? = null
 
@@ -21,7 +21,7 @@ class ClickedMusicAdapter (private val clickedSearchSongs: MutableList<Track>) :
     }
 
     override fun onBindViewHolder(holder: SearchMusicViewHolder, position: Int) {
-        holder.bind(clickedSearchSongs[position])
+        holder.bind(clickedSearchSongs[position], listener)
 
         holder.itemView.setOnClickListener {
             onClickSearchTrack = clickedSearchSongs[position]

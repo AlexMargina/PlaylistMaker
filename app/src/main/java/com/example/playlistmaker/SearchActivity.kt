@@ -11,12 +11,11 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.App.Companion.clickedSearchSongs
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import retrofit2.Call
@@ -27,20 +26,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 const val LOG_TAG = "maalmi_SearchActivity"
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
 
     companion object {
         const val SEARCH_STRING = "SEARCH_STRING"
     }
 
     private val searchSongs = mutableListOf<Track>() // песни найденные через iTunesApi
+    private var clickedSearchSongs = arrayListOf<Track>() // песни сохраненные по клику
     private val iTunesBaseUrl = "https://itunes.apple.com"
-
     private val retrofit = Retrofit.Builder()
         .baseUrl(iTunesBaseUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
     private val iTunesService = retrofit.create(ITunesSearchApi::class.java)
 
  /*       Основная функции при создании активити поиска:                                           */
@@ -55,10 +53,10 @@ class SearchActivity : AppCompatActivity() {
      val recyclerViewSearch = findViewById<RecyclerView>(R.id.recyclerViewSearch)  // Recycler найденных песен
      val noSongImage = findViewById<TextView> (R.id.image_crash)        // ImageView показа отсутствия песен
      val inetProblemImage = findViewById<TextView> (R.id.inet_problem)   // ImageView показа отсутствия интернета
-     val groupClicked = findViewById<LinearLayout>(R.id.group_clicked)  // контейнер с сохраненными трэками
+     val groupClicked = findViewById<FrameLayout>(R.id.group_clicked)  // контейнер с сохраненными трэками
      val recyclerViewClicked = findViewById<RecyclerView>(R.id.recyclerViewClicked)   // Recycler сохраненных песен
      val groupSearched = findViewById<FrameLayout>(R.id.group_searched)
-
+     val clear_history = findViewById<AppCompatButton> (R.id.clear_history)
      clickedSearchSongs = readClickedSearchSongs()
 
         // Функция выполнения ПОИСКОВОГО ЗАПРОСА
@@ -148,27 +146,24 @@ class SearchActivity : AppCompatActivity() {
 
          // обработка нажатия на кнопку Обновить
         inetProblemImage.setOnClickListener {
-             searchSongByText()    //применяем функцию поискового запроса
+             searchSongByText()
+         }
+
+         clear_history.setOnClickListener() {
+             clickedSearchSongs.clear()
+             recyclerViewClicked.adapter?.notifyDataSetChanged()
          }
 
          /*     Формирование списка найденных песен в recyclerViewSearch                 */
         recyclerViewSearch.layoutManager = LinearLayoutManager (this)
-        recyclerViewSearch.adapter = SearchMusicAdapter(searchSongs)
+        recyclerViewSearch.adapter = SearchMusicAdapter(searchSongs, this)
          /*     Формирование списка сохраненных (кликнутых) песен в recyclerViewClicked  */
         recyclerViewClicked.layoutManager = LinearLayoutManager (this)
-        recyclerViewClicked.adapter = ClickedMusicAdapter (clickedSearchSongs)
+        recyclerViewClicked.adapter = ClickedMusicAdapter (clickedSearchSongs, this)
 
 
      // КОНЕЦ  fun onCreate(savedInstanceState: Bundle?)
     }
-
-    // При  выходе с Активити сохраняем список просмотренных песен
-    override fun onStop() {
-        super.onStop()
-        writeClickedSearchSongs(clickedSearchSongs)
-    }
-
-
 
     //функция сохранения списка просмотренных песен
     fun writeClickedSearchSongs(clickedSearchSongs: ArrayList<Track>) {
@@ -191,11 +186,9 @@ class SearchActivity : AppCompatActivity() {
 
         Log.d(LOG_TAG, "Прочитано с файла: $jsonString")
         Log.d(LOG_TAG, "Десериализовано:   ${clickedSearchSongs.toString()}")
-        Log.d(LOG_TAG, "1 песня. ID:   ${clickedSearchSongs[0].trackId}")
-        Log.d(LOG_TAG, "1 песня. Artist:   ${clickedSearchSongs[0].artistName}")
-
         return clickedSearchSongs
     }
+
 
     // запоминание текста поисковой строки inputSearchText в переменную
     @SuppressLint("SuspiciousIndentation")
@@ -215,7 +208,18 @@ class SearchActivity : AppCompatActivity() {
             }
     }
 
-    fun showListClickedSong () {
+ // при нажатии на найденные песни в Recycler через SearchMusicAdapter
+    override fun onClickRecyclerItemView(clickedTrack: Track) {
+
+        if (clickedSearchSongs.contains(clickedTrack)) {
+            clickedSearchSongs.remove(clickedTrack)
+        } else if (clickedSearchSongs.size>=10) {
+            clickedSearchSongs.removeAt(clickedSearchSongs.size-1)
+        }
+        clickedSearchSongs.add(0,clickedTrack)
+        Log.d(LOG_TAG, "Добавлено: ${clickedSearchSongs[0].artistName} = ${clickedSearchSongs[0].trackName}")
+        Log.d(LOG_TAG, "Список стал: ${clickedSearchSongs.toString()} ")
+        writeClickedSearchSongs(clickedSearchSongs)
 
     }
 }

@@ -119,36 +119,38 @@
         </FrameLayout>
 
         <!--Блок для сохраненных кликнутых песен -->
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/group_clicked"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="end"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
             android:orientation="vertical">
 
             <TextView
                 android:text="Вы искали"
                 android:textAlignment="center"
+                android:textSize="@dimen/size_l"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"/>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginVertical="@dimen/size_xxl"
                 android:id="@+id/recyclerViewClicked"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size_xxs"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/layout_search_song">
-            </androidx.recyclerview.widget.RecyclerView>
+                tools:listitem="@layout/layout_search_song"></androidx.recyclerview.widget.RecyclerView>
 
-<!--            <androidx.appcompat.widget.AppCompatButton-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Очистить"/>-->
-
-        </LinearLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/clear_history"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_gravity="center|bottom"
+                android:text="Очистить историю"/>
+        </FrameLayout>
 
     </LinearLayout>
 

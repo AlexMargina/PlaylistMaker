@@ -23,7 +23,7 @@ class SearchMusicViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         trackImage = itemView.findViewById(R.id.search_songs)
     }
 
-    fun bind(track: Track) {
+    fun bind(track: Track, listener : SearchMusicAdapter.Listener) {
         trackName.text = track.trackName
         artistName.text = track.artistName
         trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
@@ -34,6 +34,10 @@ class SearchMusicViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             .placeholder(R.drawable.media_placeholder)
             .centerCrop()
             .into(trackImage)
+
+        itemView.setOnClickListener {
+            listener.onClickRecyclerItemView(track)
+        }
     }
 }
 
