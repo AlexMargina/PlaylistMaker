@@ -27,12 +27,12 @@ class SettingsActivity : AppCompatActivity() {
 
         // изменение темы приложения
         val sharedPrefs = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
-        themeSwitcher.setChecked (sharedPrefs.getString (DARK_TEME_ENABLED, "false").toBoolean())
+        themeSwitcher.setChecked (sharedPrefs.getString (DARK_THEME_ENABLED, "false").toBoolean())
         Log.w("maalmi_SettingActivity", "${themeSwitcher.isChecked}")
 
         themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
              sharedPrefs.edit()
-                 .putString(DARK_TEME_ENABLED, checked.toString())
+                 .putString(DARK_THEME_ENABLED, checked.toString())
                  .apply()
 
             Log.w("maalmi_SettingActivity", "Сохранили значение ${checked}")

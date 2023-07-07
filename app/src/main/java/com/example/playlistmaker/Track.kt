@@ -6,6 +6,7 @@ package com.example.playlistmaker
 - создадим список записей в функции makeArrayList (): ArrayList<Track>
  */
 data class Track (
+    val trackId : Int,
     val trackName: String, // Название композиции
     val artistName: String, // Имя исполнителя
     val trackTimeMillis: Long, // Продолжительность трека
