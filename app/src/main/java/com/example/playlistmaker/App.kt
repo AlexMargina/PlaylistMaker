@@ -11,13 +11,12 @@ const val CLICKED_SEARCH_TRACK = "clicked_search_track"
 class App : Application() {
 
     var darkTheme = false
-    var clickedSearchSongs = arrayListOf<Track>() // просмотренные песни
     lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate() {
         super.onCreate()
 
-        sharedPreferences = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences(MUSIC_MAKER_PREFERENCES, MODE_PRIVATE)
         darkTheme = sharedPreferences.getString (DARK_THEME_ENABLED, "false").toBoolean()
         switchTheme(darkTheme)
     }

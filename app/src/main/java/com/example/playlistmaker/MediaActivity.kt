@@ -11,9 +11,8 @@ class MediaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
 
-        val textView1 = findViewById<TextView>(R.id.textView1)
-        val decoder = Base64.getDecoder().decode("WWFuZGV4LkZpbnRlY2guQW5kcm9pZA==").decodeToString()
-        textView1.setText(decoder)
+        val textDecode = findViewById<TextView>(R.id.textView1)
+        textDecode.setText(Base64.getDecoder().decode("WWFuZGV4LkZpbnRlY2guQW5kcm9pZA==").decodeToString())
 
     }
 }

@@ -30,4 +30,6 @@
     <string name="download_failed">Загрузка не удалась. Проверьте подключение к интернету</string>
     <string name="check_internet">Проверьте подключение к интернету</string>
     <string name="update">Обновить</string>
+    <string name="clear_history">Очистить историю</string>
+    <string name="you_searched">Вы искали</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.example.playlistmaker
 
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 class ClickedMusicAdapter (private val clickedSearchSongs: MutableList<Track>, val listener : SearchMusicAdapter.Listener) : RecyclerView.Adapter <SearchMusicViewHolder> ()
 {
     var onClickSearchTrack : Track? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchMusicViewHolder {
         return SearchMusicViewHolder (LayoutInflater
@@ -25,10 +25,6 @@ class ClickedMusicAdapter (private val clickedSearchSongs: MutableList<Track>, v
 
         holder.itemView.setOnClickListener {
             onClickSearchTrack = clickedSearchSongs[position]
-            Log.d(LOG_TAG, "position: ${position} = ${clickedSearchSongs[position].trackId}")
-
-
         }
-
     }
 }

@@ -55,7 +55,8 @@
                 android:layout_marginHorizontal="@dimen/size_l"
                 android:text="@string/dark_theme"
                 android:textSize="16sp"
-                app:thumbTint="@color/color_switch_dn" />
+                app:thumbTint="@color/color_switch_dn"
+                app:trackTint="@color/edit_text_dn" />
 
 
             <!-- Третий контейнер: ПОДЕЛИТЬСЯ... -->

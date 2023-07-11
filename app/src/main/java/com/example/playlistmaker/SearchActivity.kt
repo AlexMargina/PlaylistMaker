@@ -5,15 +5,15 @@ import android.app.Application
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
@@ -24,7 +24,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val LOG_TAG = "maalmi_SearchActivity"
 
 class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
 
@@ -53,11 +52,12 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
      val recyclerViewSearch = findViewById<RecyclerView>(R.id.recyclerViewSearch)  // Recycler найденных песен
      val noSongImage = findViewById<TextView> (R.id.image_crash)        // ImageView показа отсутствия песен
      val inetProblemImage = findViewById<TextView> (R.id.inet_problem)   // ImageView показа отсутствия интернета
-     val groupClicked = findViewById<FrameLayout>(R.id.group_clicked)  // контейнер с сохраненными трэками
+     val groupClicked = findViewById<LinearLayout>(R.id.group_clicked)  // контейнер с сохраненными трэками
      val recyclerViewClicked = findViewById<RecyclerView>(R.id.recyclerViewClicked)   // Recycler сохраненных песен
-     val groupSearched = findViewById<FrameLayout>(R.id.group_searched)
-     val clear_history = findViewById<AppCompatButton> (R.id.clear_history)
-     clickedSearchSongs = readClickedSearchSongs()
+     val groupSearched = findViewById<FrameLayout>(R.id.group_searched)     // контейнер с найденными трэками
+     val clear_history = findViewById<Button> (R.id.clear_history)  // кнопка Очистить историю
+
+        clickedSearchSongs = readClickedSearchSongs()
 
         // Функция выполнения ПОИСКОВОГО ЗАПРОСА
         fun searchSongByText() {
@@ -92,32 +92,32 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
             })
         }
 
-     fun showGroupClickedSong () {
-         if (clickedSearchSongs.size>0) {
-             groupSearched.visibility = if (inputSearchText.hasFocus() && inputSearchText.text.isEmpty()) android.view.View.GONE else android.view.View.VISIBLE
-             groupClicked.visibility = if (inputSearchText.hasFocus() && inputSearchText.text.isEmpty()) android.view.View.VISIBLE else android.view.View.GONE
+         fun showGroupClickedSong () {
+             if (clickedSearchSongs.size>0) {
+                 groupSearched.visibility = if (inputSearchText.hasFocus() && inputSearchText.text.isEmpty()) View.GONE else View.VISIBLE
+                 groupClicked.visibility = if (inputSearchText.hasFocus() && inputSearchText.text.isEmpty()) View.VISIBLE else View.GONE
+             }
          }
-     }
 
-        //нажатие на стрелку НАЗАД
-        backOffImage.setOnClickListener {
+         //нажатие на стрелку НАЗАД
+            backOffImage.setOnClickListener {
             finish()
-        }
+         }
 
-        // при нажатии на крестик очистки поля поиска:
-        clearButton.setOnClickListener {
-            inputSearchText.setText("")
-            noSongImage.visibility = View.GONE
-            inetProblemImage.visibility = View.GONE
-            searchSongs.clear()
-            recyclerViewSearch.adapter?.notifyDataSetChanged()
-            recyclerViewClicked.adapter?.notifyDataSetChanged()
-        }
+            // при нажатии на крестик очистки поля поиска:
+         clearButton.setOnClickListener {
+                inputSearchText.setText("")
+                noSongImage.visibility = View.GONE
+                inetProblemImage.visibility = View.GONE
+                searchSongs.clear()
+                recyclerViewSearch.adapter?.notifyDataSetChanged()
+                recyclerViewClicked.adapter?.notifyDataSetChanged()
+         }
 
-        // Привязка обьекта TextWatcher
-        inputSearchText.addTextChangedListener(object : TextWatcher {
+         // Привязка обьекта TextWatcher
+         inputSearchText.addTextChangedListener(object : TextWatcher {
 
-        // если будут изменения текста в поле поиска, то крестик очистки появится, при удалении - станет невидимым
+         // если будут изменения текста в поле поиска, то крестик очистки появится, при удалении - станет невидимым
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.toString().trim().isEmpty()) {
                     clearButton.visibility = View.GONE
@@ -130,12 +130,12 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {  }
 
             override fun afterTextChanged(s: Editable?) {   }
-        })
+         })
 
-     // при получении фокуса показать историю просмотренных песен
+        // при получении фокуса показать историю просмотренных песен
         inputSearchText.setOnFocusChangeListener { view, hasFocus -> showGroupClickedSong ()   }
 
-     // обработка нажатия на кнопку Done
+        // обработка нажатия на кнопку Done
         inputSearchText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
             searchSongByText()
@@ -149,6 +149,7 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
              searchSongByText()
          }
 
+        // обработка нажатия на кнопку Очистить историю
          clear_history.setOnClickListener() {
              clickedSearchSongs.clear()
              recyclerViewClicked.adapter?.notifyDataSetChanged()
@@ -161,8 +162,19 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
         recyclerViewClicked.layoutManager = LinearLayoutManager (this)
         recyclerViewClicked.adapter = ClickedMusicAdapter (clickedSearchSongs, this)
 
-
      // КОНЕЦ  fun onCreate(savedInstanceState: Bundle?)
+    }
+
+    // нажатие на найденные песни в Recycler через SearchMusicAdapter
+    override fun onClickRecyclerItemView(clickedTrack: Track) {
+
+        if (clickedSearchSongs.contains(clickedTrack)) {
+            clickedSearchSongs.remove(clickedTrack)
+        } else if (clickedSearchSongs.size>=10) {
+            clickedSearchSongs.removeAt(clickedSearchSongs.size-1)
+        }
+        clickedSearchSongs.add(0,clickedTrack)
+        writeClickedSearchSongs(clickedSearchSongs)
     }
 
     //функция сохранения списка просмотренных песен
@@ -173,8 +185,6 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
         sharedPrefsApp.edit()
             .putString(CLICKED_SEARCH_TRACK, jsonString)
             .apply()
-        Log.d(LOG_TAG, "Перед записью в файл: ${clickedSearchSongs.toString()}")
-        Log.d(LOG_TAG, "Записано в файл $jsonString")
     }
 
     //функция чтения списка просмотренных песен
@@ -184,8 +194,6 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
         val json = GsonBuilder().create()
         clickedSearchSongs = json.fromJson(jsonString, object: TypeToken<ArrayList<Track>>() { }.type) ?: arrayListOf()
 
-        Log.d(LOG_TAG, "Прочитано с файла: $jsonString")
-        Log.d(LOG_TAG, "Десериализовано:   ${clickedSearchSongs.toString()}")
         return clickedSearchSongs
     }
 
@@ -206,21 +214,6 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
             val searchText = savedInstanceState.getString(SEARCH_STRING)
             inputSearchText.setText(searchText)
             }
-    }
-
- // при нажатии на найденные песни в Recycler через SearchMusicAdapter
-    override fun onClickRecyclerItemView(clickedTrack: Track) {
-
-        if (clickedSearchSongs.contains(clickedTrack)) {
-            clickedSearchSongs.remove(clickedTrack)
-        } else if (clickedSearchSongs.size>=10) {
-            clickedSearchSongs.removeAt(clickedSearchSongs.size-1)
-        }
-        clickedSearchSongs.add(0,clickedTrack)
-        Log.d(LOG_TAG, "Добавлено: ${clickedSearchSongs[0].artistName} = ${clickedSearchSongs[0].trackName}")
-        Log.d(LOG_TAG, "Список стал: ${clickedSearchSongs.toString()} ")
-        writeClickedSearchSongs(clickedSearchSongs)
-
     }
 }
 

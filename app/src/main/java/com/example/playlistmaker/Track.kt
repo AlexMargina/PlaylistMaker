@@ -1,10 +1,5 @@
 package com.example.playlistmaker
 
-/*
-Определение формата и содержания музыкальных записей.  Для этого:
-- определим класс Track (Название композиции, Имя исполнителя, Продолжительность трека, Ссылка на изображение обложки)
-- создадим список записей в функции makeArrayList (): ArrayList<Track>
- */
 data class Track (
     val trackId : Int,
     val trackName: String, // Название композиции

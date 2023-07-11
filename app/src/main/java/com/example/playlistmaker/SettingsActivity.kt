@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -27,18 +26,15 @@ class SettingsActivity : AppCompatActivity() {
 
         // изменение темы приложения
         val sharedPrefs = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
+
         themeSwitcher.setChecked (sharedPrefs.getString (DARK_THEME_ENABLED, "false").toBoolean())
-        Log.w("maalmi_SettingActivity", "${themeSwitcher.isChecked}")
 
         themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
              sharedPrefs.edit()
                  .putString(DARK_THEME_ENABLED, checked.toString())
                  .apply()
-
-            Log.w("maalmi_SettingActivity", "Сохранили значение ${checked}")
-
             (applicationContext as App).switchTheme(checked)
-         }
+        }
 
         //нажатие на стрелку НАЗАД
         backOffImage.setOnClickListener {
