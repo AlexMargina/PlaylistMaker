@@ -9,4 +9,3 @@ interface ITunesSearchApi {
 }
 class ITunesResponse (  val resultCount: Int,
                         var results : ArrayList<Track>)
-{  }

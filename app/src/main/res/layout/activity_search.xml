@@ -121,6 +121,7 @@
         <!--Блок для сохраненных кликнутых песен -->
         <LinearLayout
             android:id="@+id/group_clicked"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

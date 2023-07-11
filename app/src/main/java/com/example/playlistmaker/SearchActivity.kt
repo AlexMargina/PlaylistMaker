@@ -153,7 +153,7 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
          }
 
         // обработка нажатия на кнопку Очистить историю
-        clearHistory.setOnClickListener() {
+        clearHistory.setOnClickListener {
              clickedSearchSongs.clear()
              writeClickedSearchSongs(clickedSearchSongs)
              showGroupClickedSong ()

@@ -20,9 +20,9 @@ class SettingsActivity : AppCompatActivity() {
         // Элементы экрана
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
         val backOffImage = findViewById<ImageView>(R.id.back_off)
-        val imageButton_share = findViewById<ImageView>(R.id.imageButton_share)
+        val imageButtonShare = findViewById<ImageView>(R.id.imageButton_share)
         val imageButtonSupport = findViewById<ImageView>(R.id.imageButton_support)
-        val frameLayout_ofer = findViewById<FrameLayout>(R.id.frameLayout_ofer)
+        val frameLayoutOfer = findViewById<FrameLayout>(R.id.frameLayout_ofer)
 
         // изменение темы приложения
         val sharedPrefs = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
@@ -43,7 +43,7 @@ class SettingsActivity : AppCompatActivity() {
 
         //нажатие на пиктограмму ПОДЕЛИТЬСЯ
         val sendText = this.getText(R.string.extra_send)
-        imageButton_share.setOnClickListener {
+        imageButtonShare.setOnClickListener {
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, sendText)
@@ -68,7 +68,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         //нажатие на фрэйм ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ - когда не попадается по пиктограмме > (слишком она маленькая)
-        frameLayout_ofer.setOnClickListener {
+        frameLayoutOfer.setOnClickListener {
             val oferUrl = this.getText(R.string.ofer_url)
             val oferIntent = Intent(Intent.ACTION_VIEW, Uri.parse(oferUrl as String?))
             startActivity(oferIntent)
