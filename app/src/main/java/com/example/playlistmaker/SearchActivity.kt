@@ -55,7 +55,7 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
      val groupClicked = findViewById<LinearLayout>(R.id.group_clicked)  // контейнер с сохраненными трэками
      val recyclerViewClicked = findViewById<RecyclerView>(R.id.recyclerViewClicked)   // Recycler сохраненных песен
      val groupSearched = findViewById<FrameLayout>(R.id.group_searched)     // контейнер с найденными трэками
-     val clear_history = findViewById<Button> (R.id.clear_history)  // кнопка Очистить историю
+     val clearHistory = findViewById<Button> (R.id.clear_history)  // кнопка Очистить историю
 
         clickedSearchSongs = readClickedSearchSongs()
 
@@ -96,6 +96,9 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
              if (clickedSearchSongs.size>0) {
                  groupSearched.visibility = if (inputSearchText.hasFocus() && inputSearchText.text.isEmpty()) View.GONE else View.VISIBLE
                  groupClicked.visibility = if (inputSearchText.hasFocus() && inputSearchText.text.isEmpty()) View.VISIBLE else View.GONE
+             } else {
+                 groupSearched.visibility =  View.VISIBLE
+                 groupClicked.visibility =  View.GONE
              }
          }
 
@@ -150,8 +153,10 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
          }
 
         // обработка нажатия на кнопку Очистить историю
-         clear_history.setOnClickListener() {
+        clearHistory.setOnClickListener() {
              clickedSearchSongs.clear()
+             writeClickedSearchSongs(clickedSearchSongs)
+             showGroupClickedSong ()
              recyclerViewClicked.adapter?.notifyDataSetChanged()
          }
 
