@@ -10,7 +10,7 @@ const val CLICKED_SEARCH_TRACK = "clicked_search_track"
 
 class App : Application() {
 
-    var darkTheme = false
+    private var darkTheme = false
     lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate() {

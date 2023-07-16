@@ -2,6 +2,7 @@ package com.example.playlistmaker
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -92,6 +93,8 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
             })
         }
 
+
+
          fun showGroupClickedSong () {
              if (clickedSearchSongs.size>0) {
                  groupSearched.visibility = if (inputSearchText.hasFocus() && inputSearchText.text.isEmpty()) View.GONE else View.VISIBLE
@@ -178,12 +181,15 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
         } else if (clickedSearchSongs.size>=10) {
             clickedSearchSongs.removeAt(clickedSearchSongs.size-1)
         }
-        clickedSearchSongs.add(0,clickedTrack)
-        writeClickedSearchSongs(clickedSearchSongs)
+            clickedSearchSongs.add(0,clickedTrack)
+            writeClickedSearchSongs(clickedSearchSongs)
+        val displayIntent = Intent(this, MediaActivity::class.java)
+            displayIntent.putExtra("trackId", clickedTrack.trackId)
+            startActivity(displayIntent)
     }
 
     //функция сохранения списка просмотренных песен
-    fun writeClickedSearchSongs(clickedSearchSongs: ArrayList<Track>) {
+    private fun writeClickedSearchSongs(clickedSearchSongs: ArrayList<Track>) {
         val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
         val json = GsonBuilder().create()
         val jsonString = json.toJson(clickedSearchSongs)
@@ -193,7 +199,7 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
     }
 
     //функция чтения списка просмотренных песен
-    fun readClickedSearchSongs() : ArrayList<Track> {
+    private fun readClickedSearchSongs() : ArrayList<Track> {
         val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
         val jsonString = sharedPrefsApp.getString(CLICKED_SEARCH_TRACK, null)
         val json = GsonBuilder().create()
@@ -221,6 +227,10 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
             }
     }
 }
+
+
+
+
 
 
 
