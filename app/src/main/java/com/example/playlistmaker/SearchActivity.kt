@@ -61,7 +61,7 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
         clickedSearchSongs = readClickedSearchSongs()
 
      // Функция выполнения ПОИСКОВОГО ЗАПРОСА
-      fun searchSongByText() {
+      fun searchSongByTextExt() {
 
          val iTunesTracks = ITunesSearch(inputSearchText.text.toString(),
              ITunesSearch.OnSearchListener{         })
@@ -84,7 +84,7 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
      }
 
         // Функция выполнения ПОИСКОВОГО ЗАПРОСА
-        fun searchSongByText1() {
+        fun searchSongByText() {
                 iTunesService.searchSongApi(inputSearchText.text.toString()).enqueue(object :
                     Callback<ITunesResponse> {
 
@@ -198,6 +198,7 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
     }
 
     // нажатие на найденные песни в Recycler через SearchMusicAdapter
+    @SuppressLint("SuspiciousIndentation")
     override fun onClickRecyclerItemView(clickedTrack: Track) {
 
         if (clickedSearchSongs.contains(clickedTrack)) {
