@@ -6,6 +6,8 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import java.util.concurrent.TimeUnit
+
 
 interface ITunesSearchApi {
     @GET("/search?entity=song")
@@ -16,7 +18,7 @@ class ITunesResponse (  val resultCount: Int,
                         var results : ArrayList<Track>)
 
 
-class ITunesSearch (searchedText: String)
+class ITunesSearch(searchedText: String, val onSearchListener : OnSearchListener)
 {
         private val iTunesBaseUrl = "https://itunes.apple.com"
         private val retrofit = Retrofit.Builder()
@@ -24,20 +26,35 @@ class ITunesSearch (searchedText: String)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         private val iTunesService = retrofit.create(ITunesSearchApi::class.java)
-        var responsResults : ArrayList<Track> = arrayListOf()
+        var tracksITunes :ArrayList <Track> = arrayListOf()
 
-        fun searchSongByText(searchedText: String): ArrayList<Track> {
-                val response = iTunesService.searchSongApi(searchedText).enqueue(object : Callback<ITunesResponse> {
 
-                    override fun onResponse(call: Call<ITunesResponse>, response: Response<ITunesResponse>)
-                    {
-                       responsResults = response.body()?.results!!
-                     }
+    fun searchByText(searchedText: String,  onSearchListener : OnSearchListener): ArrayList<Track> {
+        onSearchListener.onSearch(searchedText.length)
 
-                    override fun onFailure(call: Call<ITunesResponse>, t: Throwable) { }
+        iTunesService.run {
+            searchSongApi(searchedText).enqueue( object :
+                Callback<ITunesResponse> {
 
-                })
 
-                return responsResults
+                override fun onResponse(
+                    call: Call<ITunesResponse>,
+                    response: Response<ITunesResponse>
+                ) {
+                    call.timeout().deadline (5,TimeUnit.SECONDS)
+                    tracksITunes = response.body()?.results!!
+                }
+
+                override fun onFailure(call: Call<ITunesResponse>, t: Throwable) {
+                    call.timeout().deadline(5,TimeUnit.SECONDS)
+                }
+            })
         }
+
+        return tracksITunes
+    }
+
+    class OnSearchListener(val searchListener: (position: Int) -> Unit) {
+        fun onSearch(position: Int) = searchListener(position)
+    }
 }

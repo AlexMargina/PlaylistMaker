@@ -60,9 +60,33 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
 
         clickedSearchSongs = readClickedSearchSongs()
 
+     // Функция выполнения ПОИСКОВОГО ЗАПРОСА
+      fun searchSongByText() {
+
+         val iTunesTracks = ITunesSearch(inputSearchText.text.toString(),
+             ITunesSearch.OnSearchListener{         })
+             .searchByText(inputSearchText.text.toString(),  ITunesSearch.OnSearchListener{})
+
+         if (iTunesTracks==null) {
+             searchSongs.clear()
+             noSongImage.visibility = View.GONE
+             inetProblemImage.visibility = View.VISIBLE
+         } else {
+             if (iTunesTracks.isEmpty()){
+                 inetProblemImage.visibility = View.GONE
+                 noSongImage.visibility = View.VISIBLE
+             } else {
+                 searchSongs.addAll(iTunesTracks)
+                 noSongImage.visibility = View.GONE
+                 inetProblemImage.visibility = View.GONE
+             }
+         }
+     }
+
         // Функция выполнения ПОИСКОВОГО ЗАПРОСА
-        fun searchSongByText() {
-                iTunesService.searchSongApi(inputSearchText.text.toString()).enqueue(object : Callback<ITunesResponse> {
+        fun searchSongByText1() {
+                iTunesService.searchSongApi(inputSearchText.text.toString()).enqueue(object :
+                    Callback<ITunesResponse> {
 
                 override fun onResponse(call: Call<ITunesResponse>, response: Response<ITunesResponse>)
                 {
