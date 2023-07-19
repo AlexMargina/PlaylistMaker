@@ -18,13 +18,13 @@
 
     <ImageView
         android:id="@+id/iv_cover512"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/album"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:padding="@dimen/size_xxxs"
-        app:layout_constraintTop_toBottomOf="@id/iv_back"
+        android:src="@drawable/album"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
     <TextView
         android:id="@+id/tv_title"
@@ -34,8 +34,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textAlignment="center"
-        android:padding="@dimen/size_s"
-        android:textSize="@dimen/size_xl"
+        android:padding="@dimen/size_xs"
+        android:textSize="@dimen/size_l"
         android:text="Name of track"/>
 
 
@@ -67,8 +67,8 @@
 
     <ImageView
         android:id="@+id/iv_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
         android:background="@android:color/holo_blue_light"
         android:src="@drawable/buttonplay"
         android:backgroundTint="@color/background_icon"
@@ -98,8 +98,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/iv_play"
         app:layout_constraintStart_toStartOf="parent"
-        android:padding="@dimen/size_s"
-        android:layout_marginStart="@dimen/size_l"
+        android:padding="@dimen/size_xs"
+        android:layout_marginStart="@dimen/size_line"
         style="@style/TextSongStyle"
         android:text="0:30 "/>
 
@@ -109,7 +109,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_playback_time"
         app:layout_constraintStart_toStartOf="parent"
-        android:padding="@dimen/size_s"
+        android:padding="@dimen/size_xs"
         android:layout_marginStart="@dimen/size_l"
         style="@style/TextSongStyle"
         android:text="Длительность: "/>
@@ -122,7 +122,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_playback_time"
         app:layout_constraintStart_toEndOf="@id/tv_duration_title"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="@dimen/size_s"
+        android:padding="@dimen/size_xs"
         style="@style/TextSongStyle"
         android:text=" 5:25 "/>
 
@@ -132,7 +132,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_duration"
         app:layout_constraintStart_toStartOf="parent"
-        android:padding="@dimen/size_s"
+        android:padding="@dimen/size_xs"
         android:layout_marginStart="@dimen/size_l"
         style="@style/TextSongStyle"
         android:text="Альбом "/>
@@ -145,7 +145,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_duration"
         app:layout_constraintStart_toEndOf="@id/tv_duration_title"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="@dimen/size_s"
+        android:padding="@dimen/size_xs"
         style="@style/TextSongStyle"
         android:text=" Yesterday (2009) "/>
 
@@ -155,7 +155,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_album_title"
         app:layout_constraintStart_toStartOf="parent"
-        android:padding="@dimen/size_s"
+        android:padding="@dimen/size_xs"
         android:layout_marginStart="@dimen/size_l"
         style="@style/TextSongStyle"
         android:text="Год "/>
@@ -168,7 +168,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_album_title"
         app:layout_constraintStart_toEndOf="@id/tv_duration_title"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="@dimen/size_s"
+        android:padding="@dimen/size_xs"
         style="@style/TextSongStyle"
         android:text=" 1965 "/>
 
@@ -178,7 +178,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_year"
         app:layout_constraintStart_toStartOf="parent"
-        android:padding="@dimen/size_s"
+        android:padding="@dimen/size_xs"
         android:layout_marginStart="@dimen/size_l"
         style="@style/TextSongStyle"
         android:text="Жанр: "/>
@@ -191,7 +191,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_year"
         app:layout_constraintStart_toEndOf="@id/tv_duration_title"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="@dimen/size_s"
+        android:padding="@dimen/size_xs"
         style="@style/TextSongStyle"
         android:text=" Рок "/>
 
@@ -201,7 +201,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_genre_title"
         app:layout_constraintStart_toStartOf="parent"
-        android:padding="@dimen/size_s"
+        android:padding="@dimen/size_xs"
         android:layout_marginStart="@dimen/size_l"
         style="@style/TextSongStyle"
         android:text="Страна: "/>
@@ -214,7 +214,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_genre_title"
         app:layout_constraintStart_toEndOf="@id/tv_duration_title"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="@dimen/size_s"
+        android:padding="@dimen/size_xs"
         style="@style/TextSongStyle"
         android:text=" Великобритания "/>
 

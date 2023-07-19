@@ -1,12 +1,29 @@
 package com.example.playlistmaker
 
+import android.app.Application
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MediaActivity : AppCompatActivity() {
+
+    fun readClickedSavedSongs() : ArrayList<Track> {
+        val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
+        val jsonString = sharedPrefsApp.getString(CLICKED_SEARCH_TRACK, null)
+        val json = GsonBuilder().create()
+        val clickedSearchSongs = json.fromJson(jsonString, object: TypeToken<ArrayList<Track>>(){ }.type) ?: arrayListOf<Track>()
+
+        return clickedSearchSongs
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
@@ -14,6 +31,7 @@ class MediaActivity : AppCompatActivity() {
         //val text = (Base64.getDecoder().decode("WWFuZGV4LkZpbnRlY2guQW5kcm9pZA==").decodeToString())
 
         val trackId = getIntent().getIntExtra("trackId", 1)
+        var clickedSavedSongs : ArrayList<Track>
 
 
         // Элементы экрана:
@@ -31,10 +49,20 @@ class MediaActivity : AppCompatActivity() {
         val genre = findViewById<TextView>(R.id.tv_genre)
         val country = findViewById<TextView>(R.id.tv_country)
 
-        title.setText(trackId.toString())
+
 
         backOffImage.setOnClickListener { finish() }
 
+        var playedTrack = readClickedSavedSongs()[0]
+
+        title.setText(playedTrack.trackName)
+        artist.setText(playedTrack.artistName)
+        playback.setText(playedTrack.trackTimeMillis.toString())
+        durationTrack.setText(playedTrack.trackTimeMillis.toString())
+        album.setText(playedTrack.collectionName)
+        yearTrack.setText(playedTrack.releaseDate.toString())
+        genre.setText(playedTrack.primaryGenreName)
+        country.setText(playedTrack.country)
 
     // END of fun onCreate
     }
