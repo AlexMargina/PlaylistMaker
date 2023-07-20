@@ -60,8 +60,42 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
 
         clickedSearchSongs = readClickedSearchSongs()
 
-     // Функция выполнения ПОИСКОВОГО ЗАПРОСА
-      fun searchSongByTextExt() {
+         // Функция выполнения ПОИСКОВОГО ЗАПРОСА
+        fun searchSongByText() {
+                iTunesService.searchSongApi(inputSearchText.text.toString()).enqueue(object :
+                    Callback<ITunesResponse> {
+
+                override fun onResponse(call: Call<ITunesResponse>, response: Response<ITunesResponse>)
+                {
+                    searchSongs.clear()
+                    if (response.code() == 200) {
+                        recyclerViewSearch.adapter?.notifyDataSetChanged()
+                        if (response.body()?.results?.isNotEmpty() == true) {
+                            searchSongs.addAll(response.body()?.results!!)
+                            noSongImage.visibility = View.GONE
+                            inetProblemImage.visibility = View.GONE
+                        } else {
+                            inetProblemImage.visibility = View.GONE
+                            noSongImage.visibility = View.VISIBLE
+                        }
+
+                    } else {
+                        noSongImage.visibility = View.GONE
+                        inetProblemImage.visibility = View.VISIBLE
+                    }
+                }
+
+                override fun onFailure(call: Call<ITunesResponse>, t: Throwable) {
+                    searchSongs.clear()
+                    noSongImage.visibility = View.GONE
+                    inetProblemImage.visibility = View.VISIBLE
+                }
+            })
+        }
+
+
+     // Обновленная функция выполнения ПОИСКОВОГО ЗАПРОСА
+     fun searchSongByTextExt() {
 
          val iTunesTracks = ITunesSearch(inputSearchText.text.toString(),
              ITunesSearch.OnSearchListener{         })
@@ -82,41 +116,6 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
              }
          }
      }
-
-        // Функция выполнения ПОИСКОВОГО ЗАПРОСА
-        fun searchSongByText() {
-                iTunesService.searchSongApi(inputSearchText.text.toString()).enqueue(object :
-                    Callback<ITunesResponse> {
-
-                override fun onResponse(call: Call<ITunesResponse>, response: Response<ITunesResponse>)
-                {
-                    searchSongs.clear()
-                    if (response.code() == 200) {
-                        recyclerViewSearch.adapter?.notifyDataSetChanged()
-                        if (response.body()?.results?.isNotEmpty() == true) {
-                            searchSongs.addAll(response.body()?.results!!)
-                            noSongImage.visibility = View.GONE
-                            inetProblemImage.visibility = View.GONE
-
-                        } else {
-                            inetProblemImage.visibility = View.GONE
-                            noSongImage.visibility = View.VISIBLE
-                        }
-
-                    } else {
-                        noSongImage.visibility = View.GONE
-                        inetProblemImage.visibility = View.VISIBLE
-                    }
-                }
-
-                override fun onFailure(call: Call<ITunesResponse>, t: Throwable) {
-                    searchSongs.clear()
-                    noSongImage.visibility = View.GONE
-                    inetProblemImage.visibility = View.VISIBLE
-                }
-            })
-        }
-
 
 
          fun showGroupClickedSong () {

@@ -6,8 +6,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class MediaActivity : AppCompatActivity() {
@@ -16,19 +19,15 @@ class MediaActivity : AppCompatActivity() {
             val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
             val jsonString = sharedPrefsApp.getString(CLICKED_SEARCH_TRACK, null)
             val json = GsonBuilder().create()
-            val clickedSearchSongs = json.fromJson(jsonString, object: TypeToken<ArrayList<Track>>(){ }.type) ?: arrayListOf<Track>()
-
+            val clickedSearchSongs = json
+                .fromJson(jsonString, object: TypeToken<ArrayList<Track>>(){ }
+                .type) ?: arrayListOf<Track>()
             return clickedSearchSongs
         }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_media)
-
-            //val text = (Base64.getDecoder().decode("WWFuZGV4LkZpbnRlY2guQW5kcm9pZA==").decodeToString())
-            // val trackId = getIntent().getIntExtra("trackId", 1)
-            // var clickedSavedSongs : ArrayList<Track>
-
 
             // Элементы экрана:
             val backOffImage = findViewById<ImageView>(R.id.iv_back)  // стрелка НАЗАД
@@ -45,33 +44,30 @@ class MediaActivity : AppCompatActivity() {
             val genre = findViewById<TextView>(R.id.tv_genre)
             val country = findViewById<TextView>(R.id.tv_country)
 
-
-
             backOffImage.setOnClickListener { finish() }
 
             val playedTrack = readClickedSavedSongs()[0]
-
+            val duration = SimpleDateFormat("mm:ss", Locale.getDefault()).format(playedTrack.trackTimeMillis)
             title.setText(playedTrack.trackName)
             artist.setText(playedTrack.artistName)
-            playback.setText(playedTrack.trackTimeMillis.toString())
-            durationTrack.setText(playedTrack.trackTimeMillis.toString())
+            playback.setText("0 : 00")  //для примера 0:00
+            durationTrack.setText(duration)
             album.setText(playedTrack.collectionName.toString())
             yearTrack.setText(playedTrack.releaseDate.toString())
             genre.setText(playedTrack.primaryGenreName)
             country.setText(playedTrack.country)
             val coverUrl100 = playedTrack.artworkUrl100
             val coverUrl500 = coverUrl100.replaceAfterLast('/',"512x512bb.jpg")
+            val radius = resources.getDimensionPixelSize(R.dimen.corner_radius)
             Glide.with(cover)
                 .load(coverUrl500)
+                .transform(RoundedCorners(radius))
                 .placeholder(R.drawable.media_placeholder)
                 .into(cover)
 
+            buttonPlay.setOnClickListener({playback.setText("0 : 30")})  //контроль работы кнопки
 
-    // END of fun onCreate
     }
-    // Функция выполнения ПОИСКОВОГО ЗАПРОСА
-
-
 }
 
 

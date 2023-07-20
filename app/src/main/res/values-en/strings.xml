@@ -23,5 +23,11 @@
     <string name="update">Update</string>
     <string name="clear_history">Clear history</string>
     <string name="you_searched">You search</string>
+    <string name="duration">Duration</string>
+    <string name="almum">Collection</string>
+    <string name="year">Year</string>
+    <string name="genre">Genre</string>
+    <string name="country">Country</string>
+    <string name="rf">Russia</string>
 
 </resources>
