@@ -94,30 +94,6 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
         }
 
 
-     // Обновленная функция выполнения ПОИСКОВОГО ЗАПРОСА
-     fun searchSongByTextExt() {
-
-         val iTunesTracks = ITunesSearch(inputSearchText.text.toString(),
-             ITunesSearch.OnSearchListener{         })
-             .searchByText(inputSearchText.text.toString(),  ITunesSearch.OnSearchListener{})
-
-         if (iTunesTracks==null) {
-             searchSongs.clear()
-             noSongImage.visibility = View.GONE
-             inetProblemImage.visibility = View.VISIBLE
-         } else {
-             if (iTunesTracks.isEmpty()){
-                 inetProblemImage.visibility = View.GONE
-                 noSongImage.visibility = View.VISIBLE
-             } else {
-                 searchSongs.addAll(iTunesTracks)
-                 noSongImage.visibility = View.GONE
-                 inetProblemImage.visibility = View.GONE
-             }
-         }
-     }
-
-
          fun showGroupClickedSong () {
              if (clickedSearchSongs.size>0) {
                  groupSearched.visibility = if (inputSearchText.hasFocus() && inputSearchText.text.isEmpty()) View.GONE else View.VISIBLE

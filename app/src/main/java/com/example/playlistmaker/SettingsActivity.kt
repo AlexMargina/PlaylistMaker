@@ -28,7 +28,6 @@ class SettingsActivity : AppCompatActivity() {
         val sharedPrefs = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
 
         themeSwitcher.setChecked (sharedPrefs.getString (DARK_THEME_ENABLED, "false").toBoolean())
-
         themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
              sharedPrefs.edit()
                  .putString(DARK_THEME_ENABLED, checked.toString())
@@ -36,12 +35,12 @@ class SettingsActivity : AppCompatActivity() {
             (applicationContext as App).switchTheme(checked)
         }
 
-        //нажатие на стрелку НАЗАД
+        // НАЗАД
         backOffImage.setOnClickListener {
              finish()
         }
 
-        //нажатие на пиктограмму ПОДЕЛИТЬСЯ
+        // ПОДЕЛИТЬСЯ
         val sendText = this.getText(R.string.extra_send)
         imageButtonShare.setOnClickListener {
             val sendIntent: Intent = Intent().apply {
@@ -54,7 +53,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(shareIntent)
         }
 
-        //нажатие на пиктограмму НАПИСАТЬ в ПОДДЕРЖКУ
+        //НАПИСАТЬ в ПОДДЕРЖКУ
         imageButtonSupport.setOnClickListener {
             val mailIntent = Intent(Intent.ACTION_SENDTO)
             val extraText = this.getText(R.string.extra_text).toString()
@@ -67,7 +66,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(mailIntent)
         }
 
-        //нажатие на фрэйм ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ - когда не попадается по пиктограмме > (слишком она маленькая)
+        //ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ
         frameLayoutOfer.setOnClickListener {
             val oferUrl = this.getText(R.string.ofer_url)
             val oferIntent = Intent(Intent.ACTION_VIEW, Uri.parse(oferUrl as String?))

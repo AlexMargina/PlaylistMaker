@@ -19,12 +19,6 @@ class SearchMusicAdapter(private val searchSong: MutableList<Track>, private val
 
     override fun onBindViewHolder(holder: SearchMusicViewHolder, position: Int) {
         holder.bind(searchSong[position] , listener)
-
-        // Альтернативная реализация слушателя без интерфейса и танцев с бубном
-        //        holder.itemView.setOnClickListener {
-        //            val onTrackClickListener = OnTrackClickListener()
-        //            onTrackClickListener.addClickedTrack(searchSong[position])
-        //        }
     }
 
 

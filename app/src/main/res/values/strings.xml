@@ -37,7 +37,7 @@
 
     <!-- Player activity -->
     <string name="duration">Длительность</string>
-    <string name="almum">Альбом</string>
+    <string name="album">Альбом</string>
     <string name="year">Год</string>
     <string name="genre">Жанр</string>
     <string name="country">Страна</string>
