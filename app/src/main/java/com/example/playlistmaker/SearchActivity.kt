@@ -17,8 +17,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -58,7 +56,10 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
      val groupSearched = findViewById<FrameLayout>(R.id.group_searched)     // контейнер с найденными трэками
      val clearHistory = findViewById<Button> (R.id.clear_history)  // кнопка Очистить историю
 
-        clickedSearchSongs = readClickedSearchSongs()
+
+     val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
+     val sharedPrefsUtils = SharedPrefsUtils(sharedPrefsApp)
+     clickedSearchSongs = sharedPrefsUtils.readClickedSearchSongs(CLICKED_SEARCH_TRACK)
 
          // Функция выполнения ПОИСКОВОГО ЗАПРОСА
         fun searchSongByText() {
@@ -157,7 +158,8 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
         // обработка нажатия на кнопку Очистить историю
         clearHistory.setOnClickListener {
              clickedSearchSongs.clear()
-             writeClickedSearchSongs(clickedSearchSongs)
+
+            sharedPrefsUtils.writeClickedSearchSongs(CLICKED_SEARCH_TRACK,clickedSearchSongs)
              showGroupClickedSong ()
              recyclerViewClicked.adapter?.notifyDataSetChanged()
          }
@@ -182,30 +184,13 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
             clickedSearchSongs.removeAt(clickedSearchSongs.size-1)
         }
             clickedSearchSongs.add(0,clickedTrack)
-            writeClickedSearchSongs(clickedSearchSongs)
+        val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
+        val sharedPrefsUtils = SharedPrefsUtils(sharedPrefsApp)
+
+        sharedPrefsUtils.writeClickedSearchSongs(CLICKED_SEARCH_TRACK,clickedSearchSongs)
         val displayIntent = Intent(this, MediaActivity::class.java)
             displayIntent.putExtra("trackId", clickedTrack.trackId)
             startActivity(displayIntent)
-    }
-
-    //функция сохранения списка просмотренных песен
-    private fun writeClickedSearchSongs(clickedSearchSongs: ArrayList<Track>) {
-        val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
-        val json = GsonBuilder().create()
-        val jsonString = json.toJson(clickedSearchSongs)
-        sharedPrefsApp.edit()
-            .putString(CLICKED_SEARCH_TRACK, jsonString)
-            .apply()
-    }
-
-    //функция чтения списка просмотренных песен
-    private fun readClickedSearchSongs() : ArrayList<Track> {
-        val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
-        val jsonString = sharedPrefsApp.getString(CLICKED_SEARCH_TRACK, null)
-        val json = GsonBuilder().create()
-        clickedSearchSongs = json.fromJson(jsonString, object: TypeToken<ArrayList<Track>>() { }.type) ?: arrayListOf()
-
-        return clickedSearchSongs
     }
 
 

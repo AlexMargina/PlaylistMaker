@@ -30,8 +30,10 @@
                 android:layout_height="16dp"
                 android:layout_gravity="top"
                 android:layout_margin="@dimen/margin_end"
+
                 android:contentDescription="@string/app_name"
-                app:srcCompat="@drawable/back" />
+                app:srcCompat="@drawable/back"
+                app:tint="@color/text_color" />
 
             <TextView
                 style="@style/TextBigStyle"

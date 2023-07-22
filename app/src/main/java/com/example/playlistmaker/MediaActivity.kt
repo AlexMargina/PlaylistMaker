@@ -7,27 +7,19 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 
 class MediaActivity : AppCompatActivity() {
 
-        fun readClickedSavedSongs() : ArrayList<Track> {
-            val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
-            val jsonString = sharedPrefsApp.getString(CLICKED_SEARCH_TRACK, null)
-            val json = GsonBuilder().create()
-            val clickedSearchSongs = json
-                .fromJson(jsonString, object: TypeToken<ArrayList<Track>>(){ }
-                .type) ?: arrayListOf<Track>()
-            return clickedSearchSongs ?: arrayListOf()
-        }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_media)
+
+            val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
+            val sharedPrefsUtils = SharedPrefsUtils(sharedPrefsApp)
 
             // Элементы экрана:
             val backOffImage = findViewById<ImageView>(R.id.iv_back)
@@ -46,8 +38,8 @@ class MediaActivity : AppCompatActivity() {
 
             backOffImage.setOnClickListener { finish() }
 
-            if (readClickedSavedSongs().size>0) {
-                val playedTrack = readClickedSavedSongs()[0]
+            if (sharedPrefsUtils.readClickedSearchSongs(CLICKED_SEARCH_TRACK).size>0) {
+                val playedTrack = sharedPrefsUtils.readClickedSearchSongs(CLICKED_SEARCH_TRACK)[0]
                 val duration = SimpleDateFormat(
                     "mm:ss",
                     Locale.getDefault()
