@@ -26,6 +26,7 @@
                 android:layout_margin="@dimen/margin_end"
                 android:contentDescription="@string/app_name"
                 app:srcCompat="@drawable/back"
+                app:tint="@color/text_color"
                 tools:ignore="ImageContrastCheck" />
 
             <TextView
