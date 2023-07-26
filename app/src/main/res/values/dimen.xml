@@ -22,7 +22,7 @@
     <dimen name="size_xl">24dp</dimen>
     <dimen name="size_xxl">32dp</dimen>
     <dimen name="size_xxxl">48dp</dimen>
-
+    <dimen name="corner_radius">8dp</dimen>
 
 
 </resources>

@@ -90,4 +90,32 @@
         <item name="android:drawableBottom">@drawable/button_update</item>
     </style>
 
+    <style name="NameFieldTextStyle">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/gray_player</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="PlayerTrackTextStyle">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/text_color</item>
+    </style>
+
+    <style name="PlayerFieldTextStyle">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="PlayerArtistTextStyle">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_color</item>
+    </style>
+
+
+
 </resources>

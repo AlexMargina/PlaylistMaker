@@ -2,6 +2,7 @@ package com.example.playlistmaker
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,8 +17,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,7 +24,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
+class SearchActivity : AppCompatActivity(), SearchMusicAdapter.Listener {
 
     companion object {
         const val SEARCH_STRING = "SEARCH_STRING"
@@ -40,31 +39,45 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
         .build()
     private val iTunesService = retrofit.create(ITunesSearchApi::class.java)
 
- /*       Основная функции при создании активити поиска:                                           */
+    /*       Основная функции при создании активити поиска:                                           */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-     // Элементы экрана:
-     val backOffImage = findViewById<ImageView>(R.id.back_off_search)  //нажатие на стрелку НАЗАД
-     val clearButton = findViewById<ImageView>(R.id.icon_clear_search)  // крестик очистки EditText
-     val inputSearchText = findViewById<EditText>(R.id.inputSearchText)  //  EditText поиска песен
-     val recyclerViewSearch = findViewById<RecyclerView>(R.id.recyclerViewSearch)  // Recycler найденных песен
-     val noSongImage = findViewById<TextView> (R.id.image_crash)        // ImageView показа отсутствия песен
-     val inetProblemImage = findViewById<TextView> (R.id.inet_problem)   // ImageView показа отсутствия интернета
-     val groupClicked = findViewById<LinearLayout>(R.id.group_clicked)  // контейнер с сохраненными трэками
-     val recyclerViewClicked = findViewById<RecyclerView>(R.id.recyclerViewClicked)   // Recycler сохраненных песен
-     val groupSearched = findViewById<FrameLayout>(R.id.group_searched)     // контейнер с найденными трэками
-     val clearHistory = findViewById<Button> (R.id.clear_history)  // кнопка Очистить историю
+        // Элементы экрана:
+        val backOffImage = findViewById<ImageView>(R.id.back_off_search)  //нажатие на стрелку НАЗАД
+        val clearButton =
+            findViewById<ImageView>(R.id.icon_clear_search)  // крестик очистки EditText
+        val inputSearchText =
+            findViewById<EditText>(R.id.inputSearchText)  //  EditText поиска песен
+        val recyclerViewSearch =
+            findViewById<RecyclerView>(R.id.recyclerViewSearch)  // Recycler найденных песен
+        val noSongImage =
+            findViewById<TextView>(R.id.image_crash)        // ImageView показа отсутствия песен
+        val inetProblemImage =
+            findViewById<TextView>(R.id.inet_problem)   // ImageView показа отсутствия интернета
+        val groupClicked =
+            findViewById<LinearLayout>(R.id.group_clicked)  // контейнер с сохраненными трэками
+        val recyclerViewClicked =
+            findViewById<RecyclerView>(R.id.recyclerViewClicked)   // Recycler сохраненных песен
+        val groupSearched =
+            findViewById<FrameLayout>(R.id.group_searched)     // контейнер с найденными трэками
+        val clearHistory = findViewById<Button>(R.id.clear_history)  // кнопка Очистить историю
 
-        clickedSearchSongs = readClickedSearchSongs()
+
+        val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
+        val sharedPrefsUtils = SharedPrefsUtils(sharedPrefsApp)
+        clickedSearchSongs = sharedPrefsUtils.readClickedSearchSongs(CLICKED_SEARCH_TRACK)
 
         // Функция выполнения ПОИСКОВОГО ЗАПРОСА
         fun searchSongByText() {
-                iTunesService.searchSongApi(inputSearchText.text.toString()).enqueue(object : Callback<ITunesResponse> {
+            iTunesService.searchSongApi(inputSearchText.text.toString()).enqueue(object :
+                Callback<ITunesResponse> {
 
-                override fun onResponse(call: Call<ITunesResponse>, response: Response<ITunesResponse>)
-                {
+                override fun onResponse(
+                    call: Call<ITunesResponse>,
+                    response: Response<ITunesResponse>
+                ) {
                     searchSongs.clear()
                     if (response.code() == 200) {
                         recyclerViewSearch.adapter?.notifyDataSetChanged()
@@ -72,7 +85,6 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
                             searchSongs.addAll(response.body()?.results!!)
                             noSongImage.visibility = View.GONE
                             inetProblemImage.visibility = View.GONE
-
                         } else {
                             inetProblemImage.visibility = View.GONE
                             noSongImage.visibility = View.VISIBLE
@@ -92,35 +104,38 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
             })
         }
 
-         fun showGroupClickedSong () {
-             if (clickedSearchSongs.size>0) {
-                 groupSearched.visibility = if (inputSearchText.hasFocus() && inputSearchText.text.isEmpty()) View.GONE else View.VISIBLE
-                 groupClicked.visibility = if (inputSearchText.hasFocus() && inputSearchText.text.isEmpty()) View.VISIBLE else View.GONE
-             } else {
-                 groupSearched.visibility =  View.VISIBLE
-                 groupClicked.visibility =  View.GONE
-             }
-         }
 
-         //нажатие на стрелку НАЗАД
-            backOffImage.setOnClickListener {
+        fun showGroupClickedSong() {
+            if (clickedSearchSongs.size > 0) {
+                groupSearched.visibility =
+                    if (inputSearchText.hasFocus() && inputSearchText.text.isEmpty()) View.GONE else View.VISIBLE
+                groupClicked.visibility =
+                    if (inputSearchText.hasFocus() && inputSearchText.text.isEmpty()) View.VISIBLE else View.GONE
+            } else {
+                groupSearched.visibility = View.VISIBLE
+                groupClicked.visibility = View.GONE
+            }
+        }
+
+        //нажатие на стрелку НАЗАД
+        backOffImage.setOnClickListener {
             finish()
-         }
+        }
 
-            // при нажатии на крестик очистки поля поиска:
-         clearButton.setOnClickListener {
-                inputSearchText.setText("")
-                noSongImage.visibility = View.GONE
-                inetProblemImage.visibility = View.GONE
-                searchSongs.clear()
-                recyclerViewSearch.adapter?.notifyDataSetChanged()
-                recyclerViewClicked.adapter?.notifyDataSetChanged()
-         }
+        // при нажатии на крестик очистки поля поиска:
+        clearButton.setOnClickListener {
+            inputSearchText.setText("")
+            noSongImage.visibility = View.GONE
+            inetProblemImage.visibility = View.GONE
+            searchSongs.clear()
+            recyclerViewSearch.adapter?.notifyDataSetChanged()
+            recyclerViewClicked.adapter?.notifyDataSetChanged()
+        }
 
-         // Привязка обьекта TextWatcher
-         inputSearchText.addTextChangedListener(object : TextWatcher {
+        // Привязка обьекта TextWatcher
+        inputSearchText.addTextChangedListener(object : TextWatcher {
 
-         // если будут изменения текста в поле поиска, то крестик очистки появится, при удалении - станет невидимым
+            // если будут изменения текста в поле поиска, то крестик очистки появится, при удалении - станет невидимым
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.toString().trim().isEmpty()) {
                     clearButton.visibility = View.GONE
@@ -130,76 +145,64 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
                 showGroupClickedSong()
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {  }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            override fun afterTextChanged(s: Editable?) {   }
-         })
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         // при получении фокуса показать историю просмотренных песен
-        inputSearchText.setOnFocusChangeListener { view, hasFocus -> showGroupClickedSong ()   }
+        inputSearchText.setOnFocusChangeListener { view, hasFocus -> showGroupClickedSong() }
 
         // обработка нажатия на кнопку Done
         inputSearchText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-            searchSongByText()
+                searchSongByText()
                 groupSearched.visibility = View.VISIBLE
             }
             false
         }
 
-         // обработка нажатия на кнопку Обновить
+        // обработка нажатия на кнопку Обновить
         inetProblemImage.setOnClickListener {
-             searchSongByText()
-         }
+            searchSongByText()
+        }
 
         // обработка нажатия на кнопку Очистить историю
         clearHistory.setOnClickListener {
-             clickedSearchSongs.clear()
-             writeClickedSearchSongs(clickedSearchSongs)
-             showGroupClickedSong ()
-             recyclerViewClicked.adapter?.notifyDataSetChanged()
-         }
+            clickedSearchSongs.clear()
 
-         /*     Формирование списка найденных песен в recyclerViewSearch                 */
-        recyclerViewSearch.layoutManager = LinearLayoutManager (this)
+            sharedPrefsUtils.writeClickedSearchSongs(CLICKED_SEARCH_TRACK, clickedSearchSongs)
+            showGroupClickedSong()
+            recyclerViewClicked.adapter?.notifyDataSetChanged()
+        }
+
+        /*     Формирование списка найденных песен в recyclerViewSearch                 */
+        recyclerViewSearch.layoutManager = LinearLayoutManager(this)
         recyclerViewSearch.adapter = SearchMusicAdapter(searchSongs, this)
-         /*     Формирование списка сохраненных (кликнутых) песен в recyclerViewClicked  */
-        recyclerViewClicked.layoutManager = LinearLayoutManager (this)
-        recyclerViewClicked.adapter = ClickedMusicAdapter (clickedSearchSongs, this)
+        /*     Формирование списка сохраненных (кликнутых) песен в recyclerViewClicked  */
+        recyclerViewClicked.layoutManager = LinearLayoutManager(this)
+        recyclerViewClicked.adapter = ClickedMusicAdapter(clickedSearchSongs, this)
 
-     // КОНЕЦ  fun onCreate(savedInstanceState: Bundle?)
+        // КОНЕЦ  fun onCreate(savedInstanceState: Bundle?)
     }
 
     // нажатие на найденные песни в Recycler через SearchMusicAdapter
+    @SuppressLint("SuspiciousIndentation")
     override fun onClickRecyclerItemView(clickedTrack: Track) {
 
         if (clickedSearchSongs.contains(clickedTrack)) {
             clickedSearchSongs.remove(clickedTrack)
-        } else if (clickedSearchSongs.size>=10) {
-            clickedSearchSongs.removeAt(clickedSearchSongs.size-1)
+        } else if (clickedSearchSongs.size >= 10) {
+            clickedSearchSongs.removeAt(clickedSearchSongs.size - 1)
         }
-        clickedSearchSongs.add(0,clickedTrack)
-        writeClickedSearchSongs(clickedSearchSongs)
-    }
-
-    //функция сохранения списка просмотренных песен
-    fun writeClickedSearchSongs(clickedSearchSongs: ArrayList<Track>) {
+        clickedSearchSongs.add(0, clickedTrack)
         val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
-        val json = GsonBuilder().create()
-        val jsonString = json.toJson(clickedSearchSongs)
-        sharedPrefsApp.edit()
-            .putString(CLICKED_SEARCH_TRACK, jsonString)
-            .apply()
-    }
+        val sharedPrefsUtils = SharedPrefsUtils(sharedPrefsApp)
 
-    //функция чтения списка просмотренных песен
-    fun readClickedSearchSongs() : ArrayList<Track> {
-        val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
-        val jsonString = sharedPrefsApp.getString(CLICKED_SEARCH_TRACK, null)
-        val json = GsonBuilder().create()
-        clickedSearchSongs = json.fromJson(jsonString, object: TypeToken<ArrayList<Track>>() { }.type) ?: arrayListOf()
-
-        return clickedSearchSongs
+        sharedPrefsUtils.writeClickedSearchSongs(CLICKED_SEARCH_TRACK, clickedSearchSongs)
+        val displayIntent = Intent(this, MediaActivity::class.java)
+        displayIntent.putExtra("trackId", clickedTrack.trackId)
+        startActivity(displayIntent)
     }
 
 
@@ -207,7 +210,7 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
     @SuppressLint("SuspiciousIndentation")
     override fun onSaveInstanceState(outState: Bundle) {
         val inputSearchText = findViewById<EditText>(R.id.inputSearchText)
-            outState.putString(SEARCH_STRING, inputSearchText.text.toString())
+        outState.putString(SEARCH_STRING, inputSearchText.text.toString())
         super.onSaveInstanceState(outState)
     }
 
@@ -215,12 +218,16 @@ class SearchActivity : AppCompatActivity() , SearchMusicAdapter.Listener {
     @SuppressLint("SuspiciousIndentation")
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         val inputSearchText = findViewById<EditText>(R.id.inputSearchText)
-            if (savedInstanceState.containsKey(SEARCH_STRING)) {
+        if (savedInstanceState.containsKey(SEARCH_STRING)) {
             val searchText = savedInstanceState.getString(SEARCH_STRING)
             inputSearchText.setText(searchText)
-            }
+        }
     }
 }
+
+
+
+
 
 
 

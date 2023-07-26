@@ -28,13 +28,17 @@
                 android:id="@+id/back_off"
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"
-                android:layout_gravity="top"
+                android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_end"
+
                 android:contentDescription="@string/app_name"
-                app:srcCompat="@drawable/back" />
+                app:srcCompat="@drawable/back"
+                app:tint="@color/text_color" />
 
             <TextView
                 style="@style/TextBigStyle"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/size_xxxl"
                 android:text="@string/buton_settings" />
 
         </LinearLayout>

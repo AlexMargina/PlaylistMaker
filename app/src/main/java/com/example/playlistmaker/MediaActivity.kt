@@ -1,18 +1,70 @@
 package com.example.playlistmaker
 
+import android.app.Application
+
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import java.util.Base64
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class MediaActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
 
-        val textDecode = findViewById<TextView>(R.id.textView1)
-        textDecode.setText(Base64.getDecoder().decode("WWFuZGV4LkZpbnRlY2guQW5kcm9pZA==").decodeToString())
+        val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
+        val sharedPrefsUtils = SharedPrefsUtils(sharedPrefsApp)
+
+        // Элементы экрана:
+        val backOffImage = findViewById<ImageView>(R.id.iv_back)
+        val cover = findViewById<ImageView>(R.id.iv_cover512)
+        val title = findViewById<TextView>(R.id.tv_title)
+        val artist = findViewById<TextView>(R.id.tv_artist)
+        val buttonAdd = findViewById<ImageView>(R.id.iv_add)
+        val buttonPlay = findViewById<ImageView>(R.id.iv_play)
+        val buttonLike = findViewById<ImageView>(R.id.iv_like)
+        val playback = findViewById<TextView>(R.id.tv_playback_time)
+        val durationTrack = findViewById<TextView>(R.id.tv_duration)
+        val album = findViewById<TextView>(R.id.tv_album)
+        val yearTrack = findViewById<TextView>(R.id.tv_year)
+        val genre = findViewById<TextView>(R.id.tv_genre)
+        val country = findViewById<TextView>(R.id.tv_country)
+
+        backOffImage.setOnClickListener { finish() }
+
+        if (sharedPrefsUtils.readClickedSearchSongs(CLICKED_SEARCH_TRACK).size > 0) {
+            val playedTrack = sharedPrefsUtils.readClickedSearchSongs(CLICKED_SEARCH_TRACK)[0]
+
+            val duration = SimpleDateFormat(
+                "mm:ss",
+                Locale.getDefault()
+            ).format(playedTrack.trackTimeMillis)
+            title.setText(playedTrack.trackName)
+            artist.setText(playedTrack.artistName)
+            playback.setText("0:00")  //для примера 0:00
+            durationTrack.setText(duration)
+            album.setText(playedTrack.collectionName.toString())
+            yearTrack.setText(playedTrack.releaseDate.substring(0, 4))
+            genre.setText(playedTrack.primaryGenreName)
+            country.setText(playedTrack.country)
+            val coverUrl100 = playedTrack.artworkUrl100
+            val coverUrl500 = coverUrl100.replaceAfterLast('/', "512x512bb.jpg")
+            val radius = resources.getDimensionPixelSize(R.dimen.corner_radius)
+            Glide.with(cover)
+                .load(coverUrl500)
+                .transform(RoundedCorners(radius))
+                .placeholder(R.drawable.media_placeholder)
+                .into(cover)
+        }
+        buttonPlay.setOnClickListener({ playback.setText("0:30") })  //контроль работы кнопки, заменить в следующем спринте
 
     }
 }
+
+

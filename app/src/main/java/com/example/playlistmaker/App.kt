@@ -10,7 +10,7 @@ const val CLICKED_SEARCH_TRACK = "clicked_search_track"
 
 class App : Application() {
 
-    var darkTheme = false
+    private var darkTheme = false
     lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate() {
@@ -22,7 +22,6 @@ class App : Application() {
     }
 
     fun switchTheme(darkThemeEnabled: Boolean) {
-        //darkTheme = darkThemeEnabled
         AppCompatDelegate.setDefaultNightMode(
             if (darkThemeEnabled) {
                 AppCompatDelegate.MODE_NIGHT_YES
