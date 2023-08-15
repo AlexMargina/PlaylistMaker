@@ -27,6 +27,7 @@ class MediaActivity : AppCompatActivity() {
 
     var mediaPlayer = MediaPlayer()
     private var playerState  = STATE_DEFAULT
+    lateinit var  buttonPlay : MaterialButton
     val handler = Handler(Looper.getMainLooper())
 
     @SuppressLint("MissingInflatedId")
@@ -45,7 +46,7 @@ class MediaActivity : AppCompatActivity() {
         val title = findViewById<TextView>(R.id.tv_title)
         val artist = findViewById<TextView>(R.id.tv_artist)
         val buttonAdd = findViewById<ImageView>(R.id.iv_add)
-        val buttonPlay = findViewById<MaterialButton>(R.id.bt_play)
+         buttonPlay = findViewById<MaterialButton>(R.id.bt_play)
         val buttonLike = findViewById<ImageView>(R.id.iv_like)
         val playback = findViewById<TextView>(R.id.tv_playback_time)
         val durationTrack = findViewById<TextView>(R.id.tv_duration)
@@ -152,6 +153,15 @@ class MediaActivity : AppCompatActivity() {
         super.onDestroy()
 
         mediaPlayer.pause()
+        playerState = PlayerMedia.STATE_PAUSED
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        mediaPlayer.pause()
+        if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_play_night )}
+        else {buttonPlay.setIconResource(R.drawable.button_play_day )}
         playerState = PlayerMedia.STATE_PAUSED
     }
 }
