@@ -220,6 +220,8 @@ class SearchActivity : AppCompatActivity(), SearchMusicAdapter.Listener {
         val sharedPrefsUtils = SharedPrefsUtils(sharedPrefsApp)
 
         sharedPrefsUtils.writeClickedSearchSongs(CLICKED_SEARCH_TRACK, clickedSearchSongs)
+
+        App.activeTracks.add(0,clickedTrack)
         val displayIntent = Intent(this, MediaActivity::class.java)
         displayIntent.putExtra("trackId", clickedTrack.trackId)
         startActivity(displayIntent)

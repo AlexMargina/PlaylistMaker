@@ -1,8 +1,13 @@
 package com.example.playlistmaker
 
+import android.annotation.SuppressLint
 import android.app.Application
+import android.media.MediaPlayer
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +19,18 @@ import java.util.Locale
 
 class MediaActivity : AppCompatActivity() {
 
+    companion object  {
+        val STATE_DEFAULT = 0
+        val STATE_PREPARED = 1
+        val STATE_PLAYING = 2
+        val STATE_PAUSED = 3
+    }
+
+    var mediaPlayer = MediaPlayer()
+    private var playerState  = STATE_DEFAULT
+    val handler = Handler(Looper.getMainLooper())
+
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
@@ -21,13 +38,15 @@ class MediaActivity : AppCompatActivity() {
         val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
         val sharedPrefsUtils = SharedPrefsUtils(sharedPrefsApp)
 
+
+
         // Элементы экрана:
         val backOffImage = findViewById<ImageView>(R.id.iv_back)
         val cover = findViewById<ImageView>(R.id.iv_cover512)
         val title = findViewById<TextView>(R.id.tv_title)
         val artist = findViewById<TextView>(R.id.tv_artist)
         val buttonAdd = findViewById<ImageView>(R.id.iv_add)
-        val buttonPlay = findViewById<ImageView>(R.id.iv_play)
+        val buttonPlay = findViewById<Button>(R.id.bt_play)
         val buttonLike = findViewById<ImageView>(R.id.iv_like)
         val playback = findViewById<TextView>(R.id.tv_playback_time)
         val durationTrack = findViewById<TextView>(R.id.tv_duration)
@@ -38,16 +57,15 @@ class MediaActivity : AppCompatActivity() {
 
         backOffImage.setOnClickListener { finish() }
 
-        if (sharedPrefsUtils.readClickedSearchSongs(CLICKED_SEARCH_TRACK).size > 0) {
-            val playedTrack = sharedPrefsUtils.readClickedSearchSongs(CLICKED_SEARCH_TRACK)[0]
 
-            val duration = SimpleDateFormat(
-                "mm:ss",
-                Locale.getDefault()
-            ).format(playedTrack.trackTimeMillis)
+        if (App.activeTracks.size > 0) {
+            val playedTrack = App.activeTracks[0]
+
+            val duration = SimpleDateFormat("mm:ss", Locale.getDefault() )
+                .format(playedTrack.trackTimeMillis)
             title.setText(playedTrack.trackName)
             artist.setText(playedTrack.artistName)
-            playback.setText("0:00")  //для примера 0:00
+            playback.setText("0:00")
             durationTrack.setText(duration)
             album.setText(playedTrack.collectionName.toString())
             yearTrack.setText(playedTrack.releaseDate.substring(0, 4))
@@ -61,10 +79,74 @@ class MediaActivity : AppCompatActivity() {
                 .transform(RoundedCorners(radius))
                 .placeholder(R.drawable.media_placeholder)
                 .into(cover)
-        }
-        buttonPlay.setOnClickListener({ playback.setText("0:30") })  //контроль работы кнопки, заменить в следующем спринте
+            val trackViewUrl = playedTrack.previewUrl
+            mediaPlayer.setDataSource(trackViewUrl)
+            mediaPlayer.prepareAsync()
+            mediaPlayer.setOnPreparedListener {
+                buttonPlay.isEnabled = true
+                playerState = PlayerMedia.STATE_PREPARED
+            }
 
+            mediaPlayer.setOnCompletionListener {
+                playerState = PlayerMedia.STATE_PREPARED
+                playback.setText("00:00")
+            }
+        }
+
+        // воспроизведение музыки
+
+        fun startPlayer() {
+            mediaPlayer.start()
+            buttonPlay.text = "PAUSE"
+            playerState = PlayerMedia.STATE_PLAYING
+        }
+
+        fun pausePlayer() {
+            mediaPlayer.pause()
+            buttonPlay.text = "PLAY"
+            playerState = PlayerMedia.STATE_PAUSED
+        }
+
+
+        fun playbackControl() {
+            when(playerState) {
+                PlayerMedia.STATE_PLAYING -> {
+                    pausePlayer()
+                }
+                PlayerMedia.STATE_PREPARED, PlayerMedia.STATE_PAUSED -> {
+                    startPlayer()
+                }
+            }
+        }
+
+
+        fun refreshTime() {
+            val timeThread = Thread {
+                handler.postDelayed(
+                    object : Runnable {
+                        override fun run() {
+                            val trackPosition = SimpleDateFormat("mm:ss", Locale.getDefault() )
+                                .format(mediaPlayer.currentPosition)
+                            playback.setText(trackPosition)
+
+                            handler.postDelayed(this,300L,)
+                        }
+                    },   300L
+                )
+            }.start()
+        }
+
+
+        buttonPlay.setOnClickListener {
+            playbackControl()
+            if (playerState == PlayerMedia.STATE_PLAYING) {refreshTime()}
+        }
+    }
+
+    override fun onDestroy(){
+        super.onDestroy()
+
+        mediaPlayer.pause()
+        playerState = PlayerMedia.STATE_PAUSED
     }
 }
-
-

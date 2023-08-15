@@ -66,18 +66,18 @@
         android:layout_height="wrap_content"
         android:src="@drawable/buttonadd"
         app:layout_constraintBottom_toTopOf="@+id/tv_playback_time"
-        app:layout_constraintEnd_toStartOf="@+id/iv_play"
+        app:layout_constraintEnd_toStartOf="@+id/bt_play"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_artist" />
 
-    <ImageView
-        android:id="@+id/iv_play"
+    <Button
+        android:id="@+id/bt_play"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="@dimen/size_l"
+         android:foreground="@drawable/buttonplay"
         android:backgroundTint="@color/background_icon"
-        android:src="@drawable/buttonplay"
         app:layout_constraintBottom_toBottomOf="@+id/iv_add"
         app:layout_constraintEnd_toStartOf="@+id/iv_like"
         app:layout_constraintStart_toEndOf="@+id/iv_add"
@@ -91,7 +91,7 @@
         android:src="@drawable/buttonlike"
         app:layout_constraintBottom_toTopOf="@id/tv_playback_time"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_play"
+        app:layout_constraintStart_toEndOf="@+id/bt_play"
         app:layout_constraintTop_toBottomOf="@id/tv_artist" />
 
     <TextView
@@ -103,7 +103,7 @@
         android:text="0:00"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_play" />
+        app:layout_constraintTop_toBottomOf="@id/bt_play" />
 
     <TextView
         android:id="@+id/tv_duration_title"

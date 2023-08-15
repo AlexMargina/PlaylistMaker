@@ -10,6 +10,10 @@ const val CLICKED_SEARCH_TRACK = "clicked_search_track"
 
 class App : Application() {
 
+    companion object {
+        var activeTracks = mutableListOf<Track>()
+    }
+
     private var darkTheme = false
     lateinit var sharedPreferences: SharedPreferences
 
