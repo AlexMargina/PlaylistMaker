@@ -3,7 +3,6 @@ package com.example.playlistmaker
 import android.annotation.SuppressLint
 import android.app.Application
 import android.media.MediaPlayer
-
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,9 +12,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.material.button.MaterialButton
 import java.text.SimpleDateFormat
 import java.util.Locale
-
 
 class MediaActivity : AppCompatActivity() {
 
@@ -46,7 +45,7 @@ class MediaActivity : AppCompatActivity() {
         val title = findViewById<TextView>(R.id.tv_title)
         val artist = findViewById<TextView>(R.id.tv_artist)
         val buttonAdd = findViewById<ImageView>(R.id.iv_add)
-        val buttonPlay = findViewById<Button>(R.id.bt_play)
+        val buttonPlay = findViewById<MaterialButton>(R.id.bt_play)
         val buttonLike = findViewById<ImageView>(R.id.iv_like)
         val playback = findViewById<TextView>(R.id.tv_playback_time)
         val durationTrack = findViewById<TextView>(R.id.tv_duration)
@@ -67,7 +66,7 @@ class MediaActivity : AppCompatActivity() {
             artist.setText(playedTrack.artistName)
             playback.setText("0:00")
             durationTrack.setText(duration)
-            album.setText(playedTrack.collectionName.toString())
+            album.setText(playedTrack.collectionName)
             yearTrack.setText(playedTrack.releaseDate.substring(0, 4))
             genre.setText(playedTrack.primaryGenreName)
             country.setText(playedTrack.country)
@@ -80,6 +79,7 @@ class MediaActivity : AppCompatActivity() {
                 .placeholder(R.drawable.media_placeholder)
                 .into(cover)
             val trackViewUrl = playedTrack.previewUrl
+            buttonPlay.isEnabled = false
             mediaPlayer.setDataSource(trackViewUrl)
             mediaPlayer.prepareAsync()
             mediaPlayer.setOnPreparedListener {
@@ -88,8 +88,10 @@ class MediaActivity : AppCompatActivity() {
             }
 
             mediaPlayer.setOnCompletionListener {
+
+                if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_play_night )}
+                else {buttonPlay.setIconResource(R.drawable.button_play_day )}
                 playerState = PlayerMedia.STATE_PREPARED
-                playback.setText("00:00")
             }
         }
 
@@ -97,13 +99,15 @@ class MediaActivity : AppCompatActivity() {
 
         fun startPlayer() {
             mediaPlayer.start()
-            buttonPlay.text = "PAUSE"
+            if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_pause_night )}
+            else {buttonPlay.setIconResource(R.drawable.button_pause_day )}
             playerState = PlayerMedia.STATE_PLAYING
         }
 
         fun pausePlayer() {
             mediaPlayer.pause()
-            buttonPlay.text = "PLAY"
+            if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_play_night )}
+            else {buttonPlay.setIconResource(R.drawable.button_play_day )}
             playerState = PlayerMedia.STATE_PAUSED
         }
 
@@ -129,9 +133,10 @@ class MediaActivity : AppCompatActivity() {
                                 .format(mediaPlayer.currentPosition)
                             playback.setText(trackPosition)
 
-                            handler.postDelayed(this,300L,)
+                            handler.postDelayed(this,333L)
+                            if (playerState == PlayerMedia.STATE_PREPARED) {playback.setText("00:00")}
                         }
-                    },   300L
+                    },   333L
                 )
             }.start()
         }

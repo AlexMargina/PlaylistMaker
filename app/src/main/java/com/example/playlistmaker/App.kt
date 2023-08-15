@@ -12,9 +12,10 @@ class App : Application() {
 
     companion object {
         var activeTracks = mutableListOf<Track>()
+        var darkTheme = false
     }
 
-    private var darkTheme = false
+
     lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate() {

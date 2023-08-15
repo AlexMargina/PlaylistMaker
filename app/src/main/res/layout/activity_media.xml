@@ -71,18 +71,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_artist" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/bt_play"
-        android:layout_width="100dp"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="110dp"
         android:layout_height="100dp"
-        android:layout_marginTop="@dimen/size_l"
-         android:foreground="@drawable/buttonplay"
-        android:backgroundTint="@color/background_icon"
+        android:layout_marginTop="@dimen/size_xs"
+        app:icon="@drawable/button_play_day"
+        app:iconSize="95dp"
+        app:iconTint="@color/text_color"
         app:layout_constraintBottom_toBottomOf="@+id/iv_add"
         app:layout_constraintEnd_toStartOf="@+id/iv_like"
         app:layout_constraintStart_toEndOf="@+id/iv_add"
         app:layout_constraintTop_toBottomOf="@id/tv_artist"
-        app:tint="@color/text_color" />
+        app:rippleColor="@color/background_icon" />
 
     <ImageView
         android:id="@+id/iv_like"
