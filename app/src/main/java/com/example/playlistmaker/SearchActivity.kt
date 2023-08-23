@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +29,10 @@ class SearchActivity : AppCompatActivity(), SearchMusicAdapter.Listener {
 
     companion object {
         const val SEARCH_STRING = "SEARCH_STRING"
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
+
+
 
     private val searchSongs = mutableListOf<Track>() // песни найденные через iTunesApi
     private var clickedSearchSongs = arrayListOf<Track>() // песни сохраненные по клику
@@ -39,21 +43,20 @@ class SearchActivity : AppCompatActivity(), SearchMusicAdapter.Listener {
         .build()
     private val iTunesService = retrofit.create(ITunesSearchApi::class.java)
 
+
+
     /*       Основная функции при создании активити поиска:                                           */
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
         // Элементы экрана:
-        val backOffImage = findViewById<ImageView>(R.id.back_off_search)  //нажатие на стрелку НАЗАД
-        val clearButton =
-            findViewById<ImageView>(R.id.icon_clear_search)  // крестик очистки EditText
-        val inputSearchText =
-            findViewById<EditText>(R.id.inputSearchText)  //  EditText поиска песен
-        val recyclerViewSearch =
-            findViewById<RecyclerView>(R.id.recyclerViewSearch)  // Recycler найденных песен
-        val noSongImage =
-            findViewById<TextView>(R.id.image_crash)        // ImageView показа отсутствия песен
+        val backOffImage = findViewById<ImageView>(R.id.back_off_search)  //стрелка НАЗАД
+        val clearButton = findViewById<ImageView>(R.id.icon_clear_search)  // крестик очистки EditText
+        val inputSearchText = findViewById<EditText>(R.id.inputSearchText)  // EditText поиска песен
+        val recyclerViewSearch = findViewById<RecyclerView>(R.id.recyclerViewSearch) //найденные песни
+        val noSongImage = findViewById<TextView>(R.id.image_crash)  // показ отсутствия песен
         val inetProblemImage =
             findViewById<TextView>(R.id.inet_problem)   // ImageView показа отсутствия интернета
         val groupClicked =
@@ -63,7 +66,8 @@ class SearchActivity : AppCompatActivity(), SearchMusicAdapter.Listener {
         val groupSearched =
             findViewById<FrameLayout>(R.id.group_searched)     // контейнер с найденными трэками
         val clearHistory = findViewById<Button>(R.id.clear_history)  // кнопка Очистить историю
-
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        val groupProgress = findViewById<FrameLayout>(R.id.group_progress)
 
         val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
         val sharedPrefsUtils = SharedPrefsUtils(sharedPrefsApp)
@@ -71,6 +75,10 @@ class SearchActivity : AppCompatActivity(), SearchMusicAdapter.Listener {
 
         // Функция выполнения ПОИСКОВОГО ЗАПРОСА
         fun searchSongByText() {
+
+            groupProgress.visibility = View.VISIBLE
+            groupClicked.visibility = View.GONE
+            groupSearched.visibility = View.GONE
             iTunesService.searchSongApi(inputSearchText.text.toString()).enqueue(object :
                 Callback<ITunesResponse> {
 
@@ -78,6 +86,9 @@ class SearchActivity : AppCompatActivity(), SearchMusicAdapter.Listener {
                     call: Call<ITunesResponse>,
                     response: Response<ITunesResponse>
                 ) {
+                    groupProgress.visibility = View.GONE
+                    groupSearched.visibility = View.VISIBLE
+
                     searchSongs.clear()
                     if (response.code() == 200) {
                         recyclerViewSearch.adapter?.notifyDataSetChanged()
@@ -98,6 +109,8 @@ class SearchActivity : AppCompatActivity(), SearchMusicAdapter.Listener {
 
                 override fun onFailure(call: Call<ITunesResponse>, t: Throwable) {
                     searchSongs.clear()
+                    groupProgress.visibility = View.GONE
+                    groupSearched.visibility = View.VISIBLE
                     noSongImage.visibility = View.GONE
                     inetProblemImage.visibility = View.VISIBLE
                 }
@@ -132,6 +145,12 @@ class SearchActivity : AppCompatActivity(), SearchMusicAdapter.Listener {
             recyclerViewClicked.adapter?.notifyDataSetChanged()
         }
 
+        // Создаем функцию поиска в отдельном потоке с задержкой 2 с
+         val searchRunnable = Runnable { searchSongByText() }
+         fun searchDebounce() {
+             inputSearchText.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+        }
+
         // Привязка обьекта TextWatcher
         inputSearchText.addTextChangedListener(object : TextWatcher {
 
@@ -141,6 +160,7 @@ class SearchActivity : AppCompatActivity(), SearchMusicAdapter.Listener {
                     clearButton.visibility = View.GONE
                 } else {
                     clearButton.visibility = View.VISIBLE
+                    searchDebounce()
                 }
                 showGroupClickedSong()
             }
@@ -200,6 +220,8 @@ class SearchActivity : AppCompatActivity(), SearchMusicAdapter.Listener {
         val sharedPrefsUtils = SharedPrefsUtils(sharedPrefsApp)
 
         sharedPrefsUtils.writeClickedSearchSongs(CLICKED_SEARCH_TRACK, clickedSearchSongs)
+
+        App.activeTracks.add(0,clickedTrack)
         val displayIntent = Intent(this, MediaActivity::class.java)
         displayIntent.putExtra("trackId", clickedTrack.trackId)
         startActivity(displayIntent)

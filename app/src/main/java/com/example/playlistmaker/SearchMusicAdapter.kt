@@ -24,5 +24,6 @@ class SearchMusicAdapter(private val searchSong: MutableList<Track>, private val
 
     interface Listener {
         fun onClickRecyclerItemView (clickedTrack: Track)
+
     }
 }
