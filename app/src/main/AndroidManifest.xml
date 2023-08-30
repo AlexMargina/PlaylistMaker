@@ -15,7 +15,7 @@
         android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.Ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,15 +25,15 @@
         </activity>
 
         <activity
-            android:name=".presentation.MediaActivity"
+            android:name=".presentation.Ui.MediaActivity"
             android:exported="false">
         </activity>
         <activity
-            android:name=".presentation.SearchActivity"
+            android:name=".presentation.Ui.SearchActivity"
             android:exported="false">
         </activity>
         <activity
-            android:name=".presentation.SettingsActivity"
+            android:name=".presentation.Ui.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" >
         </activity>

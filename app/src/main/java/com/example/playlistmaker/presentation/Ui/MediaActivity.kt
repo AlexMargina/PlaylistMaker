@@ -1,4 +1,4 @@
-package com.example.playlistmaker.presentation
+package com.example.playlistmaker.presentation.Ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -21,6 +21,7 @@ class MediaActivity : AppCompatActivity() {
     var audioPlayer = PlayerMedia()
     lateinit var  buttonPlay : MaterialButton
     val handler = Handler(Looper.getMainLooper())
+    //private val mediaPlayerInteractor = Creator.provideMediaPlayerInteractor()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,8 +69,14 @@ class MediaActivity : AppCompatActivity() {
                 .into(cover)
             val trackViewUrl = playedTrack.previewUrl
             buttonPlay.isEnabled = false
-            audioPlayer.preparePlayer(trackViewUrl)
+/*            mediaPlayerInteractor.preparePlayer(trackViewUrl,
+                {buttonPlay.isEnabled = true},
+                {if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_play_night)}
+                else {buttonPlay.setIconResource(R.drawable.button_play_day)}
+                }
+            )*/
 
+            audioPlayer.preparePlayer(trackViewUrl)
             audioPlayer.mediaPlayer.setOnPreparedListener {
                 buttonPlay.isEnabled = true
                 audioPlayer.playerState = PlayerMedia.STATE_PREPARED
