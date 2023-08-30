@@ -1,12 +1,14 @@
-package com.example.playlistmaker
-
+package com.example.playlistmaker.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.R
+import com.example.playlistmaker.domain.Track
 
-class ClickedMusicAdapter (private val clickedSearchSongs: MutableList<Track>, private val listener : SearchMusicAdapter.Listener) : RecyclerView.Adapter <SearchMusicViewHolder> ()
+class SearchMusicAdapter(private val searchSong: MutableList<Track>, private val listener: Listener) : RecyclerView.Adapter <SearchMusicViewHolder> ()
 {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchMusicViewHolder {
         return SearchMusicViewHolder (LayoutInflater
             .from(parent.context)
@@ -14,10 +16,16 @@ class ClickedMusicAdapter (private val clickedSearchSongs: MutableList<Track>, p
     }
 
     override fun getItemCount(): Int {
-        return clickedSearchSongs.size
+        return searchSong.size
     }
 
     override fun onBindViewHolder(holder: SearchMusicViewHolder, position: Int) {
-        holder.bind(clickedSearchSongs[position], listener)
+        holder.bind(searchSong[position] , listener)
+    }
+
+
+    interface Listener {
+        fun onClickRecyclerItemView (clickedTrack: Track)
+
     }
 }

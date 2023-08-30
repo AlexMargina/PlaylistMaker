@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name=".App"
+        android:name=".domain.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,7 +15,7 @@
         android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,15 +25,15 @@
         </activity>
 
         <activity
-            android:name=".MediaActivity"
+            android:name=".presentation.MediaActivity"
             android:exported="false">
         </activity>
         <activity
-            android:name=".SearchActivity"
+            android:name=".presentation.SearchActivity"
             android:exported="false">
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".presentation.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" >
         </activity>

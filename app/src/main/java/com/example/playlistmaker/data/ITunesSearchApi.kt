@@ -1,5 +1,6 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.data
 
+import com.example.playlistmaker.domain.Track
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

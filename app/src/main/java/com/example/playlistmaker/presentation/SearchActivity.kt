@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -18,6 +18,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.domain.App
+import com.example.playlistmaker.domain.CLICKED_SEARCH_TRACK
+import com.example.playlistmaker.domain.MUSIC_MAKER_PREFERENCES
+import com.example.playlistmaker.R
+import com.example.playlistmaker.data.SharedPrefsUtils
+import com.example.playlistmaker.data.ITunesResponse
+import com.example.playlistmaker.data.ITunesSearchApi
+import com.example.playlistmaker.domain.Track
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -1,32 +1,24 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation
 
 import android.annotation.SuppressLint
-import android.app.Application
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.playlistmaker.R
+import com.example.playlistmaker.domain.App
+import com.example.playlistmaker.domain.PlayerMedia
 import com.google.android.material.button.MaterialButton
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class MediaActivity : AppCompatActivity() {
 
-    companion object  {
-        val STATE_DEFAULT = 0
-        val STATE_PREPARED = 1
-        val STATE_PLAYING = 2
-        val STATE_PAUSED = 3
-    }
-
-    var mediaPlayer = MediaPlayer()
-    private var playerState  = STATE_DEFAULT
+    var audioPlayer = PlayerMedia()
     lateinit var  buttonPlay : MaterialButton
     val handler = Handler(Looper.getMainLooper())
 
@@ -35,12 +27,7 @@ class MediaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
 
-        val sharedPrefsApp = getSharedPreferences(MUSIC_MAKER_PREFERENCES, Application.MODE_PRIVATE)
-        val sharedPrefsUtils = SharedPrefsUtils(sharedPrefsApp)
-
-
-
-        // Элементы экрана:
+         // Элементы экрана:
         val backOffImage = findViewById<ImageView>(R.id.iv_back)
         val cover = findViewById<ImageView>(R.id.iv_cover512)
         val title = findViewById<TextView>(R.id.tv_title)
@@ -81,87 +68,69 @@ class MediaActivity : AppCompatActivity() {
                 .into(cover)
             val trackViewUrl = playedTrack.previewUrl
             buttonPlay.isEnabled = false
-            mediaPlayer.setDataSource(trackViewUrl)
-            mediaPlayer.prepareAsync()
-            mediaPlayer.setOnPreparedListener {
+            audioPlayer.preparePlayer(trackViewUrl)
+
+            audioPlayer.mediaPlayer.setOnPreparedListener {
                 buttonPlay.isEnabled = true
-                playerState = PlayerMedia.STATE_PREPARED
+                audioPlayer.playerState = PlayerMedia.STATE_PREPARED
             }
 
-            mediaPlayer.setOnCompletionListener {
+            audioPlayer.mediaPlayer.setOnCompletionListener {
 
-                if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_play_night )}
-                else {buttonPlay.setIconResource(R.drawable.button_play_day )}
-                playerState = PlayerMedia.STATE_PREPARED
-            }
-        }
-
-        // воспроизведение музыки
-
-        fun startPlayer() {
-            mediaPlayer.start()
-            if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_pause_night )}
-            else {buttonPlay.setIconResource(R.drawable.button_pause_day )}
-            playerState = PlayerMedia.STATE_PLAYING
-        }
-
-        fun pausePlayer() {
-            mediaPlayer.pause()
-            if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_play_night )}
-            else {buttonPlay.setIconResource(R.drawable.button_play_day )}
-            playerState = PlayerMedia.STATE_PAUSED
-        }
-
-
-        fun playbackControl() {
-            when(playerState) {
-                PlayerMedia.STATE_PLAYING -> {
-                    pausePlayer()
-                }
-                PlayerMedia.STATE_PREPARED, PlayerMedia.STATE_PAUSED -> {
-                    startPlayer()
-                }
+                if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_play_night)}
+                else {buttonPlay.setIconResource(R.drawable.button_play_day)}
+                audioPlayer.playerState = PlayerMedia.STATE_PREPARED
             }
         }
 
-
-        fun refreshTime() {
+         fun refreshTime() {
             val timeThread = Thread {
                 handler.postDelayed(
                     object : Runnable {
                         override fun run() {
                             val trackPosition = SimpleDateFormat("mm:ss", Locale.getDefault() )
-                                .format(mediaPlayer.currentPosition)
+                                .format(audioPlayer.mediaPlayer.currentPosition)
                             playback.setText(trackPosition)
 
                             handler.postDelayed(this,333L)
-                            if (playerState == PlayerMedia.STATE_PREPARED) {playback.setText("00:00")}
+                            if (audioPlayer.playerState == PlayerMedia.STATE_PREPARED) {playback.setText("00:00")}
                         }
                     },   333L
                 )
             }.start()
         }
 
+        fun switchImagesPausePlay() {
+            if (audioPlayer.playerState == PlayerMedia.STATE_PLAYING) {
+                if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_pause_night)}
+                else {buttonPlay.setIconResource(R.drawable.button_pause_day)}
+            } else {
+                if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_play_night)}
+                else {buttonPlay.setIconResource(R.drawable.button_play_day)}
+            }
+        }
 
         buttonPlay.setOnClickListener {
-            playbackControl()
-            if (playerState == PlayerMedia.STATE_PLAYING) {refreshTime()}
+            audioPlayer.playbackControl()
+            switchImagesPausePlay()
+            if (audioPlayer.playerState == PlayerMedia.STATE_PLAYING) {refreshTime()}
         }
     }
+
 
     override fun onDestroy(){
         super.onDestroy()
 
-        mediaPlayer.pause()
-        playerState = PlayerMedia.STATE_PAUSED
+        audioPlayer.pausePlayer()
+        audioPlayer.playerState = PlayerMedia.STATE_PAUSED
     }
 
     override fun onPause() {
         super.onPause()
 
-        mediaPlayer.pause()
-        if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_play_night )}
-        else {buttonPlay.setIconResource(R.drawable.button_play_day )}
-        playerState = PlayerMedia.STATE_PAUSED
+        audioPlayer.pausePlayer()
+        if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_play_night)}
+        else {buttonPlay.setIconResource(R.drawable.button_play_day)}
+        audioPlayer.playerState = PlayerMedia.STATE_PAUSED
     }
 }
