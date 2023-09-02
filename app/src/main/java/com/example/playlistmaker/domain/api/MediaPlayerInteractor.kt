@@ -1,6 +1,11 @@
 package com.example.playlistmaker.domain.api
 
+
+import com.example.playlistmaker.domain.PlayerState
+
 interface MediaPlayerInteractor {
+
+    var playerState: PlayerState
     fun preparePlayer(
         dataSource: String,
         onPreparedListener: () -> Unit,

@@ -9,19 +9,22 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.playlistmaker.Creator
 import com.example.playlistmaker.R
 import com.example.playlistmaker.domain.App
-import com.example.playlistmaker.domain.PlayerMedia
+import com.example.playlistmaker.domain.PlayerState
 import com.google.android.material.button.MaterialButton
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+
 class MediaActivity : AppCompatActivity() {
 
-    var audioPlayer = PlayerMedia()
+
     lateinit var  buttonPlay : MaterialButton
     val handler = Handler(Looper.getMainLooper())
-    //private val mediaPlayerInteractor = Creator.provideMediaPlayerInteractor()
+    private val mediaPlayerInteractor = Creator.provideMediaPlayerInteractor()
+    private val RefreshDelayMs = 333L
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,14 +54,14 @@ class MediaActivity : AppCompatActivity() {
 
             val duration = SimpleDateFormat("mm:ss", Locale.getDefault() )
                 .format(playedTrack.trackTimeMillis)
-            title.setText(playedTrack.trackName)
-            artist.setText(playedTrack.artistName)
-            playback.setText("0:00")
-            durationTrack.setText(duration)
-            album.setText(playedTrack.collectionName)
-            yearTrack.setText(playedTrack.releaseDate.substring(0, 4))
-            genre.setText(playedTrack.primaryGenreName)
-            country.setText(playedTrack.country)
+                title.setText(playedTrack.trackName)
+                artist.setText(playedTrack.artistName)
+                playback.setText("0:00")
+                durationTrack.setText(duration)
+                album.setText(playedTrack.collectionName)
+                yearTrack.setText(playedTrack.releaseDate.substring(0, 4))
+                genre.setText(playedTrack.primaryGenreName)
+                country.setText(playedTrack.country)
             val coverUrl100 = playedTrack.artworkUrl100
             val coverUrl500 = coverUrl100.replaceAfterLast('/', "512x512bb.jpg")
             val radius = resources.getDimensionPixelSize(R.dimen.corner_radius)
@@ -69,25 +72,12 @@ class MediaActivity : AppCompatActivity() {
                 .into(cover)
             val trackViewUrl = playedTrack.previewUrl
             buttonPlay.isEnabled = false
-/*            mediaPlayerInteractor.preparePlayer(trackViewUrl,
+            mediaPlayerInteractor.preparePlayer(trackViewUrl,
                 {buttonPlay.isEnabled = true},
                 {if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_play_night)}
                 else {buttonPlay.setIconResource(R.drawable.button_play_day)}
                 }
-            )*/
-
-            audioPlayer.preparePlayer(trackViewUrl)
-            audioPlayer.mediaPlayer.setOnPreparedListener {
-                buttonPlay.isEnabled = true
-                audioPlayer.playerState = PlayerMedia.STATE_PREPARED
-            }
-
-            audioPlayer.mediaPlayer.setOnCompletionListener {
-
-                if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_play_night)}
-                else {buttonPlay.setIconResource(R.drawable.button_play_day)}
-                audioPlayer.playerState = PlayerMedia.STATE_PREPARED
-            }
+            )
         }
 
          fun refreshTime() {
@@ -96,31 +86,32 @@ class MediaActivity : AppCompatActivity() {
                     object : Runnable {
                         override fun run() {
                             val trackPosition = SimpleDateFormat("mm:ss", Locale.getDefault() )
-                                .format(audioPlayer.mediaPlayer.currentPosition)
+                                .format(mediaPlayerInteractor.currentPosition())
                             playback.setText(trackPosition)
 
-                            handler.postDelayed(this,333L)
-                            if (audioPlayer.playerState == PlayerMedia.STATE_PREPARED) {playback.setText("00:00")}
+                            handler.postDelayed(this,RefreshDelayMs)
+                            if (mediaPlayerInteractor.playerState == PlayerState.PREPARED) {playback.setText("00:00")}
                         }
-                    },   333L
+                    },   RefreshDelayMs
                 )
             }.start()
         }
 
         fun switchImagesPausePlay() {
-            if (audioPlayer.playerState == PlayerMedia.STATE_PLAYING) {
-                if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_pause_night)}
-                else {buttonPlay.setIconResource(R.drawable.button_pause_day)}
+            if (mediaPlayerInteractor.playerState == PlayerState.PLAYING) {
+                if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_play_night )}
+                else {buttonPlay.setIconResource(R.drawable.button_play_night)}
             } else {
-                if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_play_night)}
-                else {buttonPlay.setIconResource(R.drawable.button_play_day)}
+                if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_pause_night)}
+                else {buttonPlay.setIconResource(R.drawable.button_pause_night)}
             }
         }
 
+
         buttonPlay.setOnClickListener {
-            audioPlayer.playbackControl()
-            switchImagesPausePlay()
-            if (audioPlayer.playerState == PlayerMedia.STATE_PLAYING) {refreshTime()}
+            mediaPlayerInteractor.playbackControl({ switchImagesPausePlay() },
+                { switchImagesPausePlay() })
+            if (mediaPlayerInteractor.playerState == PlayerState.PLAYING) {refreshTime()}
         }
     }
 
@@ -128,16 +119,16 @@ class MediaActivity : AppCompatActivity() {
     override fun onDestroy(){
         super.onDestroy()
 
-        audioPlayer.pausePlayer()
-        audioPlayer.playerState = PlayerMedia.STATE_PAUSED
+        mediaPlayerInteractor.pausePlayer( { })
+
     }
+
 
     override fun onPause() {
         super.onPause()
 
-        audioPlayer.pausePlayer()
+        mediaPlayerInteractor.pausePlayer( { })
         if (App.darkTheme) {buttonPlay.setIconResource(R.drawable.button_play_night)}
         else {buttonPlay.setIconResource(R.drawable.button_play_day)}
-        audioPlayer.playerState = PlayerMedia.STATE_PAUSED
     }
 }
