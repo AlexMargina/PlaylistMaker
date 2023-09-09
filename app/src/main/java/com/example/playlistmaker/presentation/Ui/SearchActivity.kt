@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation.Ui
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -18,6 +18,17 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.Creator
+import com.example.playlistmaker.R
+import com.example.playlistmaker.data.SharedPrefsUtils
+import com.example.playlistmaker.data.network.ITunesResponse
+import com.example.playlistmaker.data.network.ITunesSearchApi
+import com.example.playlistmaker.domain.App
+import com.example.playlistmaker.domain.CLICKED_SEARCH_TRACK
+import com.example.playlistmaker.domain.MUSIC_MAKER_PREFERENCES
+import com.example.playlistmaker.domain.Track
+import com.example.playlistmaker.presentation.ClickedMusicAdapter
+import com.example.playlistmaker.presentation.SearchMusicAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,7 +53,7 @@ class SearchActivity : AppCompatActivity(), SearchMusicAdapter.Listener {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     private val iTunesService = retrofit.create(ITunesSearchApi::class.java)
-
+    private val tracksInteractor = Creator.provideTracksInteractor()
 
 
     /*       Основная функции при создании активити поиска:                                           */

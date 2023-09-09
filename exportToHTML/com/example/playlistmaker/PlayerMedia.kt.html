@@ -1,0 +1,82 @@
+<html>
+<head>
+<title>PlayerMedia.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #000080; font-weight: bold;}
+.s1 { color: #262626;}
+.s2 { color: #1dc133; font-weight: bold;}
+.s3 { color: #178412; font-weight: bold;}
+.s4 { color: #0073e6;}
+.s5 { color: #00733b;}
+</style>
+</head>
+<body bgcolor="#f2f3f7">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+PlayerMedia.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.playlistmaker</span>
+
+<span class="s1">import android.media.MediaPlayer</span>
+<span class="s1">import android.net.Uri</span>
+<span class="s1">import android.widget.Button</span>
+
+<span class="s1">import android.widget.ImageView</span>
+
+
+<span class="s0">class </span><span class="s1">PlayerMedia </span><span class="s2">( </span><span class="s0">var </span><span class="s1">buttonPlay : Button</span><span class="s2">) </span><span class="s3">{</span>
+
+    <span class="s1">companion </span><span class="s0">object  </span><span class="s3">{</span>
+        <span class="s0">val </span><span class="s1">STATE_DEFAULT = </span><span class="s4">0</span>
+        <span class="s0">val </span><span class="s1">STATE_PREPARED = </span><span class="s4">1</span>
+        <span class="s0">val </span><span class="s1">STATE_PLAYING = </span><span class="s4">2</span>
+        <span class="s0">val </span><span class="s1">STATE_PAUSED = </span><span class="s4">3</span>
+    <span class="s3">}</span>
+
+    <span class="s0">var </span><span class="s1">mediaPlayer = MediaPlayer</span><span class="s2">()</span>
+    <span class="s1">private </span><span class="s0">var </span><span class="s1">playerState  = STATE_DEFAULT</span>
+
+     <span class="s0">fun </span><span class="s1">preparePlayer</span><span class="s2">(</span><span class="s1">trackViewUrl: String</span><span class="s2">) </span><span class="s3">{</span>
+        <span class="s1">mediaPlayer.setDataSource</span><span class="s2">(</span><span class="s1">trackViewUrl.toString</span><span class="s2">())</span>
+        <span class="s1">mediaPlayer.prepareAsync</span><span class="s2">()</span>
+        <span class="s1">mediaPlayer.setOnPreparedListener </span><span class="s3">{</span>
+            <span class="s1">buttonPlay.isEnabled = </span><span class="s0">true</span>
+            <span class="s1">playerState = STATE_PREPARED</span>
+        <span class="s3">}</span>
+
+        <span class="s1">mediaPlayer.setOnCompletionListener </span><span class="s3">{</span>
+
+            <span class="s1">playerState = STATE_PREPARED</span>
+        <span class="s3">}</span>
+    <span class="s3">}</span>
+
+    <span class="s0">fun </span><span class="s1">startPlayer</span><span class="s2">() </span><span class="s3">{</span>
+        <span class="s1">mediaPlayer.start</span><span class="s2">()</span>
+        <span class="s1">buttonPlay.text = </span><span class="s5">&quot;PAUSE&quot;</span>
+        <span class="s1">playerState = STATE_PLAYING</span>
+    <span class="s3">}</span>
+
+    <span class="s0">fun </span><span class="s1">pausePlayer</span><span class="s2">() </span><span class="s3">{</span>
+        <span class="s1">mediaPlayer.pause</span><span class="s2">()</span>
+        <span class="s1">buttonPlay.text = </span><span class="s5">&quot;PLAY&quot;</span>
+        <span class="s1">playerState = STATE_PAUSED</span>
+    <span class="s3">}</span>
+
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">playbackControl</span><span class="s2">() </span><span class="s3">{</span>
+        <span class="s0">when</span><span class="s2">(</span><span class="s1">playerState</span><span class="s2">) </span><span class="s3">{</span>
+            <span class="s1">STATE_PLAYING </span><span class="s2">-&gt; </span><span class="s3">{</span>
+                <span class="s1">pausePlayer</span><span class="s2">()</span>
+            <span class="s3">}</span>
+            <span class="s1">STATE_PREPARED, STATE_PAUSED </span><span class="s2">-&gt; </span><span class="s3">{</span>
+                <span class="s1">startPlayer</span><span class="s2">()</span>
+            <span class="s3">}</span>
+        <span class="s3">}</span>
+    <span class="s3">}</span>
+
+
+<span class="s3">}</span></pre>
+</body>
+</html>

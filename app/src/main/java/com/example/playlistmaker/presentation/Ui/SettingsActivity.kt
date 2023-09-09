@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation.Ui
 
 import android.app.Application
 import android.content.Intent
@@ -7,6 +7,10 @@ import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.playlistmaker.R
+import com.example.playlistmaker.domain.App
+import com.example.playlistmaker.domain.DARK_THEME_ENABLED
+import com.example.playlistmaker.domain.MUSIC_MAKER_PREFERENCES
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 
