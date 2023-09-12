@@ -1,7 +1,8 @@
-package com.example.playlistmaker.player.domain
+package com.example.playlistmaker.player.data
 
-import com.example.playlistmaker.player.domain.api.MediaPlayerInteractor
-import com.example.playlistmaker.player.domain.api.MediaPlayerRepository
+import com.example.playlistmaker.player.domain.MediaPlayerInteractor
+import com.example.playlistmaker.player.domain.MediaPlayerRepository
+import com.example.playlistmaker.player.domain.PlayerState
 
 class MediaPlayerInteractorImpl (private val mediaPlayerRepository: MediaPlayerRepository) :
     MediaPlayerInteractor {
@@ -64,7 +65,3 @@ class MediaPlayerInteractorImpl (private val mediaPlayerRepository: MediaPlayerR
     }
 }
 
-enum class PlayerState {
-    DEFAULT, PREPARED, PLAYING, PAUSED;
-
-}

@@ -14,7 +14,7 @@ import com.example.playlistmaker.sharing.domain.MUSIC_MAKER_PREFERENCES
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity(), SettingView {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,5 +76,9 @@ class SettingsActivity : AppCompatActivity() {
             val oferIntent = Intent(Intent.ACTION_VIEW, Uri.parse(oferUrl as String?))
             startActivity(oferIntent)
         }
+    }
+
+    override fun render(state: SettingState) {
+        TODO("Not yet implemented")
     }
 }

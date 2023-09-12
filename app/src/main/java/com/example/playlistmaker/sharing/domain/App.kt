@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmaker.player.data.TracksRepositoryImpl
 import com.example.playlistmaker.player.data.network.RetrofitNetworkClient
-import com.example.playlistmaker.player.domain.api.TracksInteractor
+import com.example.playlistmaker.player.domain.TracksInteractor
 import com.example.playlistmaker.search.domain.TracksInteractorImpl
 
 const val MUSIC_MAKER_PREFERENCES = "music_maker_preferences"
