@@ -1,10 +1,10 @@
-package com.example.playlistmaker.player.data
+package com.example.playlistmaker.search.data
 
-import com.example.playlistmaker.player.data.dto.TracksSearchRequest
-import com.example.playlistmaker.player.data.dto.TracksSearchResponse
-import com.example.playlistmaker.player.data.network.NetworkClient
+import com.example.playlistmaker.search.data.dto.TracksSearchRequest
+import com.example.playlistmaker.search.data.dto.TracksSearchResponse
+import com.example.playlistmaker.search.data.network.NetworkClient
+import com.example.playlistmaker.search.domain.TracksRepository
 import com.example.playlistmaker.sharing.domain.Track
-import com.example.playlistmaker.player.domain.TracksRepository
 import java.net.HttpURLConnection
 
 class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRepository {

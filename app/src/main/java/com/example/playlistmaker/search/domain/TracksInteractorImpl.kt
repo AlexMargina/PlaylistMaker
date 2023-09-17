@@ -1,9 +1,6 @@
 package com.example.playlistmaker.search.domain
 
 import com.bumptech.glide.util.Executors
-import com.example.playlistmaker.player.domain.TracksInteractor
-import com.example.playlistmaker.player.domain.TracksRepository
-
 
 
 class TracksInteractorImpl(private val repository: TracksRepository) : TracksInteractor {

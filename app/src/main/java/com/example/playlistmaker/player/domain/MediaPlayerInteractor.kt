@@ -1,7 +1,7 @@
 package com.example.playlistmaker.player.domain
 
 
-import com.example.playlistmaker.player.data.PlayerState
+import com.example.playlistmaker.player.domain.PlayerState
 
 interface MediaPlayerInteractor {
 

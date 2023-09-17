@@ -3,19 +3,66 @@ package com.example.playlistmaker.setting.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.playlistmaker.creator.Creator
-import com.example.playlistmaker.sharing.domain.Track
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.playlistmaker.setting.domain.SettingsInteractor
+import com.example.playlistmaker.sharing.domain.App
+import com.example.playlistmaker.sharing.domain.App.Companion.extraMail
+import com.example.playlistmaker.sharing.domain.App.Companion.extraSubject
+import com.example.playlistmaker.sharing.domain.App.Companion.extraText
+import com.example.playlistmaker.sharing.domain.App.Companion.oferUrl
+import com.example.playlistmaker.sharing.domain.App.Companion.sendTitle
+import com.example.playlistmaker.sharing.domain.SharingInteractor
 
-class SettingViewModel : ViewModel() {
+class SettingViewModel (private val trackId: String, private val sharingInteractor: SharingInteractor,
+                        private val settingsInteractor: SettingsInteractor) : ViewModel()
+    {
+        private val _theme = MutableLiveData<Boolean>()
+        val theme: LiveData<Boolean> = _theme
 
-    private val _state = MutableLiveData<Track>()
-    val state :LiveData<Track> = _state
+        init {
+            _theme.postValue(settingsInteractor.getThemeSettings())
+        }
+
+        fun getThemeState() : Boolean {
+            return settingsInteractor.getThemeSettings()
+        }
+
+        fun switchTheme(checked: Boolean) {
+            settingsInteractor.switchTheme(checked)
+        }
+
+        fun shareApp() {
+            sharingInteractor.shareApp(App.sendText, sendTitle)
+        }
+
+        fun writeInSupport() {
+            sharingInteractor.openSupport(extraText, extraMail, extraSubject)
+        }
+
+        fun openUserAgreement() {
+            sharingInteractor.openTerms(oferUrl)
+        }
 
 
-    val getProvideTrack = Creator.getTracksRepository()
+        companion object {
+            // 1
+            fun getViewModelFactory(trackId: String): ViewModelProvider.Factory = viewModelFactory {
+                // 2
+                initializer {
+                    // 3
+                    val settingsInteractor = (this[APPLICATION_KEY] as App).provideSettingsInteractor()
+                    val sharingInteractor = (this[APPLICATION_KEY] as App).provideSharingInteractor()
 
-    fun LoadData () {
-        _state.value
+                        SettingViewModel(
+                        trackId,
+                        sharingInteractor,
+                        settingsInteractor
+                    )
+                }
+            }
+        }
+
     }
-
-}

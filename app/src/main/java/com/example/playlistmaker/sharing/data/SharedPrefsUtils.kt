@@ -1,4 +1,4 @@
-package com.example.playlistmaker.player.data
+package com.example.playlistmaker.sharing.data
 
 import android.content.SharedPreferences
 import com.example.playlistmaker.sharing.domain.Track

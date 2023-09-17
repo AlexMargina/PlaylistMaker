@@ -1,4 +1,4 @@
-package com.example.playlistmaker.player.data.network
+package com.example.playlistmaker.search.data.network
 
 import com.example.playlistmaker.sharing.domain.Track
 import retrofit2.Call

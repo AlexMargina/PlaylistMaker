@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.playlistmaker.player.domain.TracksInteractor
 import com.example.playlistmaker.search.domain.TrackSearchScreenState
+import com.example.playlistmaker.search.domain.TracksInteractor
 import com.example.playlistmaker.sharing.domain.App
 import com.example.playlistmaker.sharing.domain.Track
 

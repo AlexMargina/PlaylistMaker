@@ -21,24 +21,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
 import com.example.playlistmaker.creator.Creator
-import com.example.playlistmaker.player.data.SharedPrefsUtils
-import com.example.playlistmaker.player.data.network.ITunesResponse
-import com.example.playlistmaker.player.data.network.ITunesSearchApi
 import com.example.playlistmaker.player.ui.MediaActivity
 import com.example.playlistmaker.search.ClickedMusicAdapter
 import com.example.playlistmaker.search.SearchMusicAdapter
+import com.example.playlistmaker.sharing.data.SharedPrefsUtils
 import com.example.playlistmaker.sharing.domain.App
 import com.example.playlistmaker.sharing.domain.CLICKED_SEARCH_TRACK
 import com.example.playlistmaker.sharing.domain.MUSIC_MAKER_PREFERENCES
 import com.example.playlistmaker.sharing.domain.Track
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class SearchActivity : AppCompatActivity(), SearchMusicAdapter.Listener {
+
 
     companion object {
         const val SEARCH_STRING = "SEARCH_STRING"
@@ -49,12 +43,12 @@ class SearchActivity : AppCompatActivity(), SearchMusicAdapter.Listener {
 
     private val searchSongs = mutableListOf<Track>() // песни найденные через iTunesApi
     private var clickedSearchSongs = arrayListOf<Track>() // песни сохраненные по клику
-    private val iTunesBaseUrl = "https://itunes.apple.com"
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(iTunesBaseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    private val iTunesService = retrofit.create(ITunesSearchApi::class.java)
+//    private val iTunesBaseUrl = "https://itunes.apple.com"
+//    private val retrofit = Retrofit.Builder()
+//        .baseUrl(iTunesBaseUrl)
+//        .addConverterFactory(GsonConverterFactory.create())
+//        .build()
+//    private val iTunesService = retrofit.create(ITunesSearchApi::class.java)
     private val tracksInteractor = Creator.provideTracksInteractor()
 
 
@@ -92,42 +86,42 @@ class SearchActivity : AppCompatActivity(), SearchMusicAdapter.Listener {
             groupProgress.visibility = View.VISIBLE
             groupClicked.visibility = View.GONE
             groupSearched.visibility = View.GONE
-            iTunesService.searchSongApi(inputSearchText.text.toString()).enqueue(object :
-                Callback<ITunesResponse> {
-
-                override fun onResponse(
-                    call: Call<ITunesResponse>,
-                    response: Response<ITunesResponse>
-                ) {
-                    groupProgress.visibility = View.GONE
-                    groupSearched.visibility = View.VISIBLE
-
-                    searchSongs.clear()
-                    if (response.code() == 200) {
-                        recyclerViewSearch.adapter?.notifyDataSetChanged()
-                        if (response.body()?.results?.isNotEmpty() == true) {
-                            searchSongs.addAll(response.body()?.results!!)
-                            noSongImage.visibility = View.GONE
-                            inetProblemImage.visibility = View.GONE
-                        } else {
-                            inetProblemImage.visibility = View.GONE
-                            noSongImage.visibility = View.VISIBLE
-                        }
-
-                    } else {
-                        noSongImage.visibility = View.GONE
-                        inetProblemImage.visibility = View.VISIBLE
-                    }
-                }
-
-                override fun onFailure(call: Call<ITunesResponse>, t: Throwable) {
-                    searchSongs.clear()
-                    groupProgress.visibility = View.GONE
-                    groupSearched.visibility = View.VISIBLE
-                    noSongImage.visibility = View.GONE
-                    inetProblemImage.visibility = View.VISIBLE
-                }
-            })
+//            iTunesService.searchSongApi(inputSearchText.text.toString()).enqueue(object :
+//                Callback<ITunesResponse> {
+//
+//                override fun onResponse(
+//                    call: Call<ITunesResponse>,
+//                    response: Response<ITunesResponse>
+//                ) {
+//                    groupProgress.visibility = View.GONE
+//                    groupSearched.visibility = View.VISIBLE
+//
+//                    searchSongs.clear()
+//                    if (response.code() == 200) {
+//                        recyclerViewSearch.adapter?.notifyDataSetChanged()
+//                        if (response.body()?.results?.isNotEmpty() == true) {
+//                            searchSongs.addAll(response.body()?.results!!)
+//                            noSongImage.visibility = View.GONE
+//                            inetProblemImage.visibility = View.GONE
+//                        } else {
+//                            inetProblemImage.visibility = View.GONE
+//                            noSongImage.visibility = View.VISIBLE
+//                        }
+//
+//                    } else {
+//                        noSongImage.visibility = View.GONE
+//                        inetProblemImage.visibility = View.VISIBLE
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<ITunesResponse>, t: Throwable) {
+//                    searchSongs.clear()
+//                    groupProgress.visibility = View.GONE
+//                    groupSearched.visibility = View.VISIBLE
+//                    noSongImage.visibility = View.GONE
+//                    inetProblemImage.visibility = View.VISIBLE
+//                }
+//            })
         }
 
 

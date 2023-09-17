@@ -1,4 +1,4 @@
-package com.example.playlistmaker.player.domain
+package com.example.playlistmaker.search.domain
 
 import com.example.playlistmaker.sharing.domain.Track
 
