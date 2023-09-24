@@ -11,7 +11,7 @@ object AppPreferences {
 
     // TODO step 1: call `AppPreferences.setup(applicationContext)` in your MainActivity's `onCreate` method
     fun setup(context: Context) {
-        // TODO step 2: set your app name here
+    // TODO step 2: set your app name here
         sharedPreferences = context.getSharedPreferences(MUSIC_MAKER_PREFERENCES, MODE_PRIVATE)
     }
 
@@ -25,7 +25,7 @@ object AppPreferences {
         set(value) = Key.DARK_THEME_ENABLED.setBoolean(value)
 
     private enum class Key {
-        DARK_THEME_ENABLED, HEIGHT, BIRTHDAY; // TODO step 3: replace these cases with your stored values keys
+        DARK_THEME_ENABLED, HEIGHT; // TODO step 3: replace these cases with your stored values keys
 
         fun getBoolean(): Boolean? = if (sharedPreferences!!.contains(name)) sharedPreferences!!.getBoolean(name, false) else null
         fun getFloat(): Float? = if (sharedPreferences!!.contains(name)) sharedPreferences!!.getFloat(name, 0f) else null

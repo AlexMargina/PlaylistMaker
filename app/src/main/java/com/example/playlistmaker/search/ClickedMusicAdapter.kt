@@ -4,22 +4,28 @@ package com.example.playlistmaker.search
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.R
+import com.example.playlistmaker.databinding.LayoutSearchSongBinding
 import com.example.playlistmaker.sharing.domain.Track
 
-class ClickedMusicAdapter (private val clickedSearchSongs: MutableList<Track>, private val listener : SearchMusicAdapter.Listener) : RecyclerView.Adapter <SearchMusicViewHolder> ()
+class ClickedMusicAdapter () : RecyclerView.Adapter <SearchMusicViewHolder> ()
 {
+
+    var itemClickListener: ((Track) -> Unit)? = null
+    var tracks = mutableListOf<Track>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchMusicViewHolder {
-        return SearchMusicViewHolder (LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.layout_search_song, parent, false))
+        val layoutInspector = LayoutInflater.from(parent.context)
+
+        return SearchMusicViewHolder(LayoutSearchSongBinding.inflate(layoutInspector, parent, false))
     }
 
     override fun getItemCount(): Int {
-        return clickedSearchSongs.size
+        return tracks.size
     }
 
     override fun onBindViewHolder(holder: SearchMusicViewHolder, position: Int) {
-        holder.bind(clickedSearchSongs[position], listener)
+        val track = tracks.get(position)
+        holder.bind(track)
+        holder.itemView.setOnClickListener { itemClickListener?.invoke(tracks[position]) }
     }
+
 }

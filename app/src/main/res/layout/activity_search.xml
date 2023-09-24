@@ -89,7 +89,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:orientation="vertical"
-            android:visibility="gone">
+            >
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewSearch"
@@ -99,7 +99,9 @@
                 android:overScrollMode="always"
                 android:scrollbars="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/layout_search_song"></androidx.recyclerview.widget.RecyclerView>
+                tools:listitem="@layout/layout_search_song"
+                >
+            </androidx.recyclerview.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/image_crash"
@@ -114,6 +116,15 @@
                 android:layout_gravity="center|center"
                 android:text="@string/not_internet"
                 android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/updateButton"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:text="Обновить"
+                android:visibility="gone"
+                ></androidx.appcompat.widget.AppCompatButton>
 
         </FrameLayout>
 
@@ -144,7 +155,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/layout_search_song" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/clear_history"
                 style="@style/ButtonStyle"
                 android:layout_width="wrap_content"

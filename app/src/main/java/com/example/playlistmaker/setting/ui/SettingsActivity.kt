@@ -23,10 +23,6 @@ class SettingsActivity() :  ComponentActivity() {
        // изменение темы приложения
         binding.themeSwitcher.isChecked = viewModel.getThemeState()
 
-        binding.themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
-            viewModel.switchTheme(checked)
-        }
-
         viewModel.theme.observe(this) { checked ->
             binding.themeSwitcher.isChecked = checked
         }

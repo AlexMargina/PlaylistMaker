@@ -9,10 +9,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.R
-import com.example.playlistmaker.sharing.domain.App
+import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.player.domain.PlayerState
+import com.example.playlistmaker.sharing.domain.App
 import com.google.android.material.button.MaterialButton
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -55,7 +55,7 @@ class MediaActivity : AppCompatActivity() {
             val duration = SimpleDateFormat("mm:ss", Locale.getDefault() )
                 .format(playedTrack.trackTimeMillis)
                 title.setText(playedTrack.trackName)
-                artist.setText(playedTrack.artistName)
+                artist.setText(playedTrack.artistName.toString())
                 playback.setText("0:00")
                 durationTrack.setText(duration)
                 album.setText(playedTrack.collectionName)
