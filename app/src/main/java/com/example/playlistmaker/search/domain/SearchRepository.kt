@@ -1,7 +1,10 @@
 package com.example.playlistmaker.search.domain
 
-interface SearchRepository {
-    var tracksLoadResultListener: ResultLoad?
+import com.example.playlistmaker.search.data.dto.ResponseStatus
 
-    fun loadTracks(query: String)
+interface SearchRepository {
+    fun searchTrack(expression: String): ResponseStatus<List<TrackSearchModel>>
+    fun getTrackHistoryList(): List<TrackSearchModel>
+    fun addTrackInHistory(track: TrackSearchModel)
+    fun clearHistory()
 }

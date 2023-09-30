@@ -48,9 +48,9 @@ class MediaActivity : AppCompatActivity() {
 
         backOffImage.setOnClickListener { finish() }
 
-
-        if (App.activeTracks.size > 0) {
-            val playedTrack = App.activeTracks[0]
+       //val playTrack() = intent.putExtra(TRACK, Gson().toJson(TRACK))
+        if (App.playedTracks.size > 0) {
+            val playedTrack = App.historyTracks[0]
 
             val duration = SimpleDateFormat("mm:ss", Locale.getDefault() )
                 .format(playedTrack.trackTimeMillis)
@@ -62,6 +62,7 @@ class MediaActivity : AppCompatActivity() {
                 yearTrack.setText(playedTrack.releaseDate.substring(0, 4))
                 genre.setText(playedTrack.primaryGenreName)
                 country.setText(playedTrack.country)
+
             val coverUrl100 = playedTrack.artworkUrl100
             val coverUrl500 = coverUrl100.replaceAfterLast('/', "512x512bb.jpg")
             val radius = resources.getDimensionPixelSize(R.dimen.corner_radius)

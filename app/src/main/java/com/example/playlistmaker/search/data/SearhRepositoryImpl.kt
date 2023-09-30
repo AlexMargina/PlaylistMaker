@@ -1,58 +1,89 @@
 package com.example.playlistmaker.search.data
 
-import com.example.playlistmaker.search.data.dto.ITunesResponse
+import com.example.playlistmaker.search.data.dto.ResponseStatus
 import com.example.playlistmaker.search.data.dto.TrackDto
-import com.example.playlistmaker.search.data.network.ITunesSearchApi
-import com.example.playlistmaker.search.domain.ResultLoad
+import com.example.playlistmaker.search.data.dto.TracksSearchRequest
+import com.example.playlistmaker.search.data.dto.TracksSearchResponse
+import com.example.playlistmaker.search.data.network.NetworkClient
 import com.example.playlistmaker.search.domain.SearchRepository
-import com.example.playlistmaker.sharing.domain.Track
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.playlistmaker.search.domain.TrackSearchModel
+import com.example.playlistmaker.sharing.domain.App
+import javax.net.ssl.HttpsURLConnection
 
-class SearchRepositoryImpl(private val api: ITunesSearchApi) : SearchRepository {
+class SearchRepositoryImpl(
+    private val networkClient: NetworkClient,
+    private val searchDataStorage: SearchDataStorage
+) : SearchRepository {
 
-    override var tracksLoadResultListener: ResultLoad? = null
+    override fun searchTrack(expression: String): ResponseStatus<List<TrackSearchModel>> {
+        val response = networkClient.doRequest(TracksSearchRequest(expression))
 
-    override fun loadTracks(query: String) {
+        return when (response.resultCode) {
+            -1 -> {
+                ResponseStatus.Error()
+            }
 
-        api.searchSongApi(query)
-            .enqueue(object : Callback<ITunesResponse> {
-                override fun onResponse(
-                    call: Call<ITunesResponse>,
-                    response: Response<ITunesResponse>,
-                ) {
-                    if (response.code() == 200) {
-                        val tracks =
-                            response.body()?.results!!.map { mapTrack(it) }.filter { track ->
-                                track.previewUrl != null
-                            }
-                        tracksLoadResultListener?.onSuccess(tracks = tracks)
+            HttpsURLConnection.HTTP_OK -> {
+                ResponseStatus.Success((response as TracksSearchResponse).results.map {
+                    TrackSearchModel(
+                        it.trackId,
+                        it.trackName,
+                        it.artistName,
+                        it.trackTimeMillis,
+                        it.artworkUrl100,
+                        it.collectionName,
+                        it.releaseDate,
+                        it.primaryGenreName,
+                        it.country,
+                        it.previewUrl
+                    )
+                })
+            }
 
-                    }
-                }
-
-                override fun onFailure(call: Call<ITunesResponse>, t: Throwable) {
-                    tracksLoadResultListener?.onError()
-                }
-            })
+            else -> {
+                ResponseStatus.Error()
+            }
+        }
     }
 
-    private fun mapTrack(trackDto: TrackDto): Track {
-        return Track(
-            trackDto.trackName,
-            trackDto.artistName,
-            trackDto.artworkUrl100 ,
-            trackDto.trackTimeMillis,
-            trackDto.trackId,
-            trackDto.collectionName,
-            trackDto.releaseDate.orEmpty(),
-            trackDto.primaryGenreName,
-            trackDto.country,
-            trackDto.previewUrl.orEmpty()
+    override fun getTrackHistoryList(): List<TrackSearchModel> {
+        return searchDataStorage.getSearchHistory().map {
+            TrackSearchModel(
+                it.trackId,
+                it.trackName,
+                it.artistName,
+                it.trackTimeMillis,
+                it.artworkUrl100,
+                it.collectionName,
+                it.releaseDate,
+                it.primaryGenreName,
+                it.country,
+                it.previewUrl
+            )
+        }
+    }
 
+    override fun addTrackInHistory(track: TrackSearchModel) {
+
+        App.historyTracks.add(0,track)
+
+        searchDataStorage.addTrackToHistory(
+            TrackDto(
+                track.trackId,
+                track.trackName,
+                track.artistName,
+                track.trackTimeMillis,
+                track.artworkUrl100,
+                track.collectionName,
+                track.releaseDate,
+                track.primaryGenreName,
+                track.country,
+                track.previewUrl
+            )
         )
     }
+
+    override fun clearHistory() {
+        searchDataStorage.clearHistory()
+    }
 }
-
-

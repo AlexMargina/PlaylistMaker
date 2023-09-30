@@ -1,6 +1,8 @@
 package com.example.playlistmaker.search.ui
 
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
+import android.os.SystemClock
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,121 +10,110 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.playlistmaker.search.domain.ResultLoad
+import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.search.domain.SearchInteractor
-import com.example.playlistmaker.search.domain.TrackSearchScreenState
+import com.example.playlistmaker.search.domain.TrackSearchModel
 import com.example.playlistmaker.sharing.domain.App
-import com.example.playlistmaker.sharing.domain.Track
-
-class SearchViewModel (private val trackId: String,
-                       private val interactor: SearchInteractor, ) : ViewModel()
-    {
-        private var screenStateLiveData = MutableLiveData<TrackSearchScreenState>(TrackSearchScreenState.Loading)
-        private val searchedSong = mutableListOf<Track>() // песни найденные через iTunesApi
-        private var historySongs = mutableListOf<Track>() // песни сохраненные по клику
-
-        private val _state = MutableLiveData<SearchState>()
-        val state: LiveData<SearchState> = _state
 
 
+class SearchViewModel(
+    private val searchInteractor: SearchInteractor,
+    private val app: App
+) : ViewModel() {
 
-        init {
-            interactor.onTracksLoader(object : ResultLoad {
-                override fun onSuccess(tracks: List<Track>) {
-                    Log.d ("MAALMI", "init ViewModel ${state.toString()}")
-                    if (tracks.isEmpty()) {
-                        _state.postValue(SearchState.Empty)
+    private val handler = Handler(Looper.getMainLooper())
+    lateinit var searchRunnable: Runnable
+    private val _stateLiveData = MutableLiveData<SearchState>()
+    fun stateLiveData(): LiveData<SearchState> = _stateLiveData
+
+    private var latestSearchText: String? = null
+
+    fun searchDebounce(changedText: String, hasError: Boolean) {
+        if (latestSearchText == changedText && !hasError) {
+            return
+        }
+
+        this.latestSearchText = changedText
+        handler.removeCallbacksAndMessages("")
+        searchRunnable = Runnable { searchSong(changedText) }
+        val postTime = SystemClock.uptimeMillis() + SEARCH_DEBOUNCE_DELAY
+        handler.postAtTime(
+            searchRunnable,
+            postTime
+        )
+    }
+
+    private fun searchSong(expression: String) {
+        if (expression.isNotEmpty()) {
+            updateState(SearchState.Loading)
+
+            searchInteractor.searchTracks(expression, object : SearchInteractor.SearchConsumer {
+                override fun consume(searchTracks: List<TrackSearchModel>?, hasError: Boolean?) {
+                    val tracks = arrayListOf<TrackSearchModel>()
+
+                    if (searchTracks != null) {
+                        tracks.addAll(searchTracks)
+                        App.playedTracks.addAll(searchTracks)
+                        App.historyTracks.add(0,tracks[0])
+
+                        when {
+                            tracks.isEmpty() -> {
+                                updateState(SearchState.Empty())
+                            }
+
+                            tracks.isNotEmpty() -> {
+                                updateState(SearchState.Content(tracks))
+                            }
+                        }
                     } else {
-                        _state.postValue(SearchState.Tracks(tracks))
+                        updateState(SearchState.Error())
                     }
                 }
-
-                override fun onError() {
-                    _state.postValue(SearchState.Error)
-                }
             })
-
-            historySongs.addAll(interactor.getHistory())
         }
+    }
 
-
-
-
-
-
-        fun getScreenStateLiveData(): LiveData<TrackSearchScreenState> = screenStateLiveData
-
-        fun getLoadingLiveData(){
-
-        }
-
-
-
-
-        companion object {
-            fun getViewModelFactory(trackId: String): ViewModelProvider.Factory = viewModelFactory {
-                initializer {
-                    val interactor = (this[APPLICATION_KEY] as App).provideSearchInteractor()
-
-                    SearchViewModel(
-                        trackId,
-                        interactor,
-                    )
+    fun getTracksHistory() {
+        searchInteractor.getTracksHistory(object : SearchInteractor.HistoryConsumer {
+            override fun consume(tracks: List<TrackSearchModel>?) {
+                if (tracks.isNullOrEmpty()) {
+                    updateState(SearchState.EmptyHistoryList())
+                } else {
+                    updateState(SearchState.ContentHistoryList(tracks))
                 }
             }
-        }
+        })
+    }
 
-        fun searchGetFocus(hasFocus: Boolean, text: String) {
-            if (hasFocus && text.isEmpty() && (interactor.getHistory()).isNotEmpty()) {
-                _state.postValue(SearchState.History(interactor.getHistory()))
-            }
-        }
-
-
-        fun loadTracks(query: String) {
-            if (query.isEmpty()) {
-                return
-            }
-            _state.postValue(SearchState.Loading)
-            interactor.loadTracks(
-                query = query
-            )
-        }
-
-        fun openHistoryTrack(track: Track) {
-            historySongs.remove(track)
-            historySongs.add(0, track)
-            interactor.writeHistory(historySongs)
-            _state.postValue(SearchState.History(historySongs))
-        }
-
-        fun onDestroyView() {
-            interactor.onDestroyView()
-        }
-
-        fun clearHistory() {
-            interactor.clearHistory()
-            _state.postValue(SearchState.History(interactor.getHistory()))
-        }
-
-        fun clearSearchText() {
-            _state.postValue(SearchState.History(interactor.getHistory(), true))
-        }
-
-        fun openTrack(track: Track) {
-            if (historySongs.contains(track)) {
-                historySongs.remove(track)
-                historySongs.add(0, track)
-            } else {
-                historySongs.add(0, track)
-            }
-            if (historySongs.size == 11) {
-                historySongs.removeAt(10)
-            }
-            interactor.writeHistory(historySongs)
-        }
-
-
-
+    fun addTrackToHistory(track: TrackSearchModel) {
+        searchInteractor.addTrackToHistory(track)
 
     }
+
+    fun clearHistory() {
+        searchInteractor.clearHistory()
+    }
+
+    private fun updateState(state: SearchState) {
+        _stateLiveData.postValue(state)
+    }
+
+    override fun onCleared() {
+        handler.removeCallbacks(searchRunnable)
+    }
+
+    companion object {
+
+        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val app = (this[APPLICATION_KEY] as App)
+                SearchViewModel(
+                    searchInteractor = Creator.provideSearchInteractor(app.applicationContext),
+                    app = app
+                )
+            }
+        }
+
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+            }
+}

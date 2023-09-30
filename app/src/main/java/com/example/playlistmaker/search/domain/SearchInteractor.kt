@@ -1,18 +1,18 @@
 package com.example.playlistmaker.search.domain
 
-import com.example.playlistmaker.sharing.domain.Track
 
 
 interface SearchInteractor {
+    fun searchTracks(expression: String, consumer: SearchConsumer)
+    fun getTracksHistory(consumer: HistoryConsumer)
+    fun addTrackToHistory(track: TrackSearchModel)
     fun clearHistory()
-    fun getHistory(): List<Track>
-    fun loadTracks(query: String)
-    fun writeHistory(historyTracks: List<Track>)
-    fun onDestroyView()
-    fun onTracksLoader(listener: ResultLoad)
 
+    interface SearchConsumer {
+        fun consume(tracks: List<TrackSearchModel>?, hasError: Boolean?)
+    }
 
-    interface TracksConsumer {
-        fun consume(foundTracks: List<Track>)
+    interface HistoryConsumer {
+        fun consume(tracks: List<TrackSearchModel>?)
     }
 }

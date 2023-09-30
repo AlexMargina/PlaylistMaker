@@ -3,7 +3,7 @@ package com.example.playlistmaker.player.data
 import android.media.MediaPlayer
 import com.example.playlistmaker.player.domain.MediaPlayerRepository
 
-class MediaPlayerRepositoryImpl : MediaPlayerRepository {
+class MediaPlayerRepositoryImpl(mediaPlayer: MediaPlayer) : MediaPlayerRepository {
 
     private val mediaPlayer = MediaPlayer()
 

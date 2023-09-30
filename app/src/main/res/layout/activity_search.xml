@@ -89,6 +89,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:orientation="vertical"
+            android:visibility="gone"
             >
 
             <androidx.recyclerview.widget.RecyclerView

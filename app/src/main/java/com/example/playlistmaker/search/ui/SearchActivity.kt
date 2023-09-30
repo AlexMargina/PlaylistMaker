@@ -11,268 +11,146 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySearchBinding
-import com.example.playlistmaker.search.ClickedMusicAdapter
-import com.example.playlistmaker.search.SearchMusicAdapter
-import com.example.playlistmaker.search.ui.SearchState.History
-import com.example.playlistmaker.search.ui.SearchState.Tracks
-import com.example.playlistmaker.sharing.domain.Track
-import com.example.playlistmaker.sharing.domain.makeArrayList
+import com.example.playlistmaker.search.domain.TrackSearchModel
 
 
 class SearchActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<SearchViewModel> {
-        SearchViewModel.getViewModelFactory(
-            "123"
-        )
-    }
-    private lateinit var binding: ActivitySearchBinding
-    private var searchedSong = mutableListOf<Track>() // песни найденные через iTunesApi
-    private var clickedTrack = arrayListOf<Track>() // песни сохраненные по клику
-    private val searchMusicAdapter = SearchMusicAdapter()
-    private val clickedMusicAdapter = ClickedMusicAdapter()
-    private var isClickAllowed = true
-    private var clearText = false
-    private val handler = Handler(Looper.getMainLooper())
-    private lateinit var onTrackClickDebounce: (Track) -> Unit
-    private lateinit var onHistoryTrackClickDebounce: (Track) -> Unit
-    private lateinit var trackSearchDebounce: (String) -> Unit
+        private val searchedSong = ArrayList<TrackSearchModel>()
+        private val clickedSong = ArrayList<TrackSearchModel>()
+        private val searchMusicAdapter = SearchMusicAdapter(searchedSong) { trackClickListener(it) }
+        private val clickedMusicAdapter = SearchMusicAdapter(clickedSong) { trackClickListener(it) }
+        private val handler = Handler(Looper.getMainLooper())
+        private var searchText = ""
+        private var clickAllowed = true
+        private lateinit var binding: ActivitySearchBinding
+        private lateinit var viewModel: SearchViewModel
 
+        companion object {
+            private const val SEARCH_STRING = "SEARCH_STRING"
+            private const val SEARCH_DEBOUNCE_DELAY = 1000L
+        }
 
-    companion object {
-        const val SEARCH_STRING = "SEARCH_STRING"
-        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        /*       Основная функции при создании активити поиска:                                           */
+        @SuppressLint("MissingInflatedId")
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            Log.d("Maalmi", "onCreate")
 
-        const val NOT_FOUND = "Ничего не нашлось"
-        const val NO_CONNECTION =
-            "Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету"
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
+            binding = ActivitySearchBinding.inflate(layoutInflater)
+            setContentView(binding.root)
 
-    }
+             viewModel = ViewModelProvider(
+                this, SearchViewModel.getViewModelFactory()
+            )[SearchViewModel::class.java]
 
-    /*       Основная функции при создании активити поиска:                                           */
-    @SuppressLint("MissingInflatedId")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        viewModel.getLoadingLiveData()  //.observe(this) { //isLoading ->  changeProgressBarVisibility(isLoading)         }
-
-        viewModel.state.observe(this) { state ->
-            when (state) {
-                SearchState.Empty -> showEmptyResult()
-                is SearchState.Error -> showTracksError()
-                is History -> {showClickedSong(state.tracks, state.clearText)
-                                clickedTrack= state.tracks as ArrayList<Track>
-                                clearText = state.clearText}
-                SearchState.Loading -> showLoading()
-                is Tracks -> {showSearchSong (state.tracks)
-                                searchedSong = state.tracks as MutableList<Track>
-                    Log.d ("MAALMI", state.tracks[0].trackName)}
+            viewModel.stateLiveData().observe(this) {
+                updateScreen(it)
+                Log.d("Maalmi", "Изменения статуса во ViewModel ${this.toString()}")
             }
-            Log.d ("Maalmi", "Изменения статуса во ViewModel ${state.toString()}")
-        }
 
 
-        //нажатие на стрелку НАЗАД
-        binding.backOffSearch.setOnClickListener {
-            finish()
-        }
+            //нажатие на стрелку НАЗАД
+            binding.backOffSearch.setOnClickListener {
+                finish()
+            }
 
-        // при получении фокуса показать историю просмотренных песен
-        binding.inputSearchText.setOnFocusChangeListener { view, hasFocus ->
-            viewModel.searchGetFocus(hasFocus, binding.inputSearchText.text.toString())
-            showClickedSong(searchedSong, clearText)
-        }
+            // обработка нажатия на кнопку Done
+            binding.inputSearchText.setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    viewModel.searchDebounce(searchText, true)
+                    binding.groupSearched.visibility = View.VISIBLE
+                }
+                false
+            }
+
+            // обработка нажатия на кнопку Обновить
+            binding.inetProblem.setOnClickListener {
+                viewModel.searchDebounce(searchText, true)
+            }
+
+            // обработка нажатия на кнопку Очистить историю
+            binding.clearHistory.setOnClickListener {
+                viewModel.clearHistory()
+                viewModel.getTracksHistory()
+                binding.groupClicked.visibility = View.GONE
+                binding.recyclerViewClicked.adapter?.notifyDataSetChanged()
+            }
 
 
-        // при нажатии на крестик очистки поля поиска:
-        binding.iconClearSearch.setOnClickListener {
-            binding.inputSearchText.setText("")
-            binding.imageCrash.visibility = View.GONE
-            binding.inetProblem.visibility = View.GONE
-            viewModel.clearSearchText() //searchedSong.clear()
-            binding.recyclerViewSearch.adapter?.notifyDataSetChanged()
-            binding.recyclerViewClicked.adapter?.notifyDataSetChanged()
-        }
+            // при нажатии на крестик очистки поля поиска:
+            binding.apply {
+                iconClearSearch.setOnClickListener {
+                searchedSong.clear()
+                viewModel.getTracksHistory()
+                searchMusicAdapter.notifyDataSetChanged()
+                recyclerViewSearch.adapter?.notifyDataSetChanged()
+                recyclerViewClicked.adapter?.notifyDataSetChanged()
+                inputSearchText.setText("")
+                imageCrash.visibility = View.GONE
+                inetProblem.visibility = View.GONE
+                iconClearSearch.visibility=View.GONE
+                groupClicked.visibility=View.VISIBLE
+                recyclerViewClicked.visibility = View.VISIBLE
+                }
+            }
 
 
-        // Создаем функцию поиска в отдельном потоке с задержкой 2 с
-        // БЫЛО   val searchRunnable = Runnable { searchSongByText() }
-        fun searchDebounce() {
-            val searchRunnable = Runnable { loadTracks() }
-            handler.removeCallbacks(searchRunnable)
-            handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
-            binding.inputSearchText.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
-        }
+            //     Формирование списка найденных песен в recyclerViewSearch                 *//
+            binding.recyclerViewSearch.layoutManager = LinearLayoutManager(this)
+            binding.recyclerViewSearch.adapter = searchMusicAdapter //SearchMusicAdapter()
+            //     Формирование списка сохраненных (кликнутых) песен в recyclerViewClicked  *//
+            binding.recyclerViewClicked.layoutManager = LinearLayoutManager(this)
+            binding.recyclerViewClicked.adapter = clickedMusicAdapter //ClickedMusicAdapter()
 
 
             // изменения текста в поле поиска. Привязка обьекта TextWatcher
-        binding.inputSearchText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            fun textWatcher() = object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                searchDebounce()
-                binding.iconClearSearch.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
-                binding.groupClicked.visibility =
-                    if (binding.inputSearchText.hasFocus() && s?.isEmpty() == true) View.VISIBLE else View.GONE
-                binding.groupSearched.visibility =
-                    if (binding.inputSearchText.hasFocus() && s?.isEmpty() == true) View.GONE else View.VISIBLE
-                binding.recyclerViewSearch.visibility =
-                    if (binding.inputSearchText.hasFocus() && s?.isEmpty() == true) View.GONE else View.VISIBLE
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    binding.iconClearSearch.visibility = View.GONE
+                    if (s.isNullOrEmpty()) {
+                        binding.iconClearSearch.visibility = View.GONE
+                    } else {
+                        binding.iconClearSearch.visibility = View.VISIBLE
+                    }
+                    binding.groupClicked.visibility = View.GONE
+                    searchText = s.toString()
+                    viewModel.searchDebounce(searchText, false)
+                }
+
+                override fun afterTextChanged(s: Editable?) {}
             }
 
-            override fun afterTextChanged(s: Editable?) {}
-        })
+            provideTextWatcher(textWatcher())
+
+        }               // КОНЕЦ  fun onCreate(savedInstanceState: Bundle?)
 
 
-
-        // обработка нажатия на кнопку Done
-        binding.inputSearchText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                searchDebounce()
-                binding.groupSearched.visibility = View.VISIBLE
-            }
-            false
-        }
-
-        // обработка нажатия на кнопку Обновить
-        binding.inetProblem.setOnClickListener {
-            searchDebounce()
-        }
-
-        // обработка нажатия на кнопку Очистить историю
-        binding.clearHistory.setOnClickListener {
-            viewModel.clearHistory()
-            showClickedSong(clickedTrack, true)
-            binding.recyclerViewClicked.adapter?.notifyDataSetChanged()
-        }
-
-
-        // нажатие на найденные песни в Recycler через SearchMusicAdapter
-        searchMusicAdapter.itemClickListener =
-            { track ->
-                if (clickDebounce()) {
-                    viewModel.openTrack(track)
-                    val openOtherActivity = OpenOtherActivity(this)
-                    openOtherActivity.runPlayer(track.trackId)
+        fun provideTextWatcher(textWatcher: TextWatcher) {
+            binding.inputSearchText.apply {
+                addTextChangedListener(textWatcher)
+                setText(searchText)
+                setOnFocusChangeListener { _, hasFocus ->
+                    if (hasFocus && this.text.isEmpty())
+                        viewModel.getTracksHistory()
+                    else
+                        binding.groupClicked.visibility = View.GONE
                 }
             }
-
-        // нажатие на сохраненные песни в Recycler через ClickedMusicAdapter
-        clickedMusicAdapter.itemClickListener =
-            { track ->
-                if (clickDebounce()) {
-                    viewModel.openHistoryTrack(track)
-                    val openOtherActivity = OpenOtherActivity(this)
-                    openOtherActivity.runPlayer(track.trackId)
-                }
-            }
-
-            /*     Формирование списка найденных песен в recyclerViewSearch                 */
-            binding.recyclerViewSearch.layoutManager = LinearLayoutManager(this)
-            binding.recyclerViewSearch.adapter = SearchMusicAdapter()
-            /*     Формирование списка сохраненных (кликнутых) песен в recyclerViewClicked  */
-            binding.recyclerViewClicked.layoutManager = LinearLayoutManager(this)
-            binding.recyclerViewClicked.adapter = ClickedMusicAdapter()
-
-            // КОНЕЦ  fun onCreate(savedInstanceState: Bundle?)
         }
-
-
-    // показать песни из истории выбора
-    private fun showClickedSong(historySongs: List<Track>, clearText: Boolean) {
-
-            if (clearText) {
-                binding.inputSearchText.setText("")
-            }
-            if (historySongs.size > 0) {
-                clickedMusicAdapter.tracks.clear()
-                clickedMusicAdapter.tracks.addAll(historySongs)
-                clickedMusicAdapter.notifyDataSetChanged()
-
-                binding.groupSearched.visibility =
-                    if (binding.inputSearchText.hasFocus() && binding.inputSearchText.text.isEmpty()) View.GONE else View.VISIBLE
-                binding.groupClicked.visibility =
-                    if (binding.inputSearchText.hasFocus() && binding.inputSearchText.text.isEmpty()) View.VISIBLE else View.GONE
-            } else {
-                binding.groupSearched.visibility = View.VISIBLE
-                binding.groupClicked.visibility = View.GONE
-            }
-    }
-
-    private fun showSearchSong(tracks: List<Track>) {
-        binding.recyclerViewSearch.adapter = SearchMusicAdapter()
-        searchedSong = makeArrayList()
-        searchMusicAdapter.tracks.clear()
-        searchMusicAdapter.tracks.addAll(searchedSong)
-        Log.d ("MAALMI", "${searchedSong[0].artistName} перед запуском Рециклера")
-                searchMusicAdapter.notifyDataSetChanged()
-
-        binding.recyclerViewSearch.visibility = View.VISIBLE
-        binding.groupProgress.visibility = View.GONE
-        binding.progressBar.visibility = View.GONE
-        binding.groupSearched.visibility = View.VISIBLE
-        binding.imageCrash.visibility = View.GONE
-        binding.inetProblem.visibility = View.GONE
-    }
-
-
-    private fun showTracksError() {
-        binding.recyclerViewSearch.visibility = View.GONE
-        binding.recyclerViewClicked.visibility = View.GONE
-        binding.groupSearched.visibility = View.VISIBLE
-        binding.groupClicked.visibility = View.GONE
-        binding.groupProgress.visibility= View.GONE
-        binding.inetProblem.visibility = View.GONE
-        binding.imageCrash.visibility = View.VISIBLE
-        binding.updateButton.visibility = View.VISIBLE
-        binding.updateButton.setOnClickListener { loadTracks() }
-    }
-
-    private fun loadTracks() {
-        viewModel.loadTracks(binding.inputSearchText.text.toString())
-    }
-
-    private fun showEmptyResult() {
-        binding.recyclerViewSearch.visibility = View.GONE
-        binding.recyclerViewClicked.visibility = View.GONE
-        binding.groupSearched.visibility = View.VISIBLE
-        binding.groupClicked.visibility = View.GONE
-        binding.groupProgress.visibility= View.GONE
-        binding.inetProblem.visibility = View.VISIBLE
-        binding.imageCrash.visibility = View.GONE
-        binding.updateButton.visibility = View.VISIBLE
-        binding.updateButton.setOnClickListener { loadTracks() }
-    }
-
-    private fun showLoading() {
-        searchMusicAdapter.tracks.clear()
-        searchMusicAdapter.notifyDataSetChanged()
-
-        binding.groupSearched.visibility = View.GONE
-        binding.groupClicked.visibility = View.GONE
-        binding.groupProgress.visibility= View.VISIBLE
-        binding.inetProblem.visibility = View.GONE
-        binding.imageCrash.visibility = View.GONE
-        binding.updateButton.visibility = View.GONE
-     }
-
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
-        }
-        return current
-    }
 
 
         // запоминание текста поисковой строки inputSearchText в переменную
@@ -292,7 +170,83 @@ class SearchActivity : AppCompatActivity() {
                 inputSearchText.setText(searchText)
             }
         }
+
+        private fun trackClickListener(track: TrackSearchModel) {
+            if (isClickAllowed()) {
+                viewModel.addTrackToHistory(track)
+                val openOtherActivity = OpenOtherActivity(this)
+                openOtherActivity.runPlayer(track.trackId.toString())
+            }
+        }
+
+        private fun isClickAllowed(): Boolean {
+            val current = clickAllowed
+            if (clickAllowed) {
+                clickAllowed = false
+                handler.postDelayed({ clickAllowed = true }, SEARCH_DEBOUNCE_DELAY)
+            }
+            return current
+        }
+
+        private fun updateScreen(state: SearchState) {
+            binding.apply {
+                when (state) {
+                    is SearchState.Content -> {
+                        searchedSong.clear()
+                        searchedSong.addAll(state.tracks as ArrayList<TrackSearchModel>)
+                        groupClicked.visibility = View.GONE
+                        groupProgress.visibility = View.GONE
+                        groupSearched.visibility = View.VISIBLE
+                        searchMusicAdapter.notifyDataSetChanged()
+                    }
+
+                    is SearchState.Error -> {
+                        groupProgress.visibility = View.GONE
+                        groupSearched.visibility = View.GONE
+                        binding.imageCrash.visibility = View.GONE
+                        binding.inetProblem.visibility = View.VISIBLE
+                    }
+
+                    is SearchState.Empty -> {
+                        groupProgress.visibility = View.GONE
+                        inetProblem.visibility = View.GONE
+                        imageCrash.visibility = View.VISIBLE
+                        updateButton.visibility = View.VISIBLE
+                    }
+
+                    is SearchState.Loading -> {
+                        groupClicked.visibility=View.GONE
+                        groupSearched.visibility = View.GONE
+                        progressBar.visibility = View.VISIBLE
+                        groupProgress.visibility = View.VISIBLE
+
+                    }
+
+                    is SearchState.ContentHistoryList -> {
+                        groupClicked.visibility = View.VISIBLE
+                        groupProgress.visibility = View.GONE
+                        groupSearched.visibility = View.GONE
+                        recyclerViewClicked.visibility = View.VISIBLE
+                        clickedSong.clear()
+                        clickedSong.addAll(state.historyList)
+                        clickedMusicAdapter.notifyDataSetChanged()
+                    }
+
+                    is SearchState.EmptyHistoryList -> {
+                        groupClicked.visibility = View.GONE
+                    }
+                }
+            }
+        }
     }
+
+
+
+
+
+
+
+
 
 
 
