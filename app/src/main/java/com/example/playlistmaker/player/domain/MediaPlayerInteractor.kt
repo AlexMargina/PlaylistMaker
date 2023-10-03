@@ -1,20 +1,21 @@
 package com.example.playlistmaker.player.domain
 
 
-import com.example.playlistmaker.player.domain.PlayerState
-
 interface MediaPlayerInteractor {
 
-    var playerState: PlayerState
-    fun preparePlayer(
-        dataSource: String,
-        onPreparedListener: () -> Unit,
-        onCompletionListener: () -> Unit
-    )
+    fun preparePlayer(url: String, onPreparedListener: () -> Unit)
 
-    fun playbackControl(onStartPlayer: () -> Unit, onPausePlayer: () -> Unit)
-    fun startPlayer(startPlayer: () -> Unit)
-    fun pausePlayer(pausePlayer: () -> Unit)
-    fun release()
+    fun setOnCompletionListener(onCompletionListener: () -> Unit)
+
     fun currentPosition(): Int
+
+    fun startPlayer()
+
+    fun pausePlayer()
+
+    fun destroyPlayer()
+
+    fun getTrack() : TrackPlayerModel
+
+    fun isNightTheme() : Boolean
 }

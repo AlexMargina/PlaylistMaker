@@ -1,10 +1,9 @@
 package com.example.playlistmaker.creator
 
 import android.content.Context
-import android.media.MediaPlayer
-import com.example.playlistmaker.player.data.MediaPlayerInteractorImpl
 import com.example.playlistmaker.player.data.MediaPlayerRepositoryImpl
 import com.example.playlistmaker.player.domain.MediaPlayerInteractor
+import com.example.playlistmaker.player.domain.MediaPlayerInteractorImpl
 import com.example.playlistmaker.player.domain.MediaPlayerRepository
 import com.example.playlistmaker.search.data.SearchRepositoryImpl
 import com.example.playlistmaker.search.data.network.RetrofitNetworkClient
@@ -12,33 +11,38 @@ import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchInteractorImpl
 import com.example.playlistmaker.search.domain.SearchRepository
 import com.example.playlistmaker.sharing.data.SharedPrefsSearchDataStorage
+import com.example.playlistmaker.sharing.domain.App
 
 
 object Creator {
+    private lateinit var application: App
 
-    fun provideMediaPlayerInteractor(): MediaPlayerInteractor {
-        return MediaPlayerInteractorImpl(provideMediaPlayerRepository(MediaPlayer()))
+    fun init(application: App) {
+        this.application = application
     }
 
-//    fun provideSettingsInteractor(context: Context): SettingsInteractor {
-//        return SettingsInteractorImpl(SettingsRepositoryImpl(provideDataStorage(context)))
+    fun provideMediaPlayerInteractor(): MediaPlayerInteractor {
+        return MediaPlayerInteractorImpl()
+    }
+
+    fun provideMediaPlayerRepository(): MediaPlayerRepository {
+        return MediaPlayerRepositoryImpl()
+    }
+
+//    fun getRepository(): MediaPlayerRepositoryImpl {
+//        return MediaPlayerRepositoryImpl(MediaPlayer())
+//    }
+//
+//    fun mediaPlayerInteractor(): MediaPlayerInteractor {
+//        return MediaPlayerInteractorImpl(getRepository())
 //    }
 
-//    fun provideSharingInteractor(context: Context): SharingInteractor {
-//        return SharingIntercatorImpl(ExternalNavigatorImpl(context))
-//    }
 
     fun provideSearchInteractor(context: Context): SearchInteractor {
         return SearchInteractorImpl(provideSearchRepository(context))
     }
 
-//    private fun provideDataStorage(context: Context): SettingsDataStorage {
-//        return SharedPrefSettingsDataStorage(context)
-//    }
 
-    private fun provideMediaPlayerRepository(mediaPlayer: MediaPlayer): MediaPlayerRepository {
-        return MediaPlayerRepositoryImpl(mediaPlayer)
-    }
 
     private fun provideSearchRepository(context: Context): SearchRepository {
         return SearchRepositoryImpl(
@@ -48,61 +52,17 @@ object Creator {
     }
 }
 
+//    private fun provideDataStorage(context: Context): SettingsDataStorage {
+//        return SharedPrefSettingsDataStorage(context)
+//    }
 
+//    fun provideSettingsInteractor(context: Context): SettingsInteractor {
+//        return SettingsInteractorImpl(SettingsRepositoryImpl(provideDataStorage(context)))
+//    }
 
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    lateinit var application: Application
-
-
-        private fun getHistorySharedPreferences(context: Context): SharedPreferences {
-            return context.getSharedPreferences(
-                CLICKED_SEARCH_TRACK,
-                AppCompatActivity.MODE_PRIVATE
-            )
-        }
-
-        private fun getHistorySearchDataStore(context: Context): HistorySearchDataStore {
-            return HistorySearchDataStoreImpl(getHistorySharedPreferences(context))
-        }
-
-        private fun getSearchRepository(): SearchRepository {
-            return SearchRepositoryImpl(getITunesApi())
-        }
-
-        private fun getITunesApi(): ITunesSearchApi {
-
-            return Retrofit.Builder()
-                .baseUrl("https://itunes.apple.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build().create(ITunesSearchApi::class.java)
-        }
-
-    fun provideMediaPlayerInteractor(): MediaPlayerInteractor {
-        return MediaPlayerInteractorImpl(MediaPlayerRepositoryImpl(mediaPlayer))
-    }
-    }
-
-
-*/
+//    fun provideSharingInteractor(context: Context): SharingInteractor {
+//        return SharingIntercatorImpl(ExternalNavigatorImpl(context))
+//    }
 
 
 

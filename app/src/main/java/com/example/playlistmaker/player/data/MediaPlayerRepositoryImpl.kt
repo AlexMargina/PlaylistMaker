@@ -2,44 +2,51 @@ package com.example.playlistmaker.player.data
 
 import android.media.MediaPlayer
 import com.example.playlistmaker.player.domain.MediaPlayerRepository
+import com.example.playlistmaker.player.domain.TrackPlayerModel
+import com.example.playlistmaker.sharing.domain.App
+import com.example.playlistmaker.sharing.domain.App.Companion.playedTracks as playedTracks1
 
-class MediaPlayerRepositoryImpl(mediaPlayer: MediaPlayer) : MediaPlayerRepository {
+@Suppress("CAST_NEVER_SUCCEEDS")
+class MediaPlayerRepositoryImpl() : MediaPlayerRepository {
 
-    private val mediaPlayer = MediaPlayer()
 
-    override fun setDataSource(dataSource: String) {
-        mediaPlayer.setDataSource(dataSource)
-    }
+     val mediaPlayer = MediaPlayer()
 
-    override fun prepareAsync() {
+    override fun preparePlayer(url: String, onPreparedListener: () -> Unit) {
+        val sourse = App.playedTracks[0].previewUrl.toString()
+        mediaPlayer.setDataSource(sourse)
         mediaPlayer.prepareAsync()
-    }
-
-    override fun setOnPreparedListener(onPreparedListener: () -> Unit) {
         mediaPlayer.setOnPreparedListener {
             onPreparedListener()
         }
     }
 
     override fun setOnCompletionListener(onCompletionListener: () -> Unit) {
-        mediaPlayer.setOnCompletionListener {
-            onCompletionListener()
-        }
-    }
-
-    override fun start() {
-        mediaPlayer.start()
-    }
-
-    override fun pause() {
-        mediaPlayer.pause()
-    }
-
-    override fun release() {
-        mediaPlayer.release()
+        mediaPlayer.setOnCompletionListener { onCompletionListener() }
     }
 
     override fun currentPosition(): Int {
         return mediaPlayer.currentPosition
     }
+
+    override fun startPlayer() {
+        mediaPlayer.start()
+    }
+
+    override fun pausePlayer() {
+        mediaPlayer.pause()
+    }
+
+    override fun destroyPlayer() {
+        mediaPlayer.release()
+    }
+
+    override fun getTrack() : TrackPlayerModel {
+        return playedTracks1[0] as TrackPlayerModel
+    }
+
+    override fun isNightTheme() : Boolean {
+        return App.darkTheme
+    }
+
 }
