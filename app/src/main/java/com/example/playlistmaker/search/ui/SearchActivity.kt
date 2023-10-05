@@ -16,13 +16,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySearchBinding
-import com.example.playlistmaker.search.domain.TrackSearchModel
+import com.example.playlistmaker.search.domain.SearchState
+import com.example.playlistmaker.search.domain.TrackModel
 
 
 class SearchActivity : AppCompatActivity() {
 
-        private val searchedSong = ArrayList<TrackSearchModel>()
-        private val clickedSong = ArrayList<TrackSearchModel>()
+        private val searchedSong = ArrayList<TrackModel>()
+        private val clickedSong = ArrayList<TrackModel>()
         private val searchMusicAdapter = SearchMusicAdapter(searchedSong) { trackClickListener(it) }
         private val clickedMusicAdapter = SearchMusicAdapter(clickedSong) { trackClickListener(it) }
         private val handler = Handler(Looper.getMainLooper())
@@ -171,7 +172,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        private fun trackClickListener(track: TrackSearchModel) {
+        private fun trackClickListener(track: TrackModel) {
             if (isClickAllowed()) {
                 viewModel.addTrackToHistory(track)
                 val openOtherActivity = OpenOtherActivity(this)
@@ -193,7 +194,7 @@ class SearchActivity : AppCompatActivity() {
                 when (state) {
                     is SearchState.Content -> {
                         searchedSong.clear()
-                        searchedSong.addAll(state.tracks as ArrayList<TrackSearchModel>)
+                        searchedSong.addAll(state.tracks as ArrayList<TrackModel>)
                         groupClicked.visibility = View.GONE
                         groupProgress.visibility = View.GONE
                         groupSearched.visibility = View.VISIBLE

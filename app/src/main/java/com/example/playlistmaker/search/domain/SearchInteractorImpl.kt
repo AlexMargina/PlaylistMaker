@@ -21,7 +21,7 @@ class SearchInteractorImpl(private val repository: SearchRepository) : SearchInt
         consumer.consume(repository.getTrackHistoryList())
     }
 
-    override fun addTrackToHistory(track: TrackSearchModel) {
+    override fun addTrackToHistory(track: TrackModel) {
         repository.addTrackInHistory(track)
     }
 

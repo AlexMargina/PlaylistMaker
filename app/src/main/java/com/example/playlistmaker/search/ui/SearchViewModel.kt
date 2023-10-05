@@ -12,7 +12,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.search.domain.SearchInteractor
-import com.example.playlistmaker.search.domain.TrackSearchModel
+import com.example.playlistmaker.search.domain.SearchState
+import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.sharing.domain.App
 
 
@@ -48,13 +49,12 @@ class SearchViewModel(
             updateState(SearchState.Loading)
 
             searchInteractor.searchTracks(expression, object : SearchInteractor.SearchConsumer {
-                override fun consume(searchTracks: List<TrackSearchModel>?, hasError: Boolean?) {
-                    val tracks = arrayListOf<TrackSearchModel>()
+                override fun consume(searchTracks: List<TrackModel>?, hasError: Boolean?) {
+                    val tracks = arrayListOf<TrackModel>()
 
                     if (searchTracks != null) {
                         tracks.addAll(searchTracks)
                         App.playedTracks.addAll(searchTracks)
-                        App.historyTracks.add(0,tracks[0])
 
                         when {
                             tracks.isEmpty() -> {
@@ -75,7 +75,7 @@ class SearchViewModel(
 
     fun getTracksHistory() {
         searchInteractor.getTracksHistory(object : SearchInteractor.HistoryConsumer {
-            override fun consume(tracks: List<TrackSearchModel>?) {
+            override fun consume(tracks: List<TrackModel>?) {
                 if (tracks.isNullOrEmpty()) {
                     updateState(SearchState.EmptyHistoryList())
                 } else {
@@ -85,7 +85,7 @@ class SearchViewModel(
         })
     }
 
-    fun addTrackToHistory(track: TrackSearchModel) {
+    fun addTrackToHistory(track: TrackModel) {
         searchInteractor.addTrackToHistory(track)
 
     }

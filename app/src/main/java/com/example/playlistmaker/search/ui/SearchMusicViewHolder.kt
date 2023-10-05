@@ -5,13 +5,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.LayoutSearchSongBinding
-import com.example.playlistmaker.search.domain.TrackSearchModel
+import com.example.playlistmaker.search.domain.TrackModel
 
 
 class SearchMusicViewHolder(private val binding: LayoutSearchSongBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(model: TrackSearchModel) {
+    fun bind(model: TrackModel) {
 
         binding.songName.text = model.trackName
         binding.songArtist.text = model.artistName

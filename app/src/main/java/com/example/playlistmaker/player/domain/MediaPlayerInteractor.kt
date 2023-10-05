@@ -1,6 +1,6 @@
 package com.example.playlistmaker.player.domain
 
-import com.example.playlistmaker.search.domain.TrackSearchModel
+import com.example.playlistmaker.search.domain.TrackModel
 
 
 interface MediaPlayerInteractor {
@@ -17,7 +17,7 @@ interface MediaPlayerInteractor {
 
     fun destroyPlayer()
 
-    fun getTrack() : TrackSearchModel
+    fun getTrack() : TrackModel
 
     fun isNightTheme() : Boolean
 }

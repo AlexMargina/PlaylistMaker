@@ -10,7 +10,7 @@ import com.example.playlistmaker.search.data.network.RetrofitNetworkClient
 import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchInteractorImpl
 import com.example.playlistmaker.search.domain.SearchRepository
-import com.example.playlistmaker.sharing.data.SharedPrefsSearchDataStorage
+import com.example.playlistmaker.sharing.data.SharedPrefsUtils
 import com.example.playlistmaker.sharing.domain.App
 
 
@@ -40,7 +40,7 @@ object Creator {
     private fun provideSearchRepository(context: Context): SearchRepository {
         return SearchRepositoryImpl(
             RetrofitNetworkClient(context),
-            SharedPrefsSearchDataStorage(context),
+            SharedPrefsUtils(context),
         )
     }
 }

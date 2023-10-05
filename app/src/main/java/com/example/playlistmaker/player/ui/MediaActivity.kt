@@ -2,7 +2,6 @@ package com.example.playlistmaker.player.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -11,7 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityMediaBinding
 import com.example.playlistmaker.player.domain.PlayerState
-import com.example.playlistmaker.search.domain.TrackSearchModel
+import com.example.playlistmaker.search.domain.TrackModel
 import com.google.android.material.button.MaterialButton
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -31,52 +30,41 @@ class MediaActivity : AppCompatActivity() {
         binding = ActivityMediaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-    try {
-        buttonPlay = binding.btPlay
+        try {
+            buttonPlay = binding.btPlay
 
-        viewModel = ViewModelProvider(this, MediaViewModel.getViewModelFactory())[MediaViewModel::class.java]
+            viewModel = ViewModelProvider(
+                this,
+                MediaViewModel.getViewModelFactory()
+            )[MediaViewModel::class.java]
 
-        viewModel.observatorScreen().observe(this) {
-            refreshScreen(it)
-            Log.d("Maalmi", "Изменения экрана во ViewModel ${this.toString()}")
-        }
+            viewModel.observatorScreen().observe(this) {
+                refreshScreen(it)
+            }
 
-        viewModel.observatorTimer().observe(this) {
-            refreshTime(it)
-            Log.d("Maalmi", "Изменения времени во ViewModel ${this.toString()}")
-        }
+            viewModel.observatorTimer().observe(this) {
+                refreshTime(it)
+            }
+
 
 
             asign(getTrack())
 
-
-
-        buttonPlay.setOnClickListener {
-            if (viewModel.isClickAllowed()) {
-                viewModel.playbackControl()
+            buttonPlay.setOnClickListener {
+                if (viewModel.isClickAllowed()) {
+                    viewModel.playbackControl()
+                }
             }
+
+            binding.ivBack.setOnClickListener { finish() }
+
+        } catch (e: Error) {
+            Toast
+                .makeText(this, "Выберите сначала песню!", Toast.LENGTH_SHORT)
+                .show()
         }
 
-        binding.ivBack.setOnClickListener { finish() }
-    } catch (e: Error) {
-        Toast
-            .makeText(this, "Выберите сначала песню!", Toast.LENGTH_SHORT)
-            .show()
     }
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-      //  viewModel.onPause()
-    }
-
-
-    override fun onPause() {
-        super.onPause()
-     //   viewModel.onPause()
-    }
-
 
     fun refreshTime(time: String) {
         binding.tvPlaybackTime.text = time
@@ -127,13 +115,15 @@ class MediaActivity : AppCompatActivity() {
 
 
 
-     fun getTrack() : TrackSearchModel {
+     fun getTrack() : TrackModel {
          return viewModel.getTrack()
     }
 
+    private fun refreshTheme (isNightMode: Boolean) {
 
+    }
 
-    private fun asign(playedTrack: TrackSearchModel) {
+    private fun asign(playedTrack: TrackModel) {
 
             val duration = SimpleDateFormat("mm:ss", Locale.getDefault())
                 .format(playedTrack.trackTimeMillis)

@@ -12,7 +12,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.player.domain.PlayerState
-import com.example.playlistmaker.search.domain.TrackSearchModel
+import com.example.playlistmaker.search.domain.TrackModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -46,7 +46,7 @@ class MediaViewModel   (application: Application): AndroidViewModel(application)
         isClickAllowed()
     }
 
-    fun getTrack() : TrackSearchModel {
+    fun getTrack() : TrackModel {
         return mediaPlayerInteractor.getTrack()
     }
 

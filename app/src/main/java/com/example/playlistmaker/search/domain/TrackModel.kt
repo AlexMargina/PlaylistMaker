@@ -3,7 +3,7 @@ package com.example.playlistmaker.search.domain
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-data class TrackSearchModel(
+data class TrackModel(
     val trackId: Long,
     val trackName: String,
     val artistName: String,

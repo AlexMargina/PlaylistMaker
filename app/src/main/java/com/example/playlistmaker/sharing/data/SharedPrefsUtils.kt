@@ -1,30 +1,60 @@
 package com.example.playlistmaker.sharing.data
 
-import android.content.SharedPreferences
-import com.example.playlistmaker.sharing.domain.Track
-import com.google.gson.GsonBuilder
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import com.example.playlistmaker.search.data.SearchDataStorage
+import com.example.playlistmaker.search.data.dto.TrackDto
+import com.example.playlistmaker.sharing.domain.CLICKED_SEARCH_TRACK
+import com.example.playlistmaker.sharing.domain.MUSIC_MAKER_PREFERENCES
+import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 
 
-class SharedPrefsUtils(val sharedPref: SharedPreferences)  {
+@Suppress("UNCHECKED_CAST")
+class SharedPrefsUtils(context: Context) : SearchDataStorage {
 
+    private val sharedPref = context.getSharedPreferences(
+        MUSIC_MAKER_PREFERENCES,
+        MODE_PRIVATE
+    )
 
-    fun writeClickedSearchSongs(keyFiles: String, savedSongs: ArrayList<Track>) {
+    private val historyList = readClickedSearchSongs()
 
-        val json = GsonBuilder().create()
-        val jsonString = json.toJson(savedSongs)
-        sharedPref.edit()
-            .putString(keyFiles, jsonString)
+    override fun getSearchHistory() = historyList
+
+    override fun clearHistory() {
+        historyList.clear()
+        writeClickedSearchSongs()
+    }
+
+    override fun addTrackToHistory(track: TrackDto) {
+        if (historyList.contains(track)) {
+            historyList.remove(track)
+        }
+        if (historyList.size >= 10) {
+            historyList.removeLast()
+        }
+        historyList.add(0, track)
+        writeClickedSearchSongs()
+    }
+
+    private fun writeClickedSearchSongs() {
+        sharedPref
+            .edit()
+            .clear()
+            .putString(CLICKED_SEARCH_TRACK, Gson()
+            .toJson(historyList))
             .apply()
     }
 
-    fun readClickedSearchSongs(keyFiles: String) : ArrayList<Track> {
-
-        val jsonString = sharedPref.getString(keyFiles, null)
-        val json = GsonBuilder().create()
-        val savedSongs : ArrayList<Track> = json.fromJson(jsonString, object: TypeToken<ArrayList<Track>>() { }.type) ?: arrayListOf()
-
-        return savedSongs
+     fun readClickedSearchSongs(): ArrayList<TrackDto> {
+        val json = sharedPref.getString(CLICKED_SEARCH_TRACK, null) ?: return ArrayList()
+        val type: Type = object : TypeToken<ArrayList<TrackDto?>?>() {}.type
+        return Gson().fromJson<Any>(json, type) as ArrayList<TrackDto>
     }
+
+
 }
+
 

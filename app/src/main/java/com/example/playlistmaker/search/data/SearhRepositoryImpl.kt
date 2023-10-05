@@ -6,7 +6,7 @@ import com.example.playlistmaker.search.data.dto.TracksSearchRequest
 import com.example.playlistmaker.search.data.dto.TracksSearchResponse
 import com.example.playlistmaker.search.data.network.NetworkClient
 import com.example.playlistmaker.search.domain.SearchRepository
-import com.example.playlistmaker.search.domain.TrackSearchModel
+import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.sharing.domain.App
 import javax.net.ssl.HttpsURLConnection
 
@@ -16,7 +16,7 @@ class SearchRepositoryImpl(
 ) : SearchRepository {
 
 
-    override fun searchTrack(expression: String): ResponseStatus<List<TrackSearchModel>> {
+    override fun searchTrack(expression: String): ResponseStatus<List<TrackModel>> {
         val response = networkClient.doRequest(TracksSearchRequest(expression))
 
         return when (response.resultCode) {
@@ -26,7 +26,7 @@ class SearchRepositoryImpl(
 
             HttpsURLConnection.HTTP_OK -> {
                 ResponseStatus.Success((response as TracksSearchResponse).results.map {
-                    TrackSearchModel(
+                    TrackModel(
                         it.trackId,
                         it.trackName,
                         it.artistName,
@@ -47,9 +47,9 @@ class SearchRepositoryImpl(
         }
     }
 
-    override fun getTrackHistoryList(): List<TrackSearchModel> {
+    override fun getTrackHistoryList(): List<TrackModel> {
          val historyTracks = searchDataStorage.getSearchHistory().map {
-            TrackSearchModel(
+            TrackModel(
                 it.trackId,
                 it.trackName,
                 it.artistName,
@@ -62,11 +62,11 @@ class SearchRepositoryImpl(
                 it.previewUrl
             )
         }
-        App.historyTracks = historyTracks as ArrayList<TrackSearchModel>
+        App.historyTracks = historyTracks as ArrayList<TrackModel>
         return historyTracks
     }
 
-    override fun addTrackInHistory(track: TrackSearchModel) {
+    override fun addTrackInHistory(track: TrackModel) {
 
         App.historyTracks.add(0,track)
 

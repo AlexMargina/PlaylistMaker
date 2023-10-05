@@ -1,14 +1,9 @@
 package com.example.playlistmaker.sharing.domain
 
 import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmaker.R
-import com.example.playlistmaker.search.data.HistorySearchDataStoreImpl
-import com.example.playlistmaker.search.domain.HistorySearchDataStore
-import com.example.playlistmaker.search.domain.TrackSearchModel
+import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.setting.data.AppPreferences
 import com.example.playlistmaker.setting.data.SettingsInteractorImpl
 import com.example.playlistmaker.setting.data.SettingsRepositoryImpl
@@ -24,9 +19,9 @@ const val CLICKED_SEARCH_TRACK = "clicked_search_track"
 class App : Application() {
 
     companion object {
-        var activeTracks = arrayListOf<Track>()
-        var historyTracks= arrayListOf<TrackSearchModel>()
-        var playedTracks = arrayListOf<TrackSearchModel>()
+
+        var historyTracks= arrayListOf<TrackModel>()
+        var playedTracks = arrayListOf<TrackModel>()
         var darkTheme = false
         var sendText = ""
         var sendTitle = ""
@@ -60,7 +55,7 @@ class App : Application() {
     }
 
     fun switchTheme(darkThemeEnabled: Boolean) {
-        AppPreferences.darkTheme = darkThemeEnabled
+
         AppCompatDelegate.setDefaultNightMode(
             if (darkThemeEnabled) {
                 AppCompatDelegate.MODE_NIGHT_YES
@@ -81,12 +76,12 @@ class App : Application() {
 
 
 
-    private fun getHistorySharedPreferences(context: Context): SharedPreferences {
-        return context.getSharedPreferences(CLICKED_SEARCH_TRACK, AppCompatActivity.MODE_PRIVATE)
-    }
-    private fun getHistorySearchDataStore(context: Context): HistorySearchDataStore {
-        return HistorySearchDataStoreImpl(getHistorySharedPreferences(context))
-    }
+//    private fun getHistorySharedPreferences(context: Context): SharedPreferences {
+//        return context.getSharedPreferences(CLICKED_SEARCH_TRACK, AppCompatActivity.MODE_PRIVATE)
+//    }
+//    private fun getHistorySearchDataStore(context: Context): HistorySearchDataStore {
+//        return HistorySearchDataStoreImpl(getHistorySharedPreferences(context))
+//    }
 
 
 

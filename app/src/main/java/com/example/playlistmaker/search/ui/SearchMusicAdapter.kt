@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.databinding.LayoutSearchSongBinding
-import com.example.playlistmaker.search.domain.TrackSearchModel
+import com.example.playlistmaker.search.domain.TrackModel
 
 class SearchMusicAdapter(
-    private val tracks: ArrayList<TrackSearchModel>,
+    private val tracks: ArrayList<TrackModel>,
     private val clickListener: TrackClickListener
 ) : RecyclerView.Adapter<SearchMusicViewHolder>() {
 
@@ -29,6 +29,6 @@ class SearchMusicAdapter(
     }
 
     fun interface TrackClickListener {
-        fun onTrackClick(track: TrackSearchModel)
+        fun onTrackClick(track: TrackModel)
     }
 }

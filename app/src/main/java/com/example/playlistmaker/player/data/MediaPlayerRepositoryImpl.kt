@@ -1,30 +1,15 @@
 package com.example.playlistmaker.player.data
 
+import android.app.Application
 import android.media.MediaPlayer
 import com.example.playlistmaker.player.domain.MediaPlayerRepository
-import com.example.playlistmaker.search.domain.TrackSearchModel
+import com.example.playlistmaker.search.domain.TrackModel
+import com.example.playlistmaker.sharing.data.SharedPrefsUtils
 import com.example.playlistmaker.sharing.domain.App
 import com.example.playlistmaker.sharing.domain.App.Companion.historyTracks
 
 @Suppress("CAST_NEVER_SUCCEEDS")
 class MediaPlayerRepositoryImpl() : MediaPlayerRepository {
-
-//    val historyTracks = SharedPrefsSearchDataStorage(context = Context).getSearchHistory()
-//        .map {
-//        TrackSearchModel(
-//            it.trackId,
-//            it.trackName,
-//            it.artistName,
-//            it.trackTimeMillis,
-//            it.artworkUrl100,
-//            it.collectionName,
-//            it.releaseDate,
-//            it.primaryGenreName,
-//            it.country,
-//            it.previewUrl
-//        )
-//    }
-
 
      val mediaPlayer = MediaPlayer()
 
@@ -36,9 +21,6 @@ class MediaPlayerRepositoryImpl() : MediaPlayerRepository {
             onPreparedListener()
         }
     }
-
-
-
 
     override fun setOnCompletionListener(onCompletionListener: () -> Unit) {
         mediaPlayer.setOnCompletionListener { onCompletionListener() }
@@ -60,9 +42,31 @@ class MediaPlayerRepositoryImpl() : MediaPlayerRepository {
         mediaPlayer.release()
     }
 
-    override fun getTrack() : TrackSearchModel {
+    override fun getTrack() : TrackModel {
+        val track: TrackModel
+        if (App.historyTracks.size>0) {
+            track = App.historyTracks[0]
 
-        return historyTracks[0]
+        } else {
+            val app:Application = App()
+            val sharedPrefs = SharedPrefsUtils(app.baseContext) ///не знаю что сюда уже передать!
+            val historyTracks = sharedPrefs.readClickedSearchSongs().map {
+                TrackModel(
+                    it.trackId,
+                    it.trackName,
+                    it.artistName,
+                    it.trackTimeMillis,
+                    it.artworkUrl100,
+                    it.collectionName,
+                    it.releaseDate,
+                    it.primaryGenreName,
+                    it.country,
+                    it.previewUrl
+                )
+            }
+            track = historyTracks[0]
+        }
+         return track
     }
 
     override fun isNightTheme() : Boolean {

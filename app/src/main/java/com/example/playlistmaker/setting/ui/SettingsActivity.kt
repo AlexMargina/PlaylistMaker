@@ -1,12 +1,12 @@
 package com.example.playlistmaker.setting.ui
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.databinding.ActivitySetingsBinding
 
 
-class SettingsActivity() :  ComponentActivity() {
+class SettingsActivity() :  AppCompatActivity() {
 
     private lateinit var viewModel: SettingViewModel
     private lateinit var binding: ActivitySetingsBinding
