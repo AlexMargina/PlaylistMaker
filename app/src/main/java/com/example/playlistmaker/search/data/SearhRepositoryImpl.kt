@@ -15,6 +15,7 @@ class SearchRepositoryImpl(
     private val searchDataStorage: SearchDataStorage
 ) : SearchRepository {
 
+
     override fun searchTrack(expression: String): ResponseStatus<List<TrackSearchModel>> {
         val response = networkClient.doRequest(TracksSearchRequest(expression))
 
@@ -47,7 +48,7 @@ class SearchRepositoryImpl(
     }
 
     override fun getTrackHistoryList(): List<TrackSearchModel> {
-        return searchDataStorage.getSearchHistory().map {
+         val historyTracks = searchDataStorage.getSearchHistory().map {
             TrackSearchModel(
                 it.trackId,
                 it.trackName,
@@ -61,6 +62,8 @@ class SearchRepositoryImpl(
                 it.previewUrl
             )
         }
+        App.historyTracks = historyTracks as ArrayList<TrackSearchModel>
+        return historyTracks
     }
 
     override fun addTrackInHistory(track: TrackSearchModel) {

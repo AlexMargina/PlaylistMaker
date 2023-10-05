@@ -32,7 +32,7 @@ class SharedPrefsSearchDataStorage(context: Context) : SearchDataStorage {
         if (historyList.contains(track)) {
             historyList.remove(track)
         }
-        if (historyList.size >= HISTORY_LIST_MAX_INDEX) {
+        if (historyList.size >= 10) {
             historyList.removeLast()
         }
         historyList.add(0, track)
@@ -49,9 +49,6 @@ class SharedPrefsSearchDataStorage(context: Context) : SearchDataStorage {
         return Gson().fromJson<Any>(json, type) as ArrayList<TrackDto>
     }
 
-    companion object {
-        private const val HISTORY_LIST_MAX_INDEX = 10
-    }
 
 }
 

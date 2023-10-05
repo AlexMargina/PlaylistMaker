@@ -1,11 +1,11 @@
 package com.example.playlistmaker.player.domain
 
-import com.example.playlistmaker.creator.Creator
+import com.example.playlistmaker.search.domain.TrackSearchModel
 
-class MediaPlayerInteractorImpl() :
+class MediaPlayerInteractorImpl(val mediaPlayerRepository :MediaPlayerRepository) :
     MediaPlayerInteractor {
 
-    val mediaPlayerRepository = Creator.provideMediaPlayerRepository()
+
     override fun preparePlayer(url: String, onPreparedListener: () -> Unit) {
         mediaPlayerRepository.preparePlayer(url, onPreparedListener)
     }
@@ -30,7 +30,7 @@ class MediaPlayerInteractorImpl() :
         mediaPlayerRepository.destroyPlayer()
     }
 
-    override fun getTrack() : TrackPlayerModel {
+    override fun getTrack() : TrackSearchModel {
         return mediaPlayerRepository.getTrack()
     }
 

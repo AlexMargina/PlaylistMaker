@@ -2,8 +2,8 @@ package com.example.playlistmaker.player.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.provider.MediaStore.Audio.AudioColumns.TRACK
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -11,9 +11,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityMediaBinding
 import com.example.playlistmaker.player.domain.PlayerState
-import com.example.playlistmaker.player.domain.TrackPlayerModel
+import com.example.playlistmaker.search.domain.TrackSearchModel
 import com.google.android.material.button.MaterialButton
-import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -31,12 +30,11 @@ class MediaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMediaBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+    try {
         buttonPlay = binding.btPlay
 
-        viewModel = ViewModelProvider(
-            this,
-            MediaViewModel.getViewModelFactory()
-        )[MediaViewModel::class.java]
+        viewModel = ViewModelProvider(this, MediaViewModel.getViewModelFactory())[MediaViewModel::class.java]
 
         viewModel.observatorScreen().observe(this) {
             refreshScreen(it)
@@ -48,7 +46,10 @@ class MediaActivity : AppCompatActivity() {
             Log.d("Maalmi", "Изменения времени во ViewModel ${this.toString()}")
         }
 
-        asign(getTrack())
+
+            asign(getTrack())
+
+
 
         buttonPlay.setOnClickListener {
             if (viewModel.isClickAllowed()) {
@@ -57,17 +58,23 @@ class MediaActivity : AppCompatActivity() {
         }
 
         binding.ivBack.setOnClickListener { finish() }
+    } catch (e: Error) {
+        Toast
+            .makeText(this, "Выберите сначала песню!", Toast.LENGTH_SHORT)
+            .show()
+    }
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.onPause()
+      //  viewModel.onPause()
     }
 
 
     override fun onPause() {
         super.onPause()
-        viewModel.onPause()
+     //   viewModel.onPause()
     }
 
 
@@ -89,9 +96,12 @@ class MediaActivity : AppCompatActivity() {
 
                      is PlayerState.PREPARED -> {
                          buttonPlay.setIconResource(R.drawable.button_play_night)
+                         buttonPlay.isEnabled = true
                      }
 
-                     else -> {}
+                     else -> {buttonPlay.setIconResource(R.drawable.button_play_night)
+
+                     }
                  }
              } else {
                  when (state) {
@@ -105,25 +115,25 @@ class MediaActivity : AppCompatActivity() {
 
                      is PlayerState.PREPARED -> {
                          buttonPlay.setIconResource(R.drawable.button_play_day)
+                         buttonPlay.isEnabled = true
                      }
 
-                     else -> {}
+                     else -> {buttonPlay.setIconResource(R.drawable.button_play_day)
+
+                     }
                  }
              }
         }
 
 
 
-     fun getTrack() : TrackPlayerModel {
-        val playedTrack = Gson().fromJson(intent.getStringExtra(TRACK), TrackPlayerModel::class.java)
-        val historyTrack = viewModel.getTrack()
-        if (playedTrack == null) {return playedTrack  }
-        else { return historyTrack}
+     fun getTrack() : TrackSearchModel {
+         return viewModel.getTrack()
     }
 
 
 
-    private fun asign(playedTrack:TrackPlayerModel ) {
+    private fun asign(playedTrack: TrackSearchModel) {
 
             val duration = SimpleDateFormat("mm:ss", Locale.getDefault())
                 .format(playedTrack.trackTimeMillis)

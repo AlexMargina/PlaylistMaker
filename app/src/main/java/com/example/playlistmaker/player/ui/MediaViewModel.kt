@@ -1,22 +1,33 @@
 package com.example.playlistmaker.player.ui
 
+import android.app.Application
 import android.os.Handler
 import android.os.Looper
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlistmaker.creator.Creator
-import com.example.playlistmaker.player.domain.MediaPlayerInteractor
 import com.example.playlistmaker.player.domain.PlayerState
-import com.example.playlistmaker.player.domain.TrackPlayerModel
+import com.example.playlistmaker.search.domain.TrackSearchModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class MediaViewModel    (
-    private val mediaPlayerInteractor: MediaPlayerInteractor
-) : ViewModel() {
+class MediaViewModel   (application: Application): AndroidViewModel(application)
+ {
 
+    companion object {
+        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                MediaViewModel(this[APPLICATION_KEY] as Application)
+            }
+        }
+    }
+
+    private val mediaPlayerInteractor = Creator.provideMediaPlayerInteractor()
     private val handler = Handler(Looper.getMainLooper())
 
     private var clickAllowed = true
@@ -35,7 +46,7 @@ class MediaViewModel    (
         isClickAllowed()
     }
 
-    fun getTrack() : TrackPlayerModel {
+    fun getTrack() : TrackSearchModel {
         return mediaPlayerInteractor.getTrack()
     }
 
@@ -82,7 +93,7 @@ class MediaViewModel    (
                 handler.post(updateTime())
             }
 
-            else -> {}
+            else -> {prepareAudioPlayer()}
         }
     }
 
@@ -96,8 +107,9 @@ class MediaViewModel    (
     }
 
     fun onPause() {
-        pauseAudioPlayer()
         handler.removeCallbacksAndMessages(updateTime())
+        mediaPlayerInteractor.pausePlayer()
+        updateState(PlayerState.PAUSED)
     }
 
     private fun updateTime(): Runnable {
@@ -122,15 +134,4 @@ class MediaViewModel    (
     }
 
 
-
-    companion object{
-        fun getViewModelFactory(): ViewModelProvider.Factory = object: ViewModelProvider.Factory{
-            @Suppress("UNCHECKED_CAST")
-            override fun <T: ViewModel> create (modelClass: Class<T>):T{
-                return MediaViewModel(
-                    Creator.provideMediaPlayerInteractor()
-                ) as T
-            }
-        }
-    }
 }

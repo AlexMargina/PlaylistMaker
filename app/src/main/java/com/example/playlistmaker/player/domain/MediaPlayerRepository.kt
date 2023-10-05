@@ -1,5 +1,7 @@
 package com.example.playlistmaker.player.domain
 
+import com.example.playlistmaker.search.domain.TrackSearchModel
+
 interface MediaPlayerRepository {
 
     fun preparePlayer(url: String, onPreparedListener: () -> Unit)
@@ -14,7 +16,7 @@ interface MediaPlayerRepository {
 
     fun destroyPlayer()
 
-    fun getTrack() : TrackPlayerModel
+    fun getTrack() : TrackSearchModel
 
     fun isNightTheme() : Boolean
 }

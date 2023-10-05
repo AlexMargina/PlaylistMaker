@@ -22,20 +22,13 @@ object Creator {
     }
 
     fun provideMediaPlayerInteractor(): MediaPlayerInteractor {
-        return MediaPlayerInteractorImpl()
+        return MediaPlayerInteractorImpl(MediaPlayerRepositoryImpl())
     }
 
     fun provideMediaPlayerRepository(): MediaPlayerRepository {
         return MediaPlayerRepositoryImpl()
     }
 
-//    fun getRepository(): MediaPlayerRepositoryImpl {
-//        return MediaPlayerRepositoryImpl(MediaPlayer())
-//    }
-//
-//    fun mediaPlayerInteractor(): MediaPlayerInteractor {
-//        return MediaPlayerInteractorImpl(getRepository())
-//    }
 
 
     fun provideSearchInteractor(context: Context): SearchInteractor {
