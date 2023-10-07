@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.databinding.ActivitySetingsBinding
 
-
 class SettingsActivity() :  AppCompatActivity() {
 
     private lateinit var viewModel: SettingViewModel
@@ -23,13 +22,11 @@ class SettingsActivity() :  AppCompatActivity() {
        // изменение темы приложения
         binding.themeSwitcher.isChecked = viewModel.getThemeState()
 
-        viewModel.theme.observe(this) { checked ->
-            binding.themeSwitcher.isChecked = checked
-        }
+        viewModel.theme.observe(this) {
+                checked -> binding.themeSwitcher.isChecked = checked   }
 
         binding.themeSwitcher.setOnCheckedChangeListener { _, checked ->
-            viewModel.switchTheme(checked)}
-
+            viewModel.switchTheme(checked) }
 
         // НАЗАД
         binding.backOff.setOnClickListener {
@@ -51,4 +48,8 @@ class SettingsActivity() :  AppCompatActivity() {
             viewModel.openUserAgreement()
         }
     }
+     fun changeTheme (checked : Boolean){
+        viewModel.switchTheme(checked)
+    }
 }
+

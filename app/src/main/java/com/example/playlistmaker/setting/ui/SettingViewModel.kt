@@ -25,13 +25,12 @@ class SettingViewModel (private val trackId: String, private val sharingInteract
         init {
             _theme.postValue(settingsInteractor.getThemeSettings())
         }
-
-        fun getThemeState() : Boolean {
-            return settingsInteractor.getThemeSettings()
-        }
-
         fun switchTheme(checked: Boolean) {
             settingsInteractor.switchTheme(checked)
+            _theme.postValue(checked)
+        }
+        fun getThemeState() : Boolean {
+            return settingsInteractor.getThemeSettings()
         }
 
         fun shareApp() {
@@ -48,11 +47,10 @@ class SettingViewModel (private val trackId: String, private val sharingInteract
 
 
         companion object {
-            // 1
-            fun getViewModelFactory(trackId: String): ViewModelProvider.Factory = viewModelFactory {
-                // 2
+               fun getViewModelFactory(trackId: String): ViewModelProvider.Factory = viewModelFactory {
+
                 initializer {
-                    // 3
+
                     val settingsInteractor = (this[APPLICATION_KEY] as App).provideSettingsInteractor()
                     val sharingInteractor = (this[APPLICATION_KEY] as App).provideSharingInteractor()
 

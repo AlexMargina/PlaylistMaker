@@ -8,8 +8,6 @@ import android.util.Log
 
 class ExternalNavigatorImpl(private val application: Application) : ExternalNavigator {
 
-
-
     override fun sendShare(sendText:String, sendTitle: String)  {
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND

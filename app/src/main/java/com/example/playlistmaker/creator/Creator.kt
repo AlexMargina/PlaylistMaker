@@ -45,24 +45,3 @@ object Creator {
     }
 }
 
-//    private fun provideDataStorage(context: Context): SettingsDataStorage {
-//        return SharedPrefSettingsDataStorage(context)
-//    }
-
-//    fun provideSettingsInteractor(context: Context): SettingsInteractor {
-//        return SettingsInteractorImpl(SettingsRepositoryImpl(provideDataStorage(context)))
-//    }
-
-//    fun provideSharingInteractor(context: Context): SharingInteractor {
-//        return SharingIntercatorImpl(ExternalNavigatorImpl(context))
-//    }
-
-
-
-
-/*
-1. В Creator создать lateinit var переменную: lateinit var application: Application
-2. В Creator создать функцию registryApplication(application: Application), которая будет обновлять переменную application
-3. В классе, который является наследником Application, должен был использоваться для обновления темы, в методе onCreate нужно зарегистрировать контекст приложения, то есть вызвать Creator.registryApplication(this)
-4. В репозитории вместо Context использовать Application
-*/

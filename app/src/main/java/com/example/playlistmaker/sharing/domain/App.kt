@@ -12,27 +12,10 @@ import com.example.playlistmaker.sharing.data.ExternalNavigatorImpl
 import com.example.playlistmaker.sharing.data.SharingInteractorImpl
 
 const val MUSIC_MAKER_PREFERENCES = "music_maker_preferences"
-const val DARK_THEME_ENABLED = "dark_theme_enabled"
 const val CLICKED_SEARCH_TRACK = "clicked_search_track"
 
 
 class App : Application() {
-
-    companion object {
-
-        var historyTracks= arrayListOf<TrackModel>()
-        var playedTracks = arrayListOf<TrackModel>()
-        var darkTheme = false
-        var sendText = ""
-        var sendTitle = ""
-        var extraText = ""
-        var extraMail = ""
-        var extraSubject = ""
-        var oferUrl = ""
-    }
-
-
- //   lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate() {
         super.onCreate()
@@ -45,7 +28,6 @@ class App : Application() {
         }
 
 
-        //Creator.registryApplication(this)
         sendText =  this.getText(R.string.extra_send).toString()
         sendTitle =  this.getText(R.string.send_title).toString()
         extraText = this.getText(R.string.extra_text).toString()
@@ -65,6 +47,7 @@ class App : Application() {
         )
     }
 
+
     fun getSettingsRepository(): SettingsRepositoryImpl {
         return SettingsRepositoryImpl()
     }
@@ -79,6 +62,20 @@ class App : Application() {
 
     fun provideSharingInteractor(): SharingInteractor {
         return SharingInteractorImpl(getExternalNavigator())
+    }
+
+
+    companion object {
+
+        var historyTracks= arrayListOf<TrackModel>()
+        var playedTracks = arrayListOf<TrackModel>()
+        var darkTheme = false
+        var sendText = ""
+        var sendTitle = ""
+        var extraText = ""
+        var extraMail = ""
+        var extraSubject = ""
+        var oferUrl = ""
     }
 }
 
