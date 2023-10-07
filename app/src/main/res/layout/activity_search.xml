@@ -121,7 +121,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/updateButton"
                 android:layout_width="100dp"
-                android:layout_height="35dp"
+                android:layout_height="36dp"
                 android:layout_gravity="center"
                 android:text="Обновить"
                 android:visibility="gone"

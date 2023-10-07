@@ -8,10 +8,10 @@ import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
@@ -65,7 +65,7 @@ class SearchActivity : AppCompatActivity() {
             binding.inputSearchText.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     viewModel.searchDebounce(searchText, true)
-                    binding.groupSearched.visibility = View.VISIBLE
+                    binding.groupSearched.isVisible = true
                 }
                 false
             }
@@ -79,7 +79,7 @@ class SearchActivity : AppCompatActivity() {
             binding.clearHistory.setOnClickListener {
                 viewModel.clearHistory()
                 viewModel.getTracksHistory()
-                binding.groupClicked.visibility = View.GONE
+                binding.groupClicked.isVisible = false
                 binding.recyclerViewClicked.adapter?.notifyDataSetChanged()
             }
 
@@ -93,11 +93,11 @@ class SearchActivity : AppCompatActivity() {
                 recyclerViewSearch.adapter?.notifyDataSetChanged()
                 recyclerViewClicked.adapter?.notifyDataSetChanged()
                 inputSearchText.setText("")
-                imageCrash.visibility = View.GONE
-                inetProblem.visibility = View.GONE
-                iconClearSearch.visibility=View.GONE
-                groupClicked.visibility=View.VISIBLE
-                recyclerViewClicked.visibility = View.VISIBLE
+                imageCrash.isVisible = false
+                inetProblem.isVisible = false
+                iconClearSearch.isVisible = false
+                groupClicked.isVisible = true
+                recyclerViewClicked.isVisible = true
                 }
             }
 
@@ -121,13 +121,13 @@ class SearchActivity : AppCompatActivity() {
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    binding.iconClearSearch.visibility = View.GONE
+                    binding.iconClearSearch.isVisible = false
                     if (s.isNullOrEmpty()) {
-                        binding.iconClearSearch.visibility = View.GONE
+                        binding.iconClearSearch.isVisible = false
                     } else {
-                        binding.iconClearSearch.visibility = View.VISIBLE
+                        binding.iconClearSearch.isVisible = true
                     }
-                    binding.groupClicked.visibility = View.GONE
+                    binding.groupClicked.isVisible = false
                     searchText = s.toString()
                     viewModel.searchDebounce(searchText, false)
                 }
@@ -148,7 +148,7 @@ class SearchActivity : AppCompatActivity() {
                     if (hasFocus && this.text.isEmpty())
                         viewModel.getTracksHistory()
                     else
-                        binding.groupClicked.visibility = View.GONE
+                        binding.groupClicked.isVisible = false
                 }
             }
         }
@@ -165,10 +165,9 @@ class SearchActivity : AppCompatActivity() {
         //заполнение тектового поля из предыдущего запуска Активити
         @SuppressLint("SuspiciousIndentation")
         override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-            val inputSearchText = findViewById<EditText>(R.id.inputSearchText)
             if (savedInstanceState.containsKey(SEARCH_STRING)) {
                 val searchText = savedInstanceState.getString(SEARCH_STRING)
-                inputSearchText.setText(searchText)
+                binding.inputSearchText.setText(searchText)
             }
         }
 
@@ -191,50 +190,64 @@ class SearchActivity : AppCompatActivity() {
 
         private fun updateScreen(state: SearchState) {
             binding.apply {
+
+                Log.d ("MAALMI", state.toString())
                 when (state) {
                     is SearchState.Content -> {
+                        Log.d ("MAALMI", "Выполняем Content")
                         searchedSong.clear()
                         searchedSong.addAll(state.tracks as ArrayList<TrackModel>)
-                        groupClicked.visibility = View.GONE
-                        groupProgress.visibility = View.GONE
-                        groupSearched.visibility = View.VISIBLE
+                        groupClicked.isVisible = false
+                        groupProgress.isVisible = false
+                        groupSearched.isVisible = true
+                        recyclerViewSearch.isVisible = true
+                        imageCrash.isVisible = false
+                        inetProblem.isVisible = false
                         searchMusicAdapter.notifyDataSetChanged()
                     }
 
                     is SearchState.Error -> {
-                        groupProgress.visibility = View.GONE
-                        groupSearched.visibility = View.GONE
-                        binding.imageCrash.visibility = View.GONE
-                        binding.inetProblem.visibility = View.VISIBLE
+                        Log.d ("MAALMI", "Выполняем Error")
+                        groupProgress.isVisible = false
+                        groupSearched.isVisible = true
+                        recyclerViewSearch.isVisible = false
+                        imageCrash.isVisible = false
+                        inetProblem.isVisible = true
                     }
 
                     is SearchState.Empty -> {
-                        groupProgress.visibility = View.GONE
-                        inetProblem.visibility = View.GONE
-                        imageCrash.visibility = View.VISIBLE
-                        updateButton.visibility = View.VISIBLE
+                        Log.d ("MAALMI", "Выполняем Empty")
+                        groupProgress.isVisible = false
+                        groupSearched.isVisible = true
+                        recyclerViewSearch.isVisible = false
+                        inetProblem.isVisible = false
+                        imageCrash.isVisible = true
+                        updateButton.isVisible = false
                     }
 
                     is SearchState.Loading -> {
-                        groupClicked.visibility=View.GONE
-                        groupSearched.visibility = View.GONE
-                        progressBar.visibility = View.VISIBLE
-                        groupProgress.visibility = View.VISIBLE
+                        Log.d ("MAALMI", "Выполняем Loading")
+                        groupClicked.isVisible = false
+                        groupSearched.isVisible = false
+                        progressBar.isVisible = true
+                        groupProgress.isVisible = true
 
                     }
 
                     is SearchState.ContentHistoryList -> {
-                        groupClicked.visibility = View.VISIBLE
-                        groupProgress.visibility = View.GONE
-                        groupSearched.visibility = View.GONE
-                        recyclerViewClicked.visibility = View.VISIBLE
+                        Log.d ("MAALMI", "Выполняем ContentHistoryList")
+                        groupClicked.isVisible = true
+                        groupProgress.isVisible = false
+                        groupSearched.isVisible = false
+                        recyclerViewClicked.isVisible = true
                         clickedSong.clear()
                         clickedSong.addAll(state.historyList)
                         clickedMusicAdapter.notifyDataSetChanged()
                     }
 
                     is SearchState.EmptyHistoryList -> {
-                        groupClicked.visibility = View.GONE
+                        Log.d ("MAALMI", "Выполняем EmptyHistoryList")
+                        groupClicked.isVisible = false
                     }
                 }
             }

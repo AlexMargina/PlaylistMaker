@@ -65,7 +65,6 @@ class App : Application() {
         )
     }
 
-
     fun getSettingsRepository(): SettingsRepositoryImpl {
         return SettingsRepositoryImpl()
     }
@@ -73,17 +72,6 @@ class App : Application() {
     fun getExternalNavigator(): ExternalNavigatorImpl {
         return ExternalNavigatorImpl(this)
     }
-
-
-
-//    private fun getHistorySharedPreferences(context: Context): SharedPreferences {
-//        return context.getSharedPreferences(CLICKED_SEARCH_TRACK, AppCompatActivity.MODE_PRIVATE)
-//    }
-//    private fun getHistorySearchDataStore(context: Context): HistorySearchDataStore {
-//        return HistorySearchDataStoreImpl(getHistorySharedPreferences(context))
-//    }
-
-
 
     fun provideSettingsInteractor(): SettingsInteractor {
         return SettingsInteractorImpl(getSettingsRepository())

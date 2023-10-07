@@ -16,7 +16,7 @@ class SearchMusicAdapter(
             LayoutSearchSongBinding
                 .inflate(
                     LayoutInflater
-                        .from(parent.context), parent, false
+                    .from(parent.context), parent, false
                 )
         )
     }
@@ -26,9 +26,5 @@ class SearchMusicAdapter(
     override fun onBindViewHolder(holder: SearchMusicViewHolder, position: Int) {
         holder.bind(tracks[position])
         holder.itemView.setOnClickListener { clickListener.onTrackClick(tracks.get(position)) }
-    }
-
-    fun interface TrackClickListener {
-        fun onTrackClick(track: TrackModel)
     }
 }

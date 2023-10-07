@@ -1,11 +1,13 @@
 package com.example.playlistmaker.search.data.network
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.util.Log
 import com.example.playlistmaker.search.data.dto.Response
 import com.example.playlistmaker.search.data.dto.TracksSearchRequest
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.net.ssl.HttpsURLConnection
 
 class RetrofitNetworkClient(
     private val context: Context
@@ -21,16 +23,42 @@ class RetrofitNetworkClient(
     private val iTunesService = retrofit.create(ITunesSearchApi::class.java)
 
     override fun doRequest(dto: Any): Response {
-
-        if (dto !is TracksSearchRequest) {
-            return Response().apply { resultCode = HttpsURLConnection.HTTP_BAD_REQUEST }
+        try {
+            if (!isOnline(context)) {
+                return Response().apply { resultCode = -1 }
+            }
+            if (dto is TracksSearchRequest) {
+                val response = iTunesService.search(dto.expression).execute()
+                val body = response.body() ?: Response()
+                return body.apply { resultCode = response.code() }
+            } else {
+                return Response().apply { resultCode = 400 }
+            }
         }
-
-        val response = iTunesService.search(dto.expression).execute()
-        val body = response.body()
-
-        return body?.apply { resultCode = response.code() } ?: Response().apply {
-            resultCode = response.code()
+         catch (error: Error) {
+            throw Exception(error)
         }
     }
+}
+
+fun isOnline(context: Context): Boolean {
+    val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    if (connectivityManager != null) {
+        val capabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        if (capabilities != null) {
+            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                Log.i("MAALMI", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                Log.i("MAALMI", "NetworkCapabilities.TRANSPORT_WIFI")
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                Log.i("MAALMI", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                return true
+            }
+        }
+    }
+    return false
 }

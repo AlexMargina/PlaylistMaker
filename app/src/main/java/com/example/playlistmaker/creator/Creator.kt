@@ -15,7 +15,7 @@ import com.example.playlistmaker.sharing.domain.App
 
 
 object Creator {
-    private lateinit var application: App
+    private var application: App? = null
 
     fun init(application: App) {
         this.application = application
