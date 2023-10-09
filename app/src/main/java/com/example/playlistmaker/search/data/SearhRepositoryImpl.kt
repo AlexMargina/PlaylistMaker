@@ -1,5 +1,6 @@
 package com.example.playlistmaker.search.data
 
+import android.util.Log
 import com.example.playlistmaker.search.data.dto.ResponseStatus
 import com.example.playlistmaker.search.data.dto.TrackDto
 import com.example.playlistmaker.search.data.dto.TracksSearchRequest
@@ -8,6 +9,7 @@ import com.example.playlistmaker.search.data.network.NetworkClient
 import com.example.playlistmaker.search.domain.SearchRepository
 import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.sharing.domain.App
+import java.lang.Error
 import javax.net.ssl.HttpsURLConnection
 
 class SearchRepositoryImpl(
@@ -19,15 +21,20 @@ class SearchRepositoryImpl(
     override fun searchTrack(expression: String): ResponseStatus<List<TrackModel>> {
         val response = networkClient.doRequest(TracksSearchRequest(expression))
 
+        Log.d ("MAALMI_SearchRepository", "Пришло в searchTrack_SearchRepository (${expression})")
+        try {
+
+
         return when (response.resultCode) {
             -1 -> {
                 ResponseStatus.Error()
             }
 
             HttpsURLConnection.HTTP_OK -> {
+                Log.d ("MAALMI_SearchRepository", "resultCode in searchTrack_SearchRepository (${response.resultCode})")
                 ResponseStatus.Success((response as TracksSearchResponse).results.map {
                     TrackModel(
-                        it.trackId,
+                        it.trackId.toString(),
                         it.trackName,
                         it.artistName,
                         it.trackTimeMillis,
@@ -45,6 +52,11 @@ class SearchRepositoryImpl(
                 ResponseStatus.Error()
             }
         }
+        } catch (error : Error) {
+            Log.d ("MAALMI_SearchRepository", "Ошибка в searchTrack_SearchRepository (${error})")
+            return ResponseStatus.Error()
+        }
+
     }
 
     override fun getTrackHistoryList(): List<TrackModel> {

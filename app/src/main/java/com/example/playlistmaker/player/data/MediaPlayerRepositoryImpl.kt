@@ -49,7 +49,7 @@ class MediaPlayerRepositoryImpl() : MediaPlayerRepository {
 
         } else {
             val app:Application = App()
-            val sharedPrefs = SharedPrefsUtils(app.baseContext) ///не знаю что сюда уже передать!
+            val sharedPrefs = SharedPrefsUtils(App as Application) ///не знаю что сюда уже передать!
             val historyTracks = sharedPrefs.readClickedSearchSongs().map {
                 TrackModel(
                     it.trackId,
