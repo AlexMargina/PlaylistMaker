@@ -35,17 +35,13 @@ class SearchViewModel(
         if (latestSearchText == changedText && !hasError) {
             return
         }
-        Log.d ("MAALMI_SearchViewModel", "Пришло вначале в searchDebounce ($changedText)")
-        if (changedText.trim().equals("hello")) {
-            searchedText = "helo"
-        } else {
-            searchedText=changedText
+        if (changedText.trim().equals("hello")) {searchedText = "helo"
+            } else {searchedText=changedText
         }
         this.latestSearchText = changedText
         handler.removeCallbacksAndMessages("MAALMI")
         searchRunnable = Runnable { searchSong(searchedText) }
-        //val postTime = SystemClock.uptimeMillis() + SEARCH_DEBOUNCE_DELAY
-        Log.d ("MAALMI_SearchViewModel", "Отправлено из searchDebounce ($searchedText)")
+
         handler.postDelayed(
             searchRunnable, "MAALMI",
             SEARCH_DEBOUNCE_DELAY
@@ -65,7 +61,7 @@ class SearchViewModel(
                     if (searchTracks != null) {
                         tracks.addAll(searchTracks)
                         App.playedTracks.addAll(searchTracks)
-                        Log.d ("MAALMI_SearchViewModel", "Отправлено из searchSong ($expression)")
+
                         when {
                             tracks.isEmpty() -> {
                                 updateState(SearchState.Empty())
@@ -97,7 +93,6 @@ class SearchViewModel(
 
     fun addTrackToHistory(track: TrackModel) {
         searchInteractor.addTrackToHistory(track)
-
     }
 
     fun clearHistory() {
@@ -125,5 +120,5 @@ class SearchViewModel(
         }
 
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
-            }
+    }
 }

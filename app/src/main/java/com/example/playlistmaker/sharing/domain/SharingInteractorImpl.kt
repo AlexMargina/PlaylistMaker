@@ -1,6 +1,6 @@
-package com.example.playlistmaker.sharing.data
+package com.example.playlistmaker.sharing.domain
 
-import com.example.playlistmaker.sharing.domain.SharingInteractor
+import com.example.playlistmaker.sharing.data.ExternalNavigatorImpl
 
 class SharingInteractorImpl(val externalNavigator: ExternalNavigatorImpl) : SharingInteractor {
 
