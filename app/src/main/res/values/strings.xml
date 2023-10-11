@@ -42,4 +42,5 @@
     <string name="genre">Жанр</string>
     <string name="country">Страна</string>
     <string name="rf">Россия</string>
+    <string name="null_time" translatable="false">0:00</string>
 </resources>
