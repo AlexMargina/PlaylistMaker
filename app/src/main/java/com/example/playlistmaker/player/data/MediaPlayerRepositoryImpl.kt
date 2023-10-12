@@ -1,17 +1,15 @@
 package com.example.playlistmaker.player.data
 
-import android.app.Application
 import android.media.MediaPlayer
 import com.example.playlistmaker.player.domain.MediaPlayerRepository
 import com.example.playlistmaker.search.domain.TrackModel
-import com.example.playlistmaker.sharing.data.SharedPrefsUtils
 import com.example.playlistmaker.sharing.domain.App
 import com.example.playlistmaker.sharing.domain.App.Companion.historyTracks
 
 @Suppress("CAST_NEVER_SUCCEEDS")
-class MediaPlayerRepositoryImpl() : MediaPlayerRepository {
+class MediaPlayerRepositoryImpl(private val mediaPlayer : MediaPlayer) : MediaPlayerRepository {
 
-     val mediaPlayer = MediaPlayer()
+     //val mediaPlayer = MediaPlayer()
 
     override fun preparePlayer(url: String, onPreparedListener: () -> Unit) {
         val sourse = historyTracks[0].previewUrl
@@ -47,25 +45,27 @@ class MediaPlayerRepositoryImpl() : MediaPlayerRepository {
         if (App.historyTracks.size>0) {
             track = App.historyTracks[0]
 
-        } else {
-            val app:Application = App()
-            val sharedPrefs = SharedPrefsUtils(App as Application) ///не знаю что сюда уже передать!
-            val historyTracks = sharedPrefs.readClickedSearchSongs().map {
-                TrackModel(
-                    it.trackId,
-                    it.trackName,
-                    it.artistName,
-                    it.trackTimeMillis,
-                    it.artworkUrl100,
-                    it.collectionName,
-                    it.releaseDate,
-                    it.primaryGenreName,
-                    it.country,
-                    it.previewUrl
-                )
-            }
-            track = historyTracks[0]
         }
+        else {
+            track = arrayListOf<TrackModel>()[0]
+//            val app:Application = App()
+//            val sharedPrefs = SharedPrefsUtils() ///не знаю что сюда уже передать!
+//            val historyTracks = sharedPrefs.readClickedSearchSongs().map {
+//                TrackModel(
+//                    it.trackId,
+//                    it.trackName,
+//                    it.artistName,
+//                    it.trackTimeMillis,
+//                    it.artworkUrl100,
+//                    it.collectionName,
+//                    it.releaseDate,
+//                    it.primaryGenreName,
+//                    it.country,
+//                    it.previewUrl
+//                )
+            }
+//            track = historyTracks[0]
+//        }
          return track
     }
 

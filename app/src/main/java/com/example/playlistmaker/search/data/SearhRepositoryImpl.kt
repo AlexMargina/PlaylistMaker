@@ -9,7 +9,6 @@ import com.example.playlistmaker.search.data.network.NetworkClient
 import com.example.playlistmaker.search.domain.SearchRepository
 import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.sharing.domain.App
-import java.lang.Error
 import javax.net.ssl.HttpsURLConnection
 
 class SearchRepositoryImpl(
@@ -34,7 +33,7 @@ class SearchRepositoryImpl(
                 Log.d ("MAALMI_SearchRepository", "resultCode in searchTrack_SearchRepository (${response.resultCode})")
                 ResponseStatus.Success((response as TracksSearchResponse).results.map {
                     TrackModel(
-                        it.trackId.toString(),
+                        it.trackId,
                         it.trackName,
                         it.artistName,
                         it.trackTimeMillis,

@@ -3,10 +3,6 @@ package com.example.playlistmaker.setting.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlistmaker.setting.domain.SettingsInteractor
 import com.example.playlistmaker.sharing.domain.App
 import com.example.playlistmaker.sharing.domain.App.Companion.extraMail
@@ -16,7 +12,7 @@ import com.example.playlistmaker.sharing.domain.App.Companion.oferUrl
 import com.example.playlistmaker.sharing.domain.App.Companion.sendTitle
 import com.example.playlistmaker.sharing.domain.SharingInteractor
 
-class SettingViewModel (private val trackId: String, private val sharingInteractor: SharingInteractor,
+class SettingViewModel (private val sharingInteractor: SharingInteractor,
                         private val settingsInteractor: SettingsInteractor) : ViewModel()
     {
         private val _theme = MutableLiveData<Boolean>()
@@ -43,24 +39,6 @@ class SettingViewModel (private val trackId: String, private val sharingInteract
 
         fun openUserAgreement() {
             sharingInteractor.openTerms(oferUrl)
-        }
-
-
-        companion object {
-               fun getViewModelFactory(trackId: String): ViewModelProvider.Factory = viewModelFactory {
-
-                initializer {
-
-                    val settingsInteractor = (this[APPLICATION_KEY] as App).provideSettingsInteractor()
-                    val sharingInteractor = (this[APPLICATION_KEY] as App).provideSharingInteractor()
-
-                        SettingViewModel(
-                        trackId,
-                        sharingInteractor,
-                        settingsInteractor
-                    )
-                }
-            }
         }
 
     }

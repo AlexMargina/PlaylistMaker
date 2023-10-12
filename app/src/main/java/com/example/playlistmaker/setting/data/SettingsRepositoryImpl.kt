@@ -1,9 +1,11 @@
 package com.example.playlistmaker.setting.data
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmaker.setting.domain.SettingsRepository
+import com.example.playlistmaker.sharing.data.AppPreferences
 
-class SettingsRepositoryImpl() : SettingsRepository {
+class SettingsRepositoryImpl(private val applicationContext: Context) : SettingsRepository {
 
     override fun switchTheme(darkThemeEnabled: Boolean, ) {
         //запись в файл настроек

@@ -1,23 +1,21 @@
 package com.example.playlistmaker.sharing.data
 
-import android.content.Context
-import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import com.example.playlistmaker.search.data.SearchDataStorage
 import com.example.playlistmaker.search.data.dto.TrackDto
 import com.example.playlistmaker.sharing.domain.CLICKED_SEARCH_TRACK
-import com.example.playlistmaker.sharing.domain.MUSIC_MAKER_PREFERENCES
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
 
 @Suppress("UNCHECKED_CAST")
-class SharedPrefsUtils(context: Context) : SearchDataStorage {
+class SharedPrefsUtils(private val sharedPref: SharedPreferences) : SearchDataStorage {
 
-    private val sharedPref = context.getSharedPreferences(
-        MUSIC_MAKER_PREFERENCES,
-        MODE_PRIVATE
-    )
+//    private val sharedPref = context.getSharedPreferences(
+//        MUSIC_MAKER_PREFERENCES,
+//        MODE_PRIVATE
+//    )
 
     private val historyList = readClickedSearchSongs()
 
@@ -53,8 +51,6 @@ class SharedPrefsUtils(context: Context) : SearchDataStorage {
         val type: Type = object : TypeToken<ArrayList<TrackDto?>?>() {}.type
         return Gson().fromJson<Any>(json, type) as ArrayList<TrackDto>
     }
-
-
 }
 
 

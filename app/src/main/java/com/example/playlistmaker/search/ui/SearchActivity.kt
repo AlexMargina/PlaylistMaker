@@ -12,12 +12,12 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.search.domain.SearchState
 import com.example.playlistmaker.search.domain.TrackModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SearchActivity : AppCompatActivity() {
@@ -30,7 +30,8 @@ class SearchActivity : AppCompatActivity() {
         private var searchText = ""
         private var clickAllowed = true
         private lateinit var binding: ActivitySearchBinding
-        private lateinit var viewModel: SearchViewModel
+        //private lateinit var viewModel: SearchViewModel
+        private val viewModel by viewModel<SearchViewModel>()
 
         companion object {
             private const val SEARCH_STRING = "SEARCH_STRING"
@@ -46,9 +47,9 @@ class SearchActivity : AppCompatActivity() {
             binding = ActivitySearchBinding.inflate(layoutInflater)
             setContentView(binding.root)
 
-             viewModel = ViewModelProvider(
-                this, SearchViewModel.getViewModelFactory()
-            )[SearchViewModel::class.java]
+//             viewModel = ViewModelProvider(
+//                this, SearchViewModel.getViewModelFactory()
+//            )[SearchViewModel::class.java]
 
             viewModel.stateLiveData().observe(this) {
                 updateScreen(it)
@@ -137,7 +138,7 @@ class SearchActivity : AppCompatActivity() {
 
             provideTextWatcher(textWatcher())
 
-        }               // КОНЕЦ  fun onCreate(savedInstanceState: Bundle?)
+        }        // КОНЕЦ  fun onCreate(savedInstanceState: Bundle?)
 
 
         fun provideTextWatcher(textWatcher: TextWatcher) {
