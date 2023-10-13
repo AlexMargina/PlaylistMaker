@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.example.playlistmaker.sharing.domain.MUSIC_MAKER_PREFERENCES
+import com.example.playlistmaker.MUSIC_MAKER_PREFERENCES
 
 object AppPreferences  {
     private var sharedPreferences: SharedPreferences? = null

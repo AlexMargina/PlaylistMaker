@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.playlistmaker.setting.domain.SettingsInteractor
-import com.example.playlistmaker.sharing.domain.App
-import com.example.playlistmaker.sharing.domain.App.Companion.extraMail
-import com.example.playlistmaker.sharing.domain.App.Companion.extraSubject
-import com.example.playlistmaker.sharing.domain.App.Companion.extraText
-import com.example.playlistmaker.sharing.domain.App.Companion.oferUrl
-import com.example.playlistmaker.sharing.domain.App.Companion.sendTitle
+import com.example.playlistmaker.App
+import com.example.playlistmaker.App.Companion.extraMail
+import com.example.playlistmaker.App.Companion.extraSubject
+import com.example.playlistmaker.App.Companion.extraText
+import com.example.playlistmaker.App.Companion.oferUrl
+import com.example.playlistmaker.App.Companion.sendTitle
 import com.example.playlistmaker.sharing.domain.SharingInteractor
 
 class SettingViewModel (private val sharingInteractor: SharingInteractor,

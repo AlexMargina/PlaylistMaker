@@ -3,7 +3,7 @@ package com.example.playlistmaker.sharing.data
 import android.content.SharedPreferences
 import com.example.playlistmaker.search.data.SearchDataStorage
 import com.example.playlistmaker.search.data.dto.TrackDto
-import com.example.playlistmaker.sharing.domain.CLICKED_SEARCH_TRACK
+import com.example.playlistmaker.CLICKED_SEARCH_TRACK
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
@@ -41,7 +41,8 @@ class SharedPrefsUtils(private val sharedPref: SharedPreferences) : SearchDataSt
         sharedPref
             .edit()
             .clear()
-            .putString(CLICKED_SEARCH_TRACK, Gson()
+            .putString(
+                CLICKED_SEARCH_TRACK, Gson()
             .toJson(historyList))
             .apply()
     }

@@ -6,7 +6,7 @@ import android.net.Uri
 import android.util.Log
 
 
-class ExternalNavigatorImpl(private val application : Context) : ExternalNavigator {
+class ExternalNavigatorImpl(private val context : Context) : ExternalNavigator {
 
     override fun sendShare(sendText:String, sendTitle: String)  {
         val sendIntent: Intent = Intent().apply {
@@ -37,7 +37,7 @@ class ExternalNavigatorImpl(private val application : Context) : ExternalNavigat
     fun executeIntent (intent: Intent) {
         try {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            application.startActivity(intent)
+            context.startActivity(intent)
         }
         catch (ex: Exception) {
             Log.d ("MAALMI", ex.toString())

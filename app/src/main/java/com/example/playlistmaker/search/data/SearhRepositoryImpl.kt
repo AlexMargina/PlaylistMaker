@@ -8,7 +8,7 @@ import com.example.playlistmaker.search.data.dto.TracksSearchResponse
 import com.example.playlistmaker.search.data.network.NetworkClient
 import com.example.playlistmaker.search.domain.SearchRepository
 import com.example.playlistmaker.search.domain.TrackModel
-import com.example.playlistmaker.sharing.domain.App
+import com.example.playlistmaker.App
 import javax.net.ssl.HttpsURLConnection
 
 class SearchRepositoryImpl(

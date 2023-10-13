@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchState
 import com.example.playlistmaker.search.domain.TrackModel
-import com.example.playlistmaker.sharing.domain.App
+import com.example.playlistmaker.App
 
 
 class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewModel() {
