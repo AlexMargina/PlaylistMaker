@@ -174,9 +174,7 @@ class SearchActivity : AppCompatActivity() {
 
         private fun trackClickListener(track: TrackModel) {
             if (isClickAllowed()) {
-                viewModel.addTrackToHistory(track)
-                val openOtherActivity = OpenOtherActivity(this)
-                openOtherActivity.runPlayer(track.trackId.toString())
+                viewModel.addTrackToHistory(track, this)
             }
         }
 

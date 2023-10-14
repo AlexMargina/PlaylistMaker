@@ -6,10 +6,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.playlistmaker.App
 import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchState
 import com.example.playlistmaker.search.domain.TrackModel
-import com.example.playlistmaker.App
 
 
 class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewModel() {
@@ -75,9 +75,10 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
         })
     }
 
-    fun addTrackToHistory(track: TrackModel) {
+    fun addTrackToHistory(track: TrackModel, activity: SearchActivity) {
         searchInteractor.addTrackToHistory(track)
-
+        val openOtherActivity = OpenOtherActivity(activity)
+        openOtherActivity.runPlayer(track.trackId.toString())
     }
 
     fun clearHistory() {
