@@ -29,9 +29,7 @@ val dataModule = module {
             .create(ITunesSearchApi::class.java)
     }
 
-
-
-    factory {
+    single {
         androidContext()
             .getSharedPreferences(MUSIC_MAKER_PREFERENCES, Context.MODE_PRIVATE)
     }

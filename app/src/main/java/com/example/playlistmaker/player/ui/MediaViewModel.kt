@@ -14,10 +14,8 @@ import java.util.Locale
 
 class MediaViewModel   (private val mediaPlayerInteractor: MediaPlayerInteractor,
                         context: Context
-): ViewModel()
- {
+): ViewModel() {
 
-    //private val mediaPlayerInteractor = Creator.provideMediaPlayerInteractor()
     private val handler = Handler(Looper.getMainLooper())
 
     private var clickAllowed = true
@@ -122,6 +120,4 @@ class MediaViewModel   (private val mediaPlayerInteractor: MediaPlayerInteractor
         }
         return current
     }
-
-
 }

@@ -21,9 +21,6 @@ class MediaActivity : AppCompatActivity() {
     private val viewModel by viewModel<MediaViewModel>()
     lateinit var buttonPlay: MaterialButton
     private lateinit var binding: ActivityMediaBinding
-    //private lateinit var viewModel: MediaViewModel
-//    private val viewModel: MediaViewModel by viewModel {
-//        parametersOf(getTrack().previewUrl)     }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
