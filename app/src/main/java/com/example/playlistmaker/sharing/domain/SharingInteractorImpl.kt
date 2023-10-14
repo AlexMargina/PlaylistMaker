@@ -1,8 +1,9 @@
-package com.example.playlistmaker.sharing.data
+package com.example.playlistmaker.sharing.domain
 
-import com.example.playlistmaker.sharing.domain.SharingInteractor
+import com.example.playlistmaker.sharing.data.ExternalNavigatorImpl
 
-class SharingInteractorImpl(val externalNavigator: ExternalNavigatorImpl) : SharingInteractor {
+
+class SharingInteractorImpl(private val externalNavigator: ExternalNavigatorImpl) : SharingInteractor {
 
     override fun shareApp(sendText:String, sendTitle: String) {
         externalNavigator.sendShare(sendText,sendTitle )

@@ -24,8 +24,8 @@ val viewModelModule = module {
 
     viewModel {
         SettingViewModel(
-            sharingInteractor = get(),
-            settingsInteractor = get()
+            get(),
+            get()
         )
     }
 

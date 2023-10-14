@@ -7,7 +7,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsActivity() :  AppCompatActivity() {
 
-    //private lateinit var viewModel: SettingViewModel
+    //БЫЛО: private lateinit var viewModel: SettingViewModel
     private lateinit var binding: ActivitySetingsBinding
     private val viewModel by viewModel<SettingViewModel>()
 
@@ -17,8 +17,8 @@ class SettingsActivity() :  AppCompatActivity() {
         binding = ActivitySetingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        viewModel = ViewModelProvider(this,
-//            SettingViewModel.getViewModelFactory(" "))[SettingViewModel::class.java]
+//БЫЛО:         viewModel = ViewModelProvider(this,
+//              SettingViewModel.getViewModelFactory(" "))[SettingViewModel::class.java]
 
        // изменение темы приложения
         binding.themeSwitcher.isChecked = viewModel.getThemeState()

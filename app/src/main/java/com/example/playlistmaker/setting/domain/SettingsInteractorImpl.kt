@@ -1,7 +1,5 @@
-package com.example.playlistmaker.setting.data
+package com.example.playlistmaker.setting.domain
 
-import com.example.playlistmaker.setting.domain.SettingsInteractor
-import com.example.playlistmaker.setting.domain.SettingsRepository
 
 class SettingsInteractorImpl (private val repository: SettingsRepository) : SettingsInteractor {
 

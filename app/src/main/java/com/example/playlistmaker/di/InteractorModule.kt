@@ -4,10 +4,10 @@ import com.example.playlistmaker.player.domain.MediaPlayerInteractor
 import com.example.playlistmaker.player.domain.MediaPlayerInteractorImpl
 import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchInteractorImpl
-import com.example.playlistmaker.setting.data.SettingsInteractorImpl
 import com.example.playlistmaker.setting.domain.SettingsInteractor
-import com.example.playlistmaker.sharing.data.SharingInteractorImpl
+import com.example.playlistmaker.setting.domain.SettingsInteractorImpl
 import com.example.playlistmaker.sharing.domain.SharingInteractor
+import com.example.playlistmaker.sharing.domain.SharingInteractorImpl
 import org.koin.dsl.module
 
 val interactorModule = module {
@@ -16,15 +16,15 @@ val interactorModule = module {
         MediaPlayerInteractorImpl(get())
     }
 
-    factory<SharingInteractor> {
+    single<SharingInteractor> {
         SharingInteractorImpl(get())
     }
 
-    factory<SettingsInteractor> {
+    single<SettingsInteractor> {
         SettingsInteractorImpl(get())
     }
 
-    factory<SearchInteractor> {
+    single<SearchInteractor> {
         SearchInteractorImpl(get())
     }
 }

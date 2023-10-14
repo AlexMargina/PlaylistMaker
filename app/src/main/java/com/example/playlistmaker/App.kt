@@ -13,6 +13,7 @@ import org.koin.core.context.startKoin
 
 const val MUSIC_MAKER_PREFERENCES = "music_maker_preferences"
 const val CLICKED_SEARCH_TRACK = "clicked_search_track"
+const val DARK_THEME_ENABLED = "DARK_THEME_ENABLED"
 
 
 class App : Application() {
@@ -21,7 +22,7 @@ class App : Application() {
         super.onCreate()
 
         startKoin {
-            androidContext(this@App)
+            androidContext(this@App as Application)
             modules(dataModule, repositoryModule, interactorModule, viewModelModule)
         }
 
