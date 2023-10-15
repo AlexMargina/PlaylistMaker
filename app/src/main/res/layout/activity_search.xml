@@ -48,7 +48,6 @@
                 android:id="@+id/inputSearchText"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/searchLine_height"
-                android:theme="@style/Theme.PlaylistMaker"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/size_sl"
                 android:autofillHints=""
@@ -69,6 +68,8 @@
                 android:soundEffectsEnabled="true"
                 android:textAllCaps="false"
                 android:textColor="@color/yp_black"
+                android:textColorHint="@color/gray_black"
+                android:theme="@style/Theme.PlaylistMaker"
                 tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck,VisualLintTextFieldSize,TextContrastCheck" />
 
             <ImageView
