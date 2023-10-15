@@ -25,7 +25,7 @@ val repositoryModule = module {
     }
 
     single<SettingsRepository> {
-        SettingsRepositoryImpl(get(), get())
+        SettingsRepositoryImpl(get())
     }
 
     single <SearchDataStorage> {

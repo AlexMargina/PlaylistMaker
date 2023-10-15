@@ -15,6 +15,7 @@
         android:foregroundGravity="left"
         android:importantForAutofill="auto"
         android:padding="@dimen/size_xs"
+        android:layout_marginStart="@dimen/size_xs"
         android:src="@drawable/back"
         android:tint="@color/text_color"
         app:layout_constraintStart_toStartOf="parent"

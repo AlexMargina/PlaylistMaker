@@ -18,6 +18,6 @@
     <color name="icon_search">#BCBCBC</color>
     <color name="view_background">#1E1E1E</color>
     <color name="gray_black">#1A1B22</color>
-
+    <color name="YP_blue">#3772E7</color>
     <color name="gray_player"> #AEAFB4</color>
 </resources>

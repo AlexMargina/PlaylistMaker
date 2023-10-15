@@ -1,6 +1,5 @@
 package com.example.playlistmaker.player.ui
 
-import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LiveData
@@ -12,9 +11,7 @@ import com.example.playlistmaker.search.domain.TrackModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class MediaViewModel   (private val mediaPlayerInteractor: MediaPlayerInteractor,
-                        context: Context
-): ViewModel() {
+class MediaViewModel (private val mediaPlayerInteractor: MediaPlayerInteractor): ViewModel() {
 
     private val handler = Handler(Looper.getMainLooper())
 

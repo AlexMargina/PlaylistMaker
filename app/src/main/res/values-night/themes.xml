@@ -12,6 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="colorAccent">@color/YP_blue</item>
+        <item name="android:outlineAmbientShadowColor">@color/YP_blue</item>
     </style>
 
     <style name="Theme">Sprint8</style>
