@@ -10,6 +10,7 @@ import com.example.playlistmaker.setting.data.SettingsRepositoryImpl
 import com.example.playlistmaker.setting.domain.SettingsInteractor
 import com.example.playlistmaker.sharing.data.ExternalNavigatorImpl
 
+
 const val MUSIC_MAKER_PREFERENCES = "music_maker_preferences"
 const val CLICKED_SEARCH_TRACK = "clicked_search_track"
 
@@ -25,7 +26,6 @@ class App : Application() {
             darkTheme = AppPreferences.darkTheme !!
             switchTheme(darkTheme)
         }
-
 
         sendText =  this.getText(R.string.extra_send).toString()
         sendTitle =  this.getText(R.string.send_title).toString()
