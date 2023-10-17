@@ -4,9 +4,7 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.setting.data.AppPreferences
-
-
-package com.example.playlistmaker
+import com.example.playlistmaker.sharing.data.ExternalNavigatorImpl
 
 
 
@@ -20,10 +18,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        startKoin {
-            androidContext(this@App as Application)
-            modules(dataModule, repositoryModule, interactorModule, viewModelModule)
-        }
+
 
         AppPreferences.setup(applicationContext)
         if (AppPreferences.darkTheme !=null) {
