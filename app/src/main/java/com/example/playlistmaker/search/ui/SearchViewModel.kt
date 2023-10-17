@@ -2,7 +2,6 @@ package com.example.playlistmaker.search.ui
 
 import android.os.Handler
 import android.os.Looper
-import android.os.SystemClock
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +14,7 @@ import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchState
 import com.example.playlistmaker.search.domain.TrackModel
-import com.example.playlistmaker.sharing.domain.App
+import com.example.playlistmaker.App
 
 
 class SearchViewModel(

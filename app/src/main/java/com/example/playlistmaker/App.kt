@@ -1,18 +1,18 @@
-package com.example.playlistmaker.sharing.domain
+package com.example.playlistmaker
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.playlistmaker.R
 import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.setting.data.AppPreferences
-import com.example.playlistmaker.setting.data.SettingsInteractorImpl
-import com.example.playlistmaker.setting.data.SettingsRepositoryImpl
-import com.example.playlistmaker.setting.domain.SettingsInteractor
-import com.example.playlistmaker.sharing.data.ExternalNavigatorImpl
+
+
+package com.example.playlistmaker
+
 
 
 const val MUSIC_MAKER_PREFERENCES = "music_maker_preferences"
 const val CLICKED_SEARCH_TRACK = "clicked_search_track"
+const val DARK_THEME_ENABLED = "DARK_THEME_ENABLED"
 
 
 class App : Application() {
@@ -20,12 +20,17 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        AppPreferences.setup(applicationContext)
+        startKoin {
+            androidContext(this@App as Application)
+            modules(dataModule, repositoryModule, interactorModule, viewModelModule)
+        }
 
+        AppPreferences.setup(applicationContext)
         if (AppPreferences.darkTheme !=null) {
             darkTheme = AppPreferences.darkTheme !!
             switchTheme(darkTheme)
         }
+
 
         sendText =  this.getText(R.string.extra_send).toString()
         sendTitle =  this.getText(R.string.send_title).toString()
@@ -47,23 +52,6 @@ class App : Application() {
     }
 
 
-    fun getSettingsRepository(): SettingsRepositoryImpl {
-        return SettingsRepositoryImpl()
-    }
-
-    fun getExternalNavigator(): ExternalNavigatorImpl {
-        return ExternalNavigatorImpl(this)
-    }
-
-    fun provideSettingsInteractor(): SettingsInteractor {
-        return SettingsInteractorImpl(getSettingsRepository())
-    }
-
-    fun provideSharingInteractor(): SharingInteractor {
-        return SharingInteractorImpl(getExternalNavigator())
-    }
-
-
     companion object {
 
         var historyTracks= arrayListOf<TrackModel>()
@@ -77,4 +65,3 @@ class App : Application() {
         var oferUrl = ""
     }
 }
-

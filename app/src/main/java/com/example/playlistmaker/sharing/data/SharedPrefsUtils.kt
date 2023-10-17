@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import com.example.playlistmaker.search.data.SearchDataStorage
 import com.example.playlistmaker.search.data.dto.TrackDto
-import com.example.playlistmaker.sharing.domain.CLICKED_SEARCH_TRACK
-import com.example.playlistmaker.sharing.domain.MUSIC_MAKER_PREFERENCES
+import com.example.playlistmaker.CLICKED_SEARCH_TRACK
+import com.example.playlistmaker.MUSIC_MAKER_PREFERENCES
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
@@ -43,7 +43,8 @@ class SharedPrefsUtils(context: Context) : SearchDataStorage {
         sharedPref
             .edit()
             .clear()
-            .putString(CLICKED_SEARCH_TRACK, Gson()
+            .putString(
+                CLICKED_SEARCH_TRACK, Gson()
             .toJson(historyList))
             .apply()
     }

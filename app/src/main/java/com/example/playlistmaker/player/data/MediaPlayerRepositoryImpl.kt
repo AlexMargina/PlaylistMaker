@@ -5,8 +5,8 @@ import android.media.MediaPlayer
 import com.example.playlistmaker.player.domain.MediaPlayerRepository
 import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.sharing.data.SharedPrefsUtils
-import com.example.playlistmaker.sharing.domain.App
-import com.example.playlistmaker.sharing.domain.App.Companion.historyTracks
+import com.example.playlistmaker.App
+import com.example.playlistmaker.App.Companion.historyTracks
 
 @Suppress("CAST_NEVER_SUCCEEDS")
 class MediaPlayerRepositoryImpl() : MediaPlayerRepository {

@@ -11,7 +11,7 @@ import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchInteractorImpl
 import com.example.playlistmaker.search.domain.SearchRepository
 import com.example.playlistmaker.sharing.data.SharedPrefsUtils
-import com.example.playlistmaker.sharing.domain.App
+import com.example.playlistmaker.App
 
 
 object Creator {
