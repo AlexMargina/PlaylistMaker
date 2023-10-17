@@ -17,6 +17,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     private val handler = Handler(Looper.getMainLooper())
     lateinit var searchRunnable: Runnable
     private val _stateLiveData = MutableLiveData<SearchState>()
+
     fun stateLiveData(): LiveData<SearchState> = _stateLiveData
 
     private var latestSearchText: String? = null
@@ -94,6 +95,6 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     }
 
     companion object {
-        private const val SEARCH_DEBOUNCE_DELAY = 2100L
+        private const val SEARCH_DEBOUNCE_DELAY = 2200L
     }
 }
