@@ -24,7 +24,6 @@ class SearchInteractorImpl(private val repository: SearchRepository) : SearchInt
     }
 
     override fun getTracksHistory(consumer: SearchInteractor.HistoryConsumer) {
-        Log.d ("MAALMI_SearchInteractor", "Пришло в getTracksHistory (${repository.getTrackHistoryList().isNullOrEmpty()})")
         consumer.consume(repository.getTrackHistoryList())
     }
 
