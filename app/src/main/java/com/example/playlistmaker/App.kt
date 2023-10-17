@@ -52,24 +52,6 @@ class App : Application() {
         )
     }
 
-
-//    fun getSettingsRepository(): SettingsRepositoryImpl {
-//        return SettingsRepositoryImpl()
-//    }
-//
-//    fun getExternalNavigator(): ExternalNavigatorImpl {
-//        return ExternalNavigatorImpl(this)
-//    }
-//
-//    fun provideSettingsInteractor(): SettingsInteractor {
-//        return SettingsInteractorImpl(getSettingsRepository())
-//    }
-//
-//    fun provideSharingInteractor(): SharingInteractor {
-//        return SharingInteractorImpl(getExternalNavigator())
-//    }
-
-
     companion object {
 
         var historyTracks= arrayListOf<TrackModel>()
