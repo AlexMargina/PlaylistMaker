@@ -6,6 +6,7 @@ import com.example.playlistmaker.App.Companion.historyTracks
 import com.example.playlistmaker.player.domain.MediaPlayerRepository
 import com.example.playlistmaker.search.domain.TrackModel
 
+
 @Suppress("CAST_NEVER_SUCCEEDS")
 class MediaPlayerRepositoryImpl(private val mediaPlayer : MediaPlayer) : MediaPlayerRepository {
 

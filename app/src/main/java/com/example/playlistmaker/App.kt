@@ -11,6 +11,7 @@ import com.example.playlistmaker.sharing.data.AppPreferences
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
+
 const val MUSIC_MAKER_PREFERENCES = "music_maker_preferences"
 const val CLICKED_SEARCH_TRACK = "clicked_search_track"
 const val DARK_THEME_ENABLED = "DARK_THEME_ENABLED"
@@ -66,4 +67,3 @@ class App : Application() {
         var oferUrl = ""
     }
 }
-
