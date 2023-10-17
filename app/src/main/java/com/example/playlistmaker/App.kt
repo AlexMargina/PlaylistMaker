@@ -4,13 +4,15 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.setting.data.AppPreferences
+import com.example.playlistmaker.setting.data.SettingsInteractorImpl
+import com.example.playlistmaker.setting.data.SettingsRepositoryImpl
+import com.example.playlistmaker.setting.domain.SettingsInteractor
 import com.example.playlistmaker.sharing.data.ExternalNavigatorImpl
-
-
+import com.example.playlistmaker.sharing.domain.SharingInteractor
+import com.example.playlistmaker.sharing.domain.SharingInteractorImpl
 
 const val MUSIC_MAKER_PREFERENCES = "music_maker_preferences"
 const val CLICKED_SEARCH_TRACK = "clicked_search_track"
-const val DARK_THEME_ENABLED = "DARK_THEME_ENABLED"
 
 
 class App : Application() {
@@ -18,9 +20,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-
-
         AppPreferences.setup(applicationContext)
+
         if (AppPreferences.darkTheme !=null) {
             darkTheme = AppPreferences.darkTheme !!
             switchTheme(darkTheme)
@@ -44,6 +45,23 @@ class App : Application() {
                 AppCompatDelegate.MODE_NIGHT_NO
             }
         )
+    }
+
+
+    fun getSettingsRepository(): SettingsRepositoryImpl {
+        return SettingsRepositoryImpl()
+    }
+
+    fun getExternalNavigator(): ExternalNavigatorImpl {
+        return ExternalNavigatorImpl(this)
+    }
+
+    fun provideSettingsInteractor(): SettingsInteractor {
+        return SettingsInteractorImpl(getSettingsRepository())
+    }
+
+    fun provideSharingInteractor(): SharingInteractor {
+        return SharingInteractorImpl(getExternalNavigator())
     }
 
 
