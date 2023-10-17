@@ -6,25 +6,18 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.playlistmaker.creator.Creator
+import com.example.playlistmaker.App
 import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchState
 import com.example.playlistmaker.search.domain.TrackModel
-import com.example.playlistmaker.App
 
 
-class SearchViewModel(
-    private val searchInteractor: SearchInteractor,
-    private val app: App
-) : ViewModel() {
+class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewModel() {
 
     private val handler = Handler(Looper.getMainLooper())
     lateinit var searchRunnable: Runnable
     private val _stateLiveData = MutableLiveData<SearchState>()
+
     fun stateLiveData(): LiveData<SearchState> = _stateLiveData
 
     private var latestSearchText: String? = null
@@ -34,23 +27,18 @@ class SearchViewModel(
         if (latestSearchText == changedText && !hasError) {
             return
         }
+        Log.d ("MAALMI_SearchViewModel", "Пришло вначале в searchDebounce ($changedText)")
         if (changedText.trim().equals("hello")) {searchedText = "helo"
-            } else {searchedText=changedText
+          } else {searchedText=changedText
         }
         this.latestSearchText = changedText
         handler.removeCallbacksAndMessages("MAALMI")
         searchRunnable = Runnable { searchSong(searchedText) }
-
-        handler.postDelayed(
-            searchRunnable, "MAALMI",
-            SEARCH_DEBOUNCE_DELAY
-        )
+        handler.postDelayed (searchRunnable, "MAALMI", SEARCH_DEBOUNCE_DELAY)
     }
 
     private fun searchSong(expression: String) {
-        Log.d ("MAALMI_SearchViewModel", "Пришло на оправку searchSong ($expression)")
-
-        if (expression.isNotEmpty()) {
+          if (expression.isNotEmpty()) {
             updateState(SearchState.Loading)
 
             searchInteractor.searchTracks(expression, object : SearchInteractor.SearchConsumer {
@@ -60,18 +48,16 @@ class SearchViewModel(
                     if (searchTracks != null) {
                         tracks.addAll(searchTracks)
                         App.playedTracks.addAll(searchTracks)
+                    }
 
-                        when {
-                            tracks.isEmpty() -> {
-                                updateState(SearchState.Empty())
-                            }
-
-                            tracks.isNotEmpty() -> {
-                                updateState(SearchState.Content(tracks))
-                            }
+                    when {
+                        tracks.isEmpty() -> {
+                            updateState(SearchState.Empty())
                         }
-                    } else {
-                        updateState(SearchState.Error())
+
+                        tracks.isNotEmpty() -> {
+                            updateState(SearchState.Content(tracks))
+                        }
                     }
                 }
             })
@@ -90,8 +76,10 @@ class SearchViewModel(
         })
     }
 
-    fun addTrackToHistory(track: TrackModel) {
+    fun addTrackToHistory(track: TrackModel, activity: SearchActivity) {
         searchInteractor.addTrackToHistory(track)
+        val openOtherActivity = OpenOtherActivity(activity)
+        openOtherActivity.runPlayer(track.trackId.toString())
     }
 
     fun clearHistory() {
@@ -107,17 +95,6 @@ class SearchViewModel(
     }
 
     companion object {
-
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val app = (this[APPLICATION_KEY] as App)
-                SearchViewModel(
-                    searchInteractor = Creator.provideSearchInteractor(app.applicationContext),
-                    app = app
-                )
-            }
-        }
-
-        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val SEARCH_DEBOUNCE_DELAY = 2200L
     }
 }

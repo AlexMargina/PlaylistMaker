@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
@@ -12,17 +11,16 @@ import com.example.playlistmaker.databinding.ActivityMediaBinding
 import com.example.playlistmaker.player.domain.PlayerState
 import com.example.playlistmaker.search.domain.TrackModel
 import com.google.android.material.button.MaterialButton
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 
 class MediaActivity : AppCompatActivity() {
 
-
+    private val viewModel by viewModel<MediaViewModel>()
     lateinit var buttonPlay: MaterialButton
     private lateinit var binding: ActivityMediaBinding
-    private lateinit var viewModel: MediaViewModel
-
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,11 +30,6 @@ class MediaActivity : AppCompatActivity() {
 
         try {
             buttonPlay = binding.btPlay
-
-            viewModel = ViewModelProvider(
-                this,
-                MediaViewModel.getViewModelFactory()
-            )[MediaViewModel::class.java]
 
             viewModel.observatorScreen().observe(this) {
                 refreshScreen(it)

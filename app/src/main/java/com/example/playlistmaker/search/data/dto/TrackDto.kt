@@ -8,7 +8,7 @@ import java.util.Locale
 
 data class TrackDto(
 
-    val trackId: String,
+    val trackId: Int,
     val trackName: String,
     val artistName: String,
     val trackTimeMillis: Long,

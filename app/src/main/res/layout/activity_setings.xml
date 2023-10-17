@@ -37,8 +37,8 @@
 
             <TextView
                 style="@style/TextBigStyle"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/size_xxxl"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/size_xl"
                 android:text="@string/buton_settings" />
 
         </LinearLayout>
@@ -75,8 +75,8 @@
 
                 <ImageButton
                     android:id="@+id/imageButton_share"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="end|center_vertical"
                     android:layout_marginVertical="5dp"
                     android:layout_marginEnd="@dimen/margin_end"
@@ -101,14 +101,14 @@
 
                 <ImageButton
                     android:id="@+id/imageButton_support"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="end|center_vertical"
                     android:layout_marginVertical="5dp"
                     android:layout_marginEnd="@dimen/margin_end"
                     android:backgroundTint="@color/background_icon"
                     android:contentDescription="@string/support"
-                    android:foreground="@drawable/support_draw"
+                    android:foreground="@drawable/support_draw1"
                     android:tooltipText="@string/support"
                     tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 

@@ -1,33 +1,18 @@
 package com.example.playlistmaker.player.ui
 
-import android.app.Application
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.playlistmaker.creator.Creator
+import androidx.lifecycle.ViewModel
+import com.example.playlistmaker.player.domain.MediaPlayerInteractor
 import com.example.playlistmaker.player.domain.PlayerState
 import com.example.playlistmaker.search.domain.TrackModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class MediaViewModel   (application: Application): AndroidViewModel(application)
- {
+class MediaViewModel (private val mediaPlayerInteractor: MediaPlayerInteractor): ViewModel() {
 
-    companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                MediaViewModel(this[APPLICATION_KEY] as Application)
-            }
-        }
-    }
-
-    private val mediaPlayerInteractor = Creator.provideMediaPlayerInteractor()
     private val handler = Handler(Looper.getMainLooper())
 
     private var clickAllowed = true
@@ -132,6 +117,4 @@ class MediaViewModel   (application: Application): AndroidViewModel(application)
         }
         return current
     }
-
-
 }

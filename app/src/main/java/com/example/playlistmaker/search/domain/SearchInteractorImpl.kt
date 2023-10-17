@@ -14,8 +14,10 @@ class SearchInteractorImpl(private val repository: SearchRepository) : SearchInt
             Log.d ("MAALMI_SearchInteractor", "Пришло на оправку searchTracks ($expression)")
             val resource = repository.searchTrack(expression)
             Log.d ("MAALMI_SearchInteractor", "Вернулось с Repository searchTracks (${resource.data.toString()})")
+
             when(resource) {
-                is ResponseStatus.Success -> { consumer.consume(resource.data, false) }
+                is ResponseStatus.Success -> { consumer.consume(resource.data, false)
+                    Log.d ("MAALMI_SearchInteractor", "ResponseStatus.Success (${resource.data.toString()})")}
                 is ResponseStatus.Error -> { consumer.consume(null,  true) }
             }
         }

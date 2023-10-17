@@ -22,4 +22,6 @@
     <color name="foregroundTint_gray">#736C6C</color>
     <color name="yp_black">#1A1B22</color>
     <color name="gray_player"> #AEAFB4</color>
+    <color name="purple_550">#6200EE</color>
+    <color name="YP_blue">#3772E7</color>
 </resources>
