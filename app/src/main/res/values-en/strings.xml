@@ -29,5 +29,11 @@
     <string name="genre">Genre</string>
     <string name="country">Country</string>
     <string name="rf">Russia</string>
+    <string name="mediateca">Media library</string>
+    <string name="new_playlist">New playlist</string>
+    <string name="fav_tracks">Favorite tracks</string>
+    <string name="playlists">Playlists</string>
+    <string name="empty_playlist">Your playlist is empty</string>
+    <string name="empty_favorites">Medialibrary is empty</string>
 
 </resources>

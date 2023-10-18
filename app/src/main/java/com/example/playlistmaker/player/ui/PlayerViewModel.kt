@@ -11,7 +11,7 @@ import com.example.playlistmaker.search.domain.TrackModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class MediaViewModel (private val mediaPlayerInteractor: MediaPlayerInteractor): ViewModel() {
+class PlayerViewModel (private val mediaPlayerInteractor: MediaPlayerInteractor): ViewModel() {
 
     private val handler = Handler(Looper.getMainLooper())
 
