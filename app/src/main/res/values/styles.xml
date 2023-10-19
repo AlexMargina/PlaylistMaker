@@ -55,6 +55,17 @@
         <item name="android:textColor">@color/text_color</item>
     </style>
 
+    <style name="TextMediaStyle" parent="TextStyle">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="colorAccent">@color/purple_550</item>
+        <item name="android:textSize">@dimen/text_19sp</item>
+    </style>
+
     <style name="GrandButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
@@ -81,10 +92,26 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="MediaButtonStyle">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:backgroundTint">@color/text_color</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:gravity">center</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/background_icon</item>
+        <item name="cornerRadius">54dp</item>
+    </style>
+
     <style name="TextNotFoundStyle" parent="TextStyle">
         <item name="android:textColor">@color/text_color</item>
         <item name="android:textSize">19sp</item>
         <item name="android:drawableTop">@drawable/song_not_found</item>
+    </style>
+
+    <style name="ListNotFoundStyle" parent="TextStyle">
+        <item name="android:foreground">@drawable/song_not_found</item>
     </style>
 
     <style name="TextNotInetStyle" parent="TextStyle">
@@ -120,5 +147,13 @@
         <item name="android:textColor">@color/text_color</item>
     </style>
 
+
+    <style name="TextTabLayoutStyle" parent="@android:style/TextAppearance.StatusBar.EventContent.Title">
+        <item name="tabIndicatorColor">@color/text_color</item>
+        <item name="tabTextColor">@color/background</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textAlignment">center</item>
+    </style>
 
 </resources>

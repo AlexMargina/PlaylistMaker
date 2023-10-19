@@ -1,242 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_icon"
-    >
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/size_l"
+    android:paddingTop="@dimen/size_sl"
+    android:theme="@style/Theme.PlaylistMaker">
 
-    <ImageView
-        android:id="@+id/iv_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/size_xxxs"
-        android:foregroundGravity="left"
-        android:importantForAutofill="auto"
-        android:padding="@dimen/size_xs"
-        android:layout_marginStart="@dimen/size_xs"
-        android:src="@drawable/back"
-        android:tint="@color/text_color"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="UseAppTint" />
-
-    <ImageView
-        android:id="@+id/iv_cover512"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/size_xl"
-        android:scaleType="fitCenter"
-        android:src="@drawable/media_placeholder"
-        app:layout_constraintBottom_toTopOf="@id/tv_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_back" />
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/size_xxxs">
 
-    <TextView
-        android:id="@+id/tv_title"
-        style="@style/PlayerTrackTextStyle"
+        <ImageView
+            android:id="@+id/bt_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/size_xxxs"
+            android:src="@drawable/back"
+            app:tint="@color/text_color" />
+
+        <TextView
+            style="@style/TextBigStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/mediateca"
+            android:textAlignment="textStart" />
+    </LinearLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/size_xl"
-        android:layout_marginTop="@dimen/size_xl"
-        android:text="Name of track"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_cover512" />
+        app:tabTextAppearance="@style/TextTabLayoutStyle"
+        app:tabIndicatorColor="@color/text_color"
+        app:tabTextColor="@color/text_color" />
 
-
-    <TextView
-        android:id="@+id/tv_artist"
-        style="@style/PlayerArtistTextStyle"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/size_xl"
-        android:layout_marginTop="@dimen/size_xs"
-        android:paddingBottom="@dimen/size_xxl"
-        android:text="Artist"
-        android:textAlignment="textStart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+        android:layout_height="match_parent" />
 
-    <ImageView
-        android:id="@+id/iv_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/buttonadd"
-        app:layout_constraintBottom_toTopOf="@+id/tv_playback_time"
-        app:layout_constraintEnd_toStartOf="@+id/bt_play"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_artist" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/bt_play"
-        style="@style/Widget.Material3.Button.IconButton"
-        android:layout_width="110dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="@dimen/size_xs"
-        app:icon="@drawable/button_play_day"
-        app:iconSize="95dp"
-        app:iconTint="@color/text_color"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_add"
-        app:layout_constraintEnd_toStartOf="@+id/iv_like"
-        app:layout_constraintStart_toEndOf="@+id/iv_add"
-        app:layout_constraintTop_toBottomOf="@id/tv_artist"
-        app:rippleColor="@color/background_icon" />
-
-    <ImageView
-        android:id="@+id/iv_like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/buttonlike"
-        app:layout_constraintBottom_toTopOf="@id/tv_playback_time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bt_play"
-        app:layout_constraintTop_toBottomOf="@id/tv_artist" />
-
-    <TextView
-        android:id="@+id/tv_playback_time"
-        style="@style/PlayerArtistTextStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/size_xxxs"
-        android:text="0:00"
-        android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_play" />
-
-    <TextView
-        android:id="@+id/tv_duration_title"
-        style="@style/NameFieldTextStyle"
-        android:paddingVertical="@dimen/size_xxs"
-        android:paddingStart="@dimen/size_sl"
-        android:text="@string/duration"
-        android:textAlignment="gravity"
-        app:layout_constraintBottom_toTopOf="@id/tv_album_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_playback_time" />
-
-    <TextView
-        android:id="@+id/tv_duration"
-        style="@style/PlayerFieldTextStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/size_sl"
-        android:paddingVertical="@dimen/size_xxs"
-        android:text="0:00"
-        android:textAlignment="viewEnd"
-        android:textColor="@color/text_color"
-        app:layout_constraintBottom_toTopOf="@id/tv_album_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_duration_title"
-        app:layout_constraintTop_toBottomOf="@id/tv_playback_time" />
-
-    <TextView
-        android:id="@+id/tv_album_title"
-        style="@style/NameFieldTextStyle"
-        android:paddingVertical="@dimen/size_xxs"
-        android:paddingStart="@dimen/size_sl"
-        android:text="@string/album"
-        android:textAlignment="gravity"
-        app:layout_constraintBottom_toTopOf="@id/tv_year"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_duration" />
-
-    <TextView
-        android:id="@+id/tv_album"
-        style="@style/PlayerFieldTextStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/size_sl"
-        android:paddingVertical="@dimen/size_xxs"
-        android:text="@string/album"
-        android:textAlignment="viewEnd"
-        android:textColor="@color/text_color"
-        app:layout_constraintBottom_toTopOf="@id/tv_year"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_duration_title"
-        app:layout_constraintTop_toBottomOf="@id/tv_duration" />
-
-    <TextView
-        android:id="@+id/year"
-        style="@style/NameFieldTextStyle"
-        android:paddingVertical="@dimen/size_xxs"
-        android:paddingStart="@dimen/size_sl"
-        android:text="@string/year"
-        android:textAlignment="gravity"
-        app:layout_constraintBottom_toTopOf="@id/tv_genre_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_album_title" />
-
-    <TextView
-        android:id="@+id/tv_year"
-        style="@style/PlayerFieldTextStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/size_sl"
-        android:paddingVertical="@dimen/size_xxs"
-        android:text="2000"
-        android:textAlignment="viewEnd"
-        android:textColor="@color/text_color"
-        app:layout_constraintBottom_toTopOf="@id/tv_genre_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_duration_title"
-        app:layout_constraintTop_toBottomOf="@id/tv_album_title" />
-
-    <TextView
-        android:id="@+id/tv_genre_title"
-        style="@style/NameFieldTextStyle"
-        android:paddingVertical="@dimen/size_xxs"
-        android:paddingStart="@dimen/size_sl"
-        android:text="@string/genre"
-        android:textAlignment="gravity"
-        app:layout_constraintBottom_toTopOf="@id/tv_country_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_year" />
-
-    <TextView
-        android:id="@+id/tv_genre"
-        style="@style/PlayerFieldTextStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/size_sl"
-        android:paddingVertical="@dimen/size_xxs"
-        android:text="@string/genre"
-        android:textAlignment="viewEnd"
-        android:textColor="@color/text_color"
-        app:layout_constraintBottom_toTopOf="@id/tv_country_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_duration_title"
-        app:layout_constraintTop_toBottomOf="@id/tv_year" />
-
-    <TextView
-        android:id="@+id/tv_country_title"
-        style="@style/NameFieldTextStyle"
-        android:layout_marginBottom="@dimen/size_xxxs"
-        android:paddingVertical="@dimen/size_xxs"
-        android:paddingStart="@dimen/size_sl"
-        android:text="@string/country"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_genre_title" />
-
-    <TextView
-        android:id="@+id/tv_country"
-        style="@style/PlayerFieldTextStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/size_sl"
-        android:layout_marginBottom="@dimen/size_xxs"
-        android:paddingVertical="@dimen/size_xxs"
-        android:text="@string/country"
-        android:textAlignment="viewEnd"
-        android:textColor="@color/text_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_duration_title"
-        app:layout_constraintTop_toBottomOf="@id/tv_genre_title" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
