@@ -1,57 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/LinearLayoutStyle">
+    android:id="@+id/main_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fcv_main"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/frame_layout_height"
-        android:layout_gravity="center"
-        android:padding="@dimen/size_xs">
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/navigation_graph"></androidx.fragment.app.FragmentContainerView>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/gray_player"
+        app:layout_constraintBottom_toTopOf="@id/bnv_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bnv_main"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:addStatesFromChildren="true"
+        android:soundEffectsEnabled="true"
+        android:stateListAnimator="@anim/slide_in_right"
+        app:itemTextColor="@color/text_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bnv_main_menu"
+        app:navGraph="@navigation/navigation_graph" />
 
 
-        <TextView
-            android:id="@+id/playlist_maker"
-            style="@style/TextMediumStyle"
-            android:text="@string/app_name" />
-    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        style="@style/LinearLayoutStyle"
-        android:layout_margin="16dp">
+<!-- Olds buttons
+<LinearLayout
+style="@style/LinearLayoutStyle"
+android:layout_margin="16dp">
 
-        <Button
-            android:id="@+id/buton_search"
-            style="@style/GrandButtonStyle"
-            android:insetLeft="0dp"
-            android:text="@string/buton_search"
-            app:icon="@drawable/search"
-            app:iconGravity="textStart"
-            app:iconPadding="@dimen/icon_padding"
-            app:iconTint="@color/text_black"
-            tools:ignore="VisualLintButtonSize" />
+<Button
+    android:id="@+id/buton_search"
+    style="@style/GrandButtonStyle"
+    android:insetLeft="0dp"
+    android:text="@string/buton_search"
+    app:icon="@drawable/search"
+    app:iconGravity="textStart"
+    app:iconPadding="@dimen/icon_padding"
+    app:iconTint="@color/text_black"
+    tools:ignore="VisualLintButtonSize" />
 
-        <Button
-            android:id="@+id/buton_media"
-            style="@style/GrandButtonStyle"
-            android:text="@string/buton_media"
-            app:icon="@drawable/media"
-            app:iconGravity="textStart"
-            app:iconPadding="@dimen/icon_padding"
-            app:iconTint="@color/text_black"
-            tools:ignore="VisualLintButtonSize" />
+<Button
+    android:id="@+id/buton_media"
+    style="@style/GrandButtonStyle"
+    android:text="@string/buton_media"
+    app:icon="@drawable/media"
+    app:iconGravity="textStart"
+    app:iconPadding="@dimen/icon_padding"
+    app:iconTint="@color/text_black"
+    tools:ignore="VisualLintButtonSize" />
 
-        <Button
-            android:id="@+id/buton_setting"
-            style="@style/GrandButtonStyle"
-            android:selectAllOnFocus="true"
-            android:text="@string/buton_settings"
-            app:icon="@drawable/setting"
-            app:iconGravity="textStart"
-            app:iconPadding="@dimen/icon_padding"
-            app:iconTint="@color/text_black"
-            tools:ignore="VisualLintButtonSize" />
-    </LinearLayout>
-
+<Button
+    android:id="@+id/buton_setting"
+    style="@style/GrandButtonStyle"
+    android:selectAllOnFocus="true"
+    android:text="@string/buton_settings"
+    app:icon="@drawable/setting"
+    app:iconGravity="textStart"
+    app:iconPadding="@dimen/icon_padding"
+    app:iconTint="@color/text_black"
+    tools:ignore="VisualLintButtonSize" />
 </LinearLayout>
+
+-->

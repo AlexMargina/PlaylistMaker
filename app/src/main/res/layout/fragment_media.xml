@@ -3,10 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/size_l"
     android:paddingTop="@dimen/size_sl"
-    android:theme="@style/Theme.PlaylistMaker">
+    android:theme="@style/Theme.PlaylistMaker"
+    tools:context="com.example.playlistmaker.main.ui.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

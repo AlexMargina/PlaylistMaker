@@ -76,10 +76,9 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
         })
     }
 
-    fun addTrackToHistory(track: TrackModel, activity: SearchActivity) {
+    fun addTrackToHistory(track: TrackModel, activity: SearchFragment) {
         searchInteractor.addTrackToHistory(track)
-        val openOtherActivity = OpenOtherActivity(activity)
-        openOtherActivity.runPlayer(track.trackId.toString())
+
     }
 
     fun clearHistory() {
@@ -93,6 +92,8 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     override fun onCleared() {
         handler.removeCallbacks(searchRunnable)
     }
+
+
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2200L
