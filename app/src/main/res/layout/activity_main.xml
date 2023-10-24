@@ -29,54 +29,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:addStatesFromChildren="true"
+        android:foregroundTint="@color/background"
+        android:outlineAmbientShadowColor="@color/YP_blue"
         android:soundEffectsEnabled="true"
         android:stateListAnimator="@anim/slide_in_right"
+        app:itemRippleColor="@color/YP_blue"
+        app:itemTextAppearanceActive="@style/Theme.PlaylistMaker"
         app:itemTextColor="@color/text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bnv_main_menu"
-        app:navGraph="@navigation/navigation_graph" />
-
+        app:navGraph="@navigation/navigation_graph"
+        android:theme="@style/Theme.PlaylistMaker"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!-- Olds buttons
-<LinearLayout
-style="@style/LinearLayoutStyle"
-android:layout_margin="16dp">
-
-<Button
-    android:id="@+id/buton_search"
-    style="@style/GrandButtonStyle"
-    android:insetLeft="0dp"
-    android:text="@string/buton_search"
-    app:icon="@drawable/search"
-    app:iconGravity="textStart"
-    app:iconPadding="@dimen/icon_padding"
-    app:iconTint="@color/text_black"
-    tools:ignore="VisualLintButtonSize" />
-
-<Button
-    android:id="@+id/buton_media"
-    style="@style/GrandButtonStyle"
-    android:text="@string/buton_media"
-    app:icon="@drawable/media"
-    app:iconGravity="textStart"
-    app:iconPadding="@dimen/icon_padding"
-    app:iconTint="@color/text_black"
-    tools:ignore="VisualLintButtonSize" />
-
-<Button
-    android:id="@+id/buton_setting"
-    style="@style/GrandButtonStyle"
-    android:selectAllOnFocus="true"
-    android:text="@string/buton_settings"
-    app:icon="@drawable/setting"
-    app:iconGravity="textStart"
-    app:iconPadding="@dimen/icon_padding"
-    app:iconTint="@color/text_black"
-    tools:ignore="VisualLintButtonSize" />
-</LinearLayout>
-
--->

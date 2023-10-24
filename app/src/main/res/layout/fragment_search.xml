@@ -19,21 +19,10 @@
             android:layout_height="@dimen/frame_layout_height"
             android:padding="4dp">
 
-            <ImageView
-                android:id="@+id/back_off_search"
-                android:layout_width="@dimen/size_sl"
-                android:layout_height="@dimen/size_sl"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="@dimen/margin_end"
-                android:layout_marginTop="@dimen/size_xxxl"
-                android:contentDescription="@string/app_name"
-                app:srcCompat="@drawable/back"
-                app:tint="@color/text_color"
-                tools:ignore="ImageContrastCheck" />
-
             <TextView
                 style="@style/TextBigStyle"
-                android:layout_marginStart="64dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/size_xl"
                 android:text="@string/title_activity_search" />
         </FrameLayout>
 

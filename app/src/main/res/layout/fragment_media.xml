@@ -6,31 +6,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/size_l"
-    android:paddingTop="@dimen/size_sl"
     android:theme="@style/Theme.PlaylistMaker"
     tools:context="com.example.playlistmaker.main.ui.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/frame_layout_height"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/size_xxxs">
+        android:padding="4dp">
 
-        <ImageView
-            android:id="@+id/bt_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/size_xxxs"
-            android:src="@drawable/back"
-            app:tint="@color/text_color" />
+
 
         <TextView
             style="@style/TextBigStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/mediateca"
-            android:textAlignment="textStart" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/size_xxxs"
+            android:text="@string/mediateca" />
     </LinearLayout>
 
     <com.google.android.material.tabs.TabLayout
