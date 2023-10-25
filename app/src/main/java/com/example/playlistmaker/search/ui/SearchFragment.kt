@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -39,9 +38,6 @@ class SearchFragment : Fragment() {
         private const val SEARCH_STRING = "SEARCH_STRING"
         private const val SEARCH_DEBOUNCE_DELAY = 1000L
     }
-
-
-    /*       Основная функции при создании активити поиска:                                           */
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -124,7 +120,7 @@ class SearchFragment : Fragment() {
 
         provideTextWatcher(textWatcher())
 
-        // КОНЕЦ  fun onCreate(savedInstanceState: Bundle?)
+        // КОНЕЦ  fun onViewCreated
     }
 
 
@@ -141,23 +137,6 @@ class SearchFragment : Fragment() {
         }
     }
 
-
-    /*// запоминание текста поисковой строки inputSearchText в переменную
-    @SuppressLint("SuspiciousIndentation")
-    override fun onSaveInstanceState(outState: Bundle) {
-        val inputSearchText = findViewById<EditText>(R.id.inputSearchText)
-        outState.putString(SEARCH_STRING, inputSearchText.text.toString())
-        super.onSaveInstanceState(outState)
-    }
-
-    //заполнение тектового поля из предыдущего запуска Активити
-    @SuppressLint("SuspiciousIndentation")
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        if (savedInstanceState.containsKey(SEARCH_STRING)) {
-            val searchText = savedInstanceState.getString(SEARCH_STRING)
-            binding.inputSearchText.setText(searchText)
-        }
-    }*/
 
     private fun trackClickListener(track: TrackModel) {
         if (isClickAllowed()) {
@@ -178,8 +157,7 @@ class SearchFragment : Fragment() {
 
     private fun runPlayer(trackId: String) {
         val playerIntent = Intent(requireContext(), PlayerActivity::class.java)
-        playerIntent.putExtra(MediaStore.Audio.AudioColumns.TRACK, trackId)
-        //playerIntent.putExtra(App.TRACK, trackId)
+        playerIntent.putExtra("trackId", trackId)
         startActivity(playerIntent)
     }
 

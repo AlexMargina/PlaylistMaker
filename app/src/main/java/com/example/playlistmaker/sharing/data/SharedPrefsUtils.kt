@@ -12,11 +12,6 @@ import java.lang.reflect.Type
 @Suppress("UNCHECKED_CAST")
 class SharedPrefsUtils(private val sharedPref: SharedPreferences, private val gson: Gson) : SearchDataStorage {
 
-//    private val sharedPref = context.getSharedPreferences(
-//        MUSIC_MAKER_PREFERENCES,
-//        MODE_PRIVATE
-//    )
-
     private val historyList = readClickedSearchSongs()
 
     override fun getSearchHistory() = historyList
@@ -26,7 +21,7 @@ class SharedPrefsUtils(private val sharedPref: SharedPreferences, private val gs
         writeClickedSearchSongs()
     }
 
-    override fun addTrackToHistory(track: TrackDto) {
+    override fun addTClickedSearchSongs(track: TrackDto) {
         if (historyList.contains(track)) {
             historyList.remove(track)
         }

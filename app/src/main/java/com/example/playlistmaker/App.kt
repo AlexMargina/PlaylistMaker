@@ -56,7 +56,7 @@ class App : Application() {
 
     companion object {
 
-        var historyTracks= arrayListOf<TrackModel>()
+        var clickedTrack= arrayListOf<TrackModel>()
         var playedTracks = arrayListOf<TrackModel>()
         var darkTheme = false
         var sendText = ""

@@ -11,11 +11,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class MediaFragment : Fragment() {
 
-//    private var _binding: FragmentMediaBinding? = null
+    //    private var _binding: FragmentMediaBinding? = null
 //    private var binding = _binding!!
     private lateinit var binding: FragmentMediaBinding
     private var _tabMediator: TabLayoutMediator? = null
-    private val tabMediator get() = _tabMediator!!
+    private val tabMediator get() = _tabMediator !!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,7 +33,7 @@ class MediaFragment : Fragment() {
         binding.viewPager.adapter = MediaViewPagerAdapter(childFragmentManager, lifecycle)
         _tabMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
-                0 -> tab.setText( R.string.fav_tracks)
+                0 -> tab.setText(R.string.fav_tracks)
                 1 -> tab.setText(R.string.playlists)
             }
         }

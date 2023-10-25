@@ -2,7 +2,7 @@ package com.example.playlistmaker.player.data
 
 import android.media.MediaPlayer
 import com.example.playlistmaker.App
-import com.example.playlistmaker.App.Companion.historyTracks
+import com.example.playlistmaker.App.Companion.clickedTrack
 import com.example.playlistmaker.player.domain.MediaPlayerRepository
 import com.example.playlistmaker.search.domain.TrackModel
 
@@ -11,8 +11,8 @@ import com.example.playlistmaker.search.domain.TrackModel
 class MediaPlayerRepositoryImpl(private val mediaPlayer : MediaPlayer) : MediaPlayerRepository {
 
     override fun preparePlayer(url: String, onPreparedListener: () -> Unit) {
-        val sourse = historyTracks[0].previewUrl
-        mediaPlayer.setDataSource(sourse)
+        val track = clickedTrack[0].previewUrl
+        mediaPlayer.setDataSource(track)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
             onPreparedListener()
@@ -41,12 +41,12 @@ class MediaPlayerRepositoryImpl(private val mediaPlayer : MediaPlayer) : MediaPl
 
     override fun getTrack() : TrackModel {
 
-        if (App.historyTracks.isNullOrEmpty()) {
+        if (App.clickedTrack.isNullOrEmpty()) {
             val defaultTracks =  arrayListOf<TrackModel>((
                     TrackModel(1,"Выберите свою песню", "Я",100,  "a.a", "a", "2023", "a", "RU", "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/80/69/1b/80691ba9-30bb-2c5b-929c-55dab79ed6eb/mzaf_14196615094672459806.plus.aac.p.m4a")))
-            historyTracks.add(defaultTracks[0])
+            clickedTrack.add(defaultTracks[0])
         }
-         return historyTracks[0]
+         return clickedTrack[0]
     }
 
     override fun isNightTheme() : Boolean {

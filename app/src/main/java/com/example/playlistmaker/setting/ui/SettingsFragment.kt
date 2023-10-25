@@ -51,12 +51,6 @@ class SettingsFragment() : Fragment() {
         binding.frameLayoutOfer.setOnClickListener {
             viewModel.openUserAgreement()
         }
-
-
-    }
-
-    fun changeTheme(checked: Boolean) {
-        viewModel.switchTheme(checked)
     }
 }
 
