@@ -12,32 +12,30 @@ import java.lang.reflect.Type
 @Suppress("UNCHECKED_CAST")
 class SharedPrefsUtils(private val sharedPref: SharedPreferences, private val gson: Gson) : SearchDataStorage {
 
-    private val historyList = readClickedSearchSongs()
+    private val savedSongs = readClickedSearchSongs()
 
-    override fun getSearchHistory() = historyList
+    override fun getSearchHistory() = savedSongs
 
     override fun clearHistory() {
-        historyList.clear()
-        writeClickedSearchSongs()
+        savedSongs.clear()
+        writeClickedSearchSongs(savedSongs)
     }
 
     override fun addTClickedSearchSongs(track: TrackDto) {
-        if (historyList.contains(track)) {
-            historyList.remove(track)
-        }
-        if (historyList.size >= 10) {
-            historyList.removeLast()
-        }
-        historyList.add(0, track)
-        writeClickedSearchSongs()
+        if (savedSongs.contains(track)) { savedSongs.remove(track) }
+
+        while (savedSongs.size >= 10) { savedSongs.removeLast()  }
+
+        savedSongs.add(0, track)
+        writeClickedSearchSongs(savedSongs)
     }
 
-    private fun writeClickedSearchSongs() {
+    private fun writeClickedSearchSongs(savedSongs: ArrayList<TrackDto>) {
         sharedPref
             .edit()
             .clear()
             .putString(
-                CLICKED_SEARCH_TRACK, gson.toJson(historyList))
+                CLICKED_SEARCH_TRACK, gson.toJson(savedSongs))
             .apply()
     }
 
@@ -47,5 +45,4 @@ class SharedPrefsUtils(private val sharedPref: SharedPreferences, private val gs
         return gson.fromJson<Any>(json, type) as ArrayList<TrackDto>
     }
 }
-
 
