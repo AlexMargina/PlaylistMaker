@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_screen"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:foregroundTint="@color/YP_blue">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcv_main"
@@ -33,6 +34,7 @@
         android:outlineAmbientShadowColor="@color/YP_blue"
         android:soundEffectsEnabled="true"
         android:stateListAnimator="@anim/slide_in_right"
+        android:theme="@style/Theme.PlaylistMaker"
         app:itemRippleColor="@color/YP_blue"
         app:itemTextAppearanceActive="@style/Theme.PlaylistMaker"
         app:itemTextColor="@color/text_color"
@@ -40,7 +42,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bnv_main_menu"
-        app:navGraph="@navigation/navigation_graph"
-        android:theme="@style/Theme.PlaylistMaker"/>
+        app:navGraph="@navigation/navigation_graph" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

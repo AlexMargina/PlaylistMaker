@@ -1,6 +1,5 @@
 package com.example.playlistmaker.search.ui
 
-//
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -21,7 +20,6 @@ import com.example.playlistmaker.search.domain.SearchState
 import com.example.playlistmaker.search.domain.TrackModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class SearchFragment : Fragment() {
 
     private val searchedSong = ArrayList<TrackModel>()
@@ -34,10 +32,6 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModel<SearchViewModel>()
 
-    companion object {
-        private const val SEARCH_STRING = "SEARCH_STRING"
-        private const val SEARCH_DEBOUNCE_DELAY = 1000L
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -225,5 +219,9 @@ class SearchFragment : Fragment() {
                 }
             }
         }
+    }
+    companion object {
+        private const val SEARCH_STRING = "SEARCH_STRING"
+        private const val SEARCH_DEBOUNCE_DELAY = 1000L
     }
 }

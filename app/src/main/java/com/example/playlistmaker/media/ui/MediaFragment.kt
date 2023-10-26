@@ -11,8 +11,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class MediaFragment : Fragment() {
 
-    //    private var _binding: FragmentMediaBinding? = null
-//    private var binding = _binding!!
     private lateinit var binding: FragmentMediaBinding
     private var _tabMediator: TabLayoutMediator? = null
     private val tabMediator get() = _tabMediator !!

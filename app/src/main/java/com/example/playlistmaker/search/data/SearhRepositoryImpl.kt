@@ -1,7 +1,6 @@
 package com.example.playlistmaker.search.data
 
 import android.util.Log
-import com.example.playlistmaker.App
 import com.example.playlistmaker.search.data.dto.ResponseStatus
 import com.example.playlistmaker.search.data.dto.TrackDto
 import com.example.playlistmaker.search.data.dto.TracksSearchRequest
@@ -73,13 +72,13 @@ class SearchRepositoryImpl(
                 it.previewUrl
             )
         }
-        App.clickedTrack = historyTracks as ArrayList<TrackModel>
+       clickedTracks = historyTracks as ArrayList<TrackModel>
         return historyTracks
     }
 
     override fun addTrackInHistory(track: TrackModel) {
 
-        App.clickedTrack.add(0,track)
+       clickedTracks.add(0,track)
 
         searchDataStorage.addTClickedSearchSongs(
             TrackDto(
@@ -99,5 +98,11 @@ class SearchRepositoryImpl(
 
     override fun clearHistory() {
         searchDataStorage.clearHistory()
+    }
+
+    companion object {
+
+        var clickedTracks= arrayListOf<TrackModel>()
+
     }
 }

@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.playlistmaker.App
 import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchState
 import com.example.playlistmaker.search.domain.TrackModel
@@ -47,7 +46,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
 
                     if (searchTracks != null) {
                         tracks.addAll(searchTracks)
-                        App.playedTracks.addAll(searchTracks)
+                        playedTracks.addAll(searchTracks)
                     }
 
                     when {
@@ -97,5 +96,6 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2200L
+        var playedTracks = arrayListOf<TrackModel>()
     }
-}
+ }

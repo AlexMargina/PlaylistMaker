@@ -1,7 +1,7 @@
 package com.example.playlistmaker.setting.data
 
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmaker.App
 import com.example.playlistmaker.DARK_THEME_ENABLED
 import com.example.playlistmaker.setting.domain.SettingsRepository
 
@@ -10,13 +10,7 @@ class SettingsRepositoryImpl(private val prefs: SharedPreferences) : SettingsRep
     override fun switchTheme(darkThemeEnabled: Boolean ) {
         //запись в файл настроек
         prefs.edit().putBoolean(DARK_THEME_ENABLED, darkThemeEnabled).apply( )
-        AppCompatDelegate.setDefaultNightMode(
-            if (darkThemeEnabled) {
-                AppCompatDelegate.MODE_NIGHT_YES
-            } else {
-                AppCompatDelegate.MODE_NIGHT_NO
-            }
-        )
+        App().switchTheme(darkThemeEnabled)
     }
 
     override fun getThemeSettings(): Boolean {
