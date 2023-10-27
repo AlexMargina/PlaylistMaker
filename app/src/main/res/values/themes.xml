@@ -15,6 +15,31 @@
         <item name="android:outlineAmbientShadowColor">@color/YP_blue</item>
     </style>
 
+<style name="NavigationBar" parent="Theme.AppCompat.DayNight">
+    <!-- Primary brand color. -->
+    <item name="colorPrimary">@color/purple_500</item>
+    <item name="colorPrimaryVariant">@color/purple_700</item>
+    <item name="colorOnPrimary">@color/white</item>
+    <item name="android:colorPrimary">@color/YP_blue</item>
+    <item name="colorPrimaryDark">@color/purple_500</item>
+    <!-- Secondary brand color. -->
+    <item name="colorSecondary">@color/background</item>
+    <item name="colorSecondaryVariant">@color/purple_500</item>
+    <item name="colorOnSecondary">@color/black</item>
+</style>
 
+
+    <style name="NavigationBarActive" parent="NavigationBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_500</item>
+        <item name="colorOnPrimary">@color/purple_500</item>
+        <item name="android:colorPrimary">@color/YP_blue</item>
+        <item name="colorPrimaryDark">@color/purple_500</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/purple_500</item>
+        <item name="colorSecondaryVariant">@color/purple_500</item>
+        <item name="colorOnSecondary">@color/purple_500</item>
+    </style>
 
 </resources>

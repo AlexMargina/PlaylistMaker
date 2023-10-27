@@ -22,7 +22,7 @@
             <TextView
                 style="@style/TextBigStyle"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/size_xl"
+                android:layout_marginStart="@dimen/size_xxxs"
                 android:text="@string/title_activity_search" />
         </FrameLayout>
 
