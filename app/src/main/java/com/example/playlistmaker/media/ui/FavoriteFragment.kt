@@ -15,8 +15,7 @@ class FavoriteFragment : Fragment() {
     private val viewModel by viewModel<FavoriteViewModel>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         binding.ivEmptyFavorite.setImageResource(R.drawable.song_not_found)
@@ -35,8 +34,7 @@ class FavoriteFragment : Fragment() {
     companion object {
 
         fun newInstance() = FavoriteFragment().apply {
-            arguments = Bundle().apply {
-            }
+            arguments = Bundle().apply {}
         }
     }
 }

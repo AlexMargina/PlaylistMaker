@@ -6,7 +6,6 @@ import com.example.playlistmaker.di.dataModule
 import com.example.playlistmaker.di.interactorModule
 import com.example.playlistmaker.di.repositoryModule
 import com.example.playlistmaker.di.viewModelModule
-import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.sharing.data.AppPreferences
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -28,18 +27,10 @@ class App : Application() {
         }
 
         AppPreferences.setup(applicationContext)
-        if (AppPreferences.darkTheme !=null) {
+        if (AppPreferences.darkTheme != null) {
             darkTheme = AppPreferences.darkTheme !!
             switchTheme(darkTheme)
         }
-
-
-        sendText =  this.getText(R.string.extra_send).toString()
-        sendTitle =  this.getText(R.string.send_title).toString()
-        extraText = this.getText(R.string.extra_text).toString()
-        extraMail = this.getText(R.string.extra_mail).toString()
-        extraSubject = this.getText(R.string.extra_subject).toString()
-        oferUrl = this.getText(R.string.ofer_url).toString()
     }
 
     fun switchTheme(darkThemeEnabled: Boolean) {
@@ -53,17 +44,7 @@ class App : Application() {
         )
     }
 
-
     companion object {
-
-        var historyTracks= arrayListOf<TrackModel>()
-        var playedTracks = arrayListOf<TrackModel>()
         var darkTheme = false
-        var sendText = ""
-        var sendTitle = ""
-        var extraText = ""
-        var extraMail = ""
-        var extraSubject = ""
-        var oferUrl = ""
     }
 }

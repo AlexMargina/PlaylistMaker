@@ -8,5 +8,4 @@ class PlaylistViewModel : ViewModel() {
 
     private var _liveData = MutableLiveData<String>()
     val liveData: LiveData<String> = _liveData
-
 }

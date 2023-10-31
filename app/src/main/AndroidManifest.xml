@@ -18,6 +18,7 @@
 
         <activity
             android:name=".main.ui.MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,20 +31,6 @@
             android:name=".player.ui.PlayerActivity"
             android:exported="false">
         </activity>
-        <activity
-            android:name=".media.ui.MediaActivity"
-            android:exported="false">
-        </activity>
-        <activity
-            android:name=".search.ui.SearchActivity"
-            android:exported="false">
-        </activity>
-        <activity
-            android:name=".setting.ui.SettingsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_settings" >
-        </activity>
-
     </application>
 
 </manifest>

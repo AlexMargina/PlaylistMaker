@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-
     <style name="LinearLayoutStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -22,7 +20,7 @@
     </style>
 
     <style name="TextSmallStyle" parent="TextStyle">
-         <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginStart">20dp</item>
     </style>
 
     <style name="TextMediumStyle" parent="TextStyle">
@@ -154,6 +152,10 @@
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:letterSpacing">0</item>
         <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat">
+        <!-- Пользовательская тема -->
     </style>
 
 </resources>

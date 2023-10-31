@@ -77,7 +77,6 @@ class PlayerViewModel (private val mediaPlayerInteractor: MediaPlayerInteractor)
                 startAudioPlayer()
                 handler.post(updateTime())
             }
-
             else -> {prepareAudioPlayer()}
         }
     }

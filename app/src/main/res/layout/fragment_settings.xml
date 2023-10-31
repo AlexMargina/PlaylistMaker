@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".setting.ui.SettingsActivity">
+    tools:context=".setting.ui.SettingsFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -19,26 +19,16 @@
         <!-- Первый контейнер: НАСТРОЙКИ -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="@dimen/frame_layout_height"
             android:layout_gravity="center"
             android:orientation="horizontal"
             tools:ignore="UseCompoundDrawables">
 
-            <ImageView
-                android:id="@+id/back_off"
-                android:layout_width="wrap_content"
-                android:layout_height="16dp"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_end"
-
-                android:contentDescription="@string/app_name"
-                app:srcCompat="@drawable/back"
-                app:tint="@color/text_color" />
 
             <TextView
                 style="@style/TextBigStyle"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/size_xl"
+                android:layout_marginStart="@dimen/size_xs"
                 android:text="@string/buton_settings" />
 
         </LinearLayout>

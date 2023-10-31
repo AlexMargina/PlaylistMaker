@@ -2,9 +2,9 @@ package com.example.playlistmaker.sharing.domain
 
 interface ExternalNavigator  {
 
-      fun sendShare (sendText:String, sendTitle: String)
+      fun sendShare ()
 
-      fun sendMail (extraText: String, extraMail: String, extraSubject: String)
+      fun sendMail ()
 
-      fun sendOfer (oferUrl:String)
+      fun sendOfer ()
 }
