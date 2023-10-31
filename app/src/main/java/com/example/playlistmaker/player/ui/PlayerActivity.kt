@@ -1,6 +1,7 @@
 package com.example.playlistmaker.player.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -45,7 +46,8 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     fun refreshTime(time: String) {
-        binding.tvPlaybackTime.text = time
+        Log.d ("MAALMI", "viewModel.observatorScreen().value = ${viewModel.observatorScreen().value} ")
+        if (viewModel.observatorScreen().value != PlayerState.COMPLETED) {binding.tvPlaybackTime.text = time}
     }
 
 
@@ -67,7 +69,7 @@ class PlayerActivity : AppCompatActivity() {
 
                 else -> {
                     binding.btPlay.setIconResource(R.drawable.button_play_night)
-
+                    binding.tvPlaybackTime.setText(R.string.null_time)
                 }
             }
         } else {
@@ -87,7 +89,7 @@ class PlayerActivity : AppCompatActivity() {
 
                 else -> {
                     binding.btPlay.setIconResource(R.drawable.button_play_day)
-
+                    binding.tvPlaybackTime.setText(R.string.null_time)
                 }
             }
         }

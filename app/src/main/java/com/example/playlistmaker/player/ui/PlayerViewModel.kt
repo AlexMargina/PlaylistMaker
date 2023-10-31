@@ -63,7 +63,8 @@ class PlayerViewModel (private val mediaPlayerInteractor: MediaPlayerInteractor)
 
     private fun setOnCompleteListener() {
         mediaPlayerInteractor.setOnCompletionListener {
-            updateState(PlayerState.PREPARED)
+            handler.removeCallbacksAndMessages(updateTime())
+            updateState(PlayerState.COMPLETED)
         }
     }
 
@@ -73,7 +74,7 @@ class PlayerViewModel (private val mediaPlayerInteractor: MediaPlayerInteractor)
                 pauseAudioPlayer()
             }
 
-            is PlayerState.PREPARED, PlayerState.PAUSED -> {
+            is PlayerState.PREPARED, PlayerState.PAUSED, PlayerState.COMPLETED -> {
                 startAudioPlayer()
                 handler.post(updateTime())
             }
