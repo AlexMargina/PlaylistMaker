@@ -37,8 +37,8 @@
             android:layout_marginStart="@dimen/size_xxs"
             android:ellipsize="end"
             android:maxLines="1"
-            android:paddingTop="@dimen/margin_bottom"
-            android:paddingEnd="@dimen/size_xxl"
+            android:paddingTop="@dimen/size_xs"
+            android:paddingEnd="@dimen/size_xl"
             tools:text="Название музыкальной композиции" />
 
         <LinearLayout
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_marginStart="@dimen/size_xxs"
-                android:layout_marginBottom="@dimen/margin_bottom"
+                android:layout_marginBottom="@dimen/size_xs"
                 android:ellipsize="end"
                 android:maxWidth="@dimen/maxWindth_songArtist"
                 android:maxLines="1"
