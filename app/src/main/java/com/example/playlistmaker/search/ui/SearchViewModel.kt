@@ -1,46 +1,58 @@
 package com.example.playlistmaker.search.ui
 
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchState
 import com.example.playlistmaker.search.domain.TrackModel
+import com.example.playlistmaker.utils.debounce
 
 
 class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewModel() {
 
-    private val handler = Handler(Looper.getMainLooper())
-    lateinit var searchRunnable: Runnable
     private val _stateLiveData = MutableLiveData<SearchState>()
-
     fun stateLiveData(): LiveData<SearchState> = _stateLiveData
 
     private var latestSearchText: String? = null
 
-    fun searchDebounce(changedText: String, hasError: Boolean) {
-        var searchedText = ""
-        if (latestSearchText == changedText && !hasError) {
-            return
-        }
-        Log.d ("MAALMI_SearchViewModel", "Пришло вначале в searchDebounce ($changedText)")
-        if (changedText.trim().equals("hello")) {searchedText = "helo"
-          } else {searchedText=changedText
-        }
-        this.latestSearchText = changedText
-        handler.removeCallbacksAndMessages("MAALMI")
-        searchRunnable = Runnable { searchSong(searchedText) }
-        handler.postDelayed (searchRunnable, "MAALMI", SEARCH_DEBOUNCE_DELAY)
+    private val trackSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { changedText ->
+        searchSong(changedText)
     }
 
-    private fun searchSong(expression: String) {
-          if (expression.isNotEmpty()) {
+    fun searchDebounce(changedText: String) {
+        if (latestSearchText != changedText) {
+            latestSearchText = changedText
+            trackSearchDebounce(changedText)
+        }
+    }
+
+    // private val handler = Handler(Looper.getMainLooper())
+    //lateinit var searchRunnable: Runnable
+//    fun searchDebounce(changedText: String, hasError: Boolean) {
+//        var searchedText = ""
+//        if (latestSearchText == changedText && ! hasError) {
+//            return
+//        }
+//        Log.d("MAALMI_SearchViewModel", "Пришло вначале в searchDebounce ($changedText)")
+//        if (changedText.trim().equals("hello")) {
+//            searchedText = "helo"
+//        } else {
+//            searchedText = changedText
+//        }
+//        this.latestSearchText = changedText
+//        handler.removeCallbacksAndMessages("MAALMI")
+//        searchRunnable = Runnable { searchSong(searchedText) }
+//        handler.postDelayed(searchRunnable, "MAALMI", SEARCH_DEBOUNCE_DELAY)
+//    }
+
+
+    private fun searchSong(changedText: String) {
+        if (changedText.isNotEmpty()) {
             updateState(SearchState.Loading)
 
-            searchInteractor.searchTracks(expression, object : SearchInteractor.SearchConsumer {
+            searchInteractor.searchTracks(changedText, object : SearchInteractor.SearchConsumer {
                 override fun consume(searchTracks: List<TrackModel>?, hasError: Boolean?) {
                     val tracks = arrayListOf<TrackModel>()
 
@@ -77,7 +89,6 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
 
     fun addTrackToHistory(track: TrackModel, activity: SearchFragment) {
         searchInteractor.addTrackToHistory(track)
-
     }
 
     fun clearHistory() {
@@ -88,14 +99,13 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
         _stateLiveData.postValue(state)
     }
 
-    override fun onCleared() {
-        handler.removeCallbacks(searchRunnable)
-    }
-
+//    override fun onCleared() {
+//        handler.removeCallbacks(searchRunnable)
+//    }
 
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2200L
         var playedTracks = arrayListOf<TrackModel>()
     }
- }
+}

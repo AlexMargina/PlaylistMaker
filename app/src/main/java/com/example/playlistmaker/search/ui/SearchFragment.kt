@@ -53,7 +53,7 @@ class SearchFragment : Fragment() {
         // обработка нажатия на кнопку Done
         binding.inputSearchText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                viewModel.searchDebounce(searchText, true)
+                viewModel.searchDebounce(searchText)
                 binding.groupSearched.isVisible = true
             }
             false
@@ -61,7 +61,7 @@ class SearchFragment : Fragment() {
 
         // обработка нажатия на кнопку Обновить
         binding.inetProblem.setOnClickListener {
-            viewModel.searchDebounce(searchText, true)
+            viewModel.searchDebounce(searchText)
         }
 
         // обработка нажатия на кнопку Очистить историю
@@ -106,7 +106,7 @@ class SearchFragment : Fragment() {
                 binding.iconClearSearch.isVisible = ! s.isNullOrEmpty()
                 binding.groupClicked.isVisible = false
                 searchText = s.toString()
-                viewModel.searchDebounce(searchText, false)
+                viewModel.searchDebounce(searchText)
             }
 
             override fun afterTextChanged(s: Editable?) {}
