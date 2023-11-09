@@ -2,8 +2,6 @@ package com.example.playlistmaker.search.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -13,11 +11,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.player.ui.PlayerActivity
 import com.example.playlistmaker.search.domain.SearchState
 import com.example.playlistmaker.search.domain.TrackModel
+import com.example.playlistmaker.utils.debounce
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
@@ -26,12 +26,13 @@ class SearchFragment : Fragment() {
     private val clickedSong = ArrayList<TrackModel>()
     private val searchMusicAdapter = SearchMusicAdapter(searchedSong) { trackClickListener(it) }
     private val clickedMusicAdapter = SearchMusicAdapter(clickedSong) { trackClickListener(it) }
-    private val handler = Handler(Looper.getMainLooper())
+ //   private val handler = Handler(Looper.getMainLooper())
     private var searchText = ""
-    private var clickAllowed = true
+   // private var clickAllowed = true
     private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModel<SearchViewModel>()
 
+    private lateinit var trackClickListener: (TrackModel) -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -114,6 +115,12 @@ class SearchFragment : Fragment() {
 
         provideTextWatcher(textWatcher())
 
+
+        trackClickListener = debounce (CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false) { track ->
+            viewModel.addTrackToHistory(track, this)
+            runPlayer(track.trackId.toString())
+        }
+
         // КОНЕЦ  fun onViewCreated
     }
 
@@ -132,21 +139,21 @@ class SearchFragment : Fragment() {
     }
 
 
-    private fun trackClickListener(track: TrackModel) {
-        if (isClickAllowed()) {
-            viewModel.addTrackToHistory(track, this)
-            runPlayer(track.trackId.toString())
-        }
-    }
-
-    private fun isClickAllowed(): Boolean {
-        val current = clickAllowed
-        if (clickAllowed) {
-            clickAllowed = false
-            handler.postDelayed({ clickAllowed = true }, SEARCH_DEBOUNCE_DELAY)
-        }
-        return current
-    }
+//    private fun trackClickListener(track: TrackModel) {
+//        if (isClickAllowed()) {
+//            viewModel.addTrackToHistory(track, this)
+//            runPlayer(track.trackId.toString())
+//        }
+//    }
+//
+//    private fun isClickAllowed(): Boolean {
+//        val current = clickAllowed
+//        if (clickAllowed) {
+//            clickAllowed = false
+//            handler.postDelayed({ clickAllowed = true }, SEARCH_DEBOUNCE_DELAY)
+//        }
+//        return current
+//    }
 
 
     private fun runPlayer(trackId: String) {
@@ -223,5 +230,6 @@ class SearchFragment : Fragment() {
     companion object {
         private const val SEARCH_STRING = "SEARCH_STRING"
         private const val SEARCH_DEBOUNCE_DELAY = 1000L
+        private const val CLICK_DEBOUNCE_DELAY = 300L
     }
 }
