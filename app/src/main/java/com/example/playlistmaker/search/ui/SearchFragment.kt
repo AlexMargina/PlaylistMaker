@@ -26,13 +26,10 @@ class SearchFragment : Fragment() {
     private val clickedSong = ArrayList<TrackModel>()
     private val searchMusicAdapter = SearchMusicAdapter(searchedSong) { trackClickListener(it) }
     private val clickedMusicAdapter = SearchMusicAdapter(clickedSong) { trackClickListener(it) }
- //   private val handler = Handler(Looper.getMainLooper())
-    private var searchText = ""
-   // private var clickAllowed = true
+    private lateinit var trackClickListener: (TrackModel) -> Unit
     private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModel<SearchViewModel>()
-
-    private lateinit var trackClickListener: (TrackModel) -> Unit
+    private var searchText = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -116,7 +113,10 @@ class SearchFragment : Fragment() {
         provideTextWatcher(textWatcher())
 
 
-        trackClickListener = debounce (CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false) { track ->
+        trackClickListener = debounce(
+            CLICK_DEBOUNCE_DELAY,
+            viewLifecycleOwner.lifecycleScope, false
+        ) { track ->
             viewModel.addTrackToHistory(track, this)
             runPlayer(track.trackId.toString())
         }
@@ -137,23 +137,6 @@ class SearchFragment : Fragment() {
             }
         }
     }
-
-
-//    private fun trackClickListener(track: TrackModel) {
-//        if (isClickAllowed()) {
-//            viewModel.addTrackToHistory(track, this)
-//            runPlayer(track.trackId.toString())
-//        }
-//    }
-//
-//    private fun isClickAllowed(): Boolean {
-//        val current = clickAllowed
-//        if (clickAllowed) {
-//            clickAllowed = false
-//            handler.postDelayed({ clickAllowed = true }, SEARCH_DEBOUNCE_DELAY)
-//        }
-//        return current
-//    }
 
 
     private fun runPlayer(trackId: String) {
@@ -227,9 +210,8 @@ class SearchFragment : Fragment() {
             }
         }
     }
+
     companion object {
-        private const val SEARCH_STRING = "SEARCH_STRING"
-        private const val SEARCH_DEBOUNCE_DELAY = 1000L
         private const val CLICK_DEBOUNCE_DELAY = 300L
     }
 }

@@ -5,6 +5,7 @@ import com.example.playlistmaker.search.domain.TrackModel
 class MediaPlayerInteractorImpl(val mediaPlayerRepository :MediaPlayerRepository) :
     MediaPlayerInteractor {
 
+    override val isPlaying  = mediaPlayerRepository.isPlaying
 
     override fun preparePlayer(url: String, onPreparedListener: () -> Unit) {
         mediaPlayerRepository.preparePlayer(url, onPreparedListener)
@@ -24,6 +25,10 @@ class MediaPlayerInteractorImpl(val mediaPlayerRepository :MediaPlayerRepository
 
     override fun pausePlayer() {
         mediaPlayerRepository.pausePlayer()
+    }
+
+    override fun stopPlayer() {
+        mediaPlayerRepository.stopPlayer()
     }
 
     override fun destroyPlayer() {

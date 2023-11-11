@@ -28,26 +28,6 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
         }
     }
 
-    // private val handler = Handler(Looper.getMainLooper())
-    //lateinit var searchRunnable: Runnable
-//    fun searchDebounce(changedText: String, hasError: Boolean) {
-//        var searchedText = ""
-//        if (latestSearchText == changedText && ! hasError) {
-//            return
-//        }
-//        Log.d("MAALMI_SearchViewModel", "Пришло вначале в searchDebounce ($changedText)")
-//        if (changedText.trim().equals("hello")) {
-//            searchedText = "helo"
-//        } else {
-//            searchedText = changedText
-//        }
-//        this.latestSearchText = changedText
-//        handler.removeCallbacksAndMessages("MAALMI")
-//        searchRunnable = Runnable { searchSong(searchedText) }
-//        handler.postDelayed(searchRunnable, "MAALMI", SEARCH_DEBOUNCE_DELAY)
-//    }
-
-
     private fun searchSong(changedText: String) {
         if (changedText.isNotEmpty()) {
             updateState(SearchState.Loading)
@@ -98,10 +78,6 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     private fun updateState(state: SearchState) {
         _stateLiveData.postValue(state)
     }
-
-//    override fun onCleared() {
-//        handler.removeCallbacks(searchRunnable)
-//    }
 
 
     companion object {

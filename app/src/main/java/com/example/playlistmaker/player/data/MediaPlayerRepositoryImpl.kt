@@ -8,6 +8,8 @@ import com.example.playlistmaker.search.domain.TrackModel
 
 class MediaPlayerRepositoryImpl(private val mediaPlayer : MediaPlayer) : MediaPlayerRepository {
 
+    override val isPlaying = mediaPlayer.isPlaying
+
     override fun preparePlayer(url: String, onPreparedListener: () -> Unit) {
         val track = clickedTracks[0].previewUrl
         mediaPlayer.setDataSource(track)
@@ -33,13 +35,16 @@ class MediaPlayerRepositoryImpl(private val mediaPlayer : MediaPlayer) : MediaPl
         mediaPlayer.pause()
     }
 
+    override fun stopPlayer() {
+        mediaPlayer.reset()
+    }
+
     override fun destroyPlayer() {
         mediaPlayer.release()
     }
 
     override fun getTrack() : TrackModel {
-
-          return clickedTracks[0]
+        return clickedTracks[0]
     }
 
     override fun isNightTheme() : Boolean {
