@@ -8,6 +8,7 @@ import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchState
 import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.utils.debounce
+import kotlinx.coroutines.launch
 
 
 class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewModel() {
@@ -17,7 +18,8 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
 
     private var latestSearchText: String? = null
 
-    private val trackSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { changedText ->
+    private val trackSearchDebounce = debounce<String>(
+        SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { changedText ->
         searchSong(changedText)
     }
 
@@ -32,26 +34,32 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
         if (changedText.isNotEmpty()) {
             updateState(SearchState.Loading)
 
-            searchInteractor.searchTracks(changedText, object : SearchInteractor.SearchConsumer {
-                override fun consume(searchTracks: List<TrackModel>?, hasError: Boolean?) {
-                    val tracks = arrayListOf<TrackModel>()
-
-                    if (searchTracks != null) {
-                        tracks.addAll(searchTracks)
-                        playedTracks.addAll(searchTracks)
+            viewModelScope.launch {
+                searchInteractor.searchTracks(changedText)
+                    .collect { pair ->
+                        processResult(pair.first, pair.second)
                     }
+            }
+        }
+    }
 
-                    when {
-                        tracks.isEmpty() -> {
-                            updateState(SearchState.Empty())
-                        }
+    private fun processResult(searchTracks: List<TrackModel>?, errorMessage: Boolean?) {
+        val tracks = arrayListOf<TrackModel>()
+        if (searchTracks != null) {
+            playedTracks.addAll(searchTracks)
+            tracks.addAll(searchTracks)
+        }
 
-                        tracks.isNotEmpty() -> {
-                            updateState(SearchState.Content(tracks))
-                        }
-                    }
-                }
-            })
+        when {
+            errorMessage != null -> {
+                updateState(SearchState.Empty())
+            }
+            tracks.isEmpty() -> {
+                updateState(SearchState.Content(tracks))
+            }
+            else -> {
+                updateState(SearchState.Content(tracks))
+            }
         }
     }
 

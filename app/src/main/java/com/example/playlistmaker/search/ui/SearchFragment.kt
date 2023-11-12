@@ -121,6 +121,7 @@ class SearchFragment : Fragment() {
             runPlayer(track.trackId.toString())
         }
 
+        binding.inputSearchText.requestFocus()
         // КОНЕЦ  fun onViewCreated
     }
 

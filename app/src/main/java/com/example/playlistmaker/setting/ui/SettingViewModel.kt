@@ -40,6 +40,4 @@ class SettingViewModel(
     fun openUserAgreement() {
         sharingInteractor.openTerms()
     }
-
-
 }

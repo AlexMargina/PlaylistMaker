@@ -28,7 +28,7 @@ class SettingsFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.theme.observe(viewLifecycleOwner) { checked ->
-            binding.themeSwitcher.isFocusable = checked
+            binding.themeSwitcher.isChecked = checked
         }
 
 

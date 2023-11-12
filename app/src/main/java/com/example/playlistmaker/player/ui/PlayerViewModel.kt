@@ -1,6 +1,5 @@
 package com.example.playlistmaker.player.ui
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -92,7 +91,6 @@ class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) 
             }
 
             is PlayerState.PAUSED -> {
-                Log.d("MAALMI", "fun playbackControl()  onPause start AudioPlayer()")
                 startAudioPlayer()
             }
 
