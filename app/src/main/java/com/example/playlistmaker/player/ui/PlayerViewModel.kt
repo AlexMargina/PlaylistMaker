@@ -33,12 +33,10 @@ class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) 
     }
 
     private fun setCompletionMediaPlayer() {
-
         mediaPlayerInteractor.setOnCompletionListener {
+            timerJob?.cancel()
             mediaPlayerInteractor.stopPlayer()
             prepareMediaPlayer()
-            _playerState.postValue(PlayerState.PREPARED())
-            timerJob?.cancel()
         }
     }
 

@@ -27,7 +27,8 @@ class SearchFragment : Fragment() {
     private val searchMusicAdapter = SearchMusicAdapter(searchedSong) { trackClickListener(it) }
     private val clickedMusicAdapter = SearchMusicAdapter(clickedSong) { trackClickListener(it) }
     private lateinit var trackClickListener: (TrackModel) -> Unit
-    private lateinit var binding: FragmentSearchBinding
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
     private var searchText = ""
 
@@ -36,7 +37,7 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentSearchBinding.inflate(layoutInflater)
+        _binding = FragmentSearchBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -210,6 +211,11 @@ class SearchFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
