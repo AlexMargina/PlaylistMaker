@@ -1,7 +1,6 @@
 package com.example.playlistmaker.player.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -25,33 +24,27 @@ class PlayerActivity : AppCompatActivity() {
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.observatorScreen().observe(this) {
+        viewModel.observePlayerState().observe(this) {
+            refreshTime(it.progress)
             refreshScreen(it)
         }
 
-        viewModel.observatorTimer().observe(this) {
-            refreshTime(it)
-        }
-
-
-        assign(getTrack())
-
         binding.btPlay.setOnClickListener {
-            if (viewModel.isClickAllowed()) {
-                viewModel.playbackControl()
-            }
+            viewModel.playbackControl()
         }
 
         binding.ivBack.setOnClickListener { finish() }
+
+        assign(getTrack())
     }
 
     fun refreshTime(time: String) {
-        Log.d ("MAALMI", "viewModel.observatorScreen().value = ${viewModel.observatorScreen().value} ")
-        if (viewModel.observatorScreen().value != PlayerState.COMPLETED) {binding.tvPlaybackTime.text = time}
+        if (viewModel.observePlayerState().value != PlayerState.PREPARED()) {binding.tvPlaybackTime.text = time}
     }
 
 
     private fun refreshScreen(state: PlayerState) {
+        binding.btPlay.isEnabled = state.isPlayButtonEnabled
         if (viewModel.isNightTheme()) {
             when (state) {
                 is PlayerState.PLAYING -> {
@@ -65,6 +58,7 @@ class PlayerActivity : AppCompatActivity() {
                 is PlayerState.PREPARED -> {
                     binding.btPlay.setIconResource(R.drawable.button_play_night)
                     binding.btPlay.isEnabled = true
+                    binding.tvPlaybackTime.setText(R.string.null_time)
                 }
 
                 else -> {
@@ -85,6 +79,7 @@ class PlayerActivity : AppCompatActivity() {
                 is PlayerState.PREPARED -> {
                     binding.btPlay.setIconResource(R.drawable.button_play_day)
                     binding.btPlay.isEnabled = true
+                    binding.tvPlaybackTime.setText(R.string.null_time)
                 }
 
                 else -> {

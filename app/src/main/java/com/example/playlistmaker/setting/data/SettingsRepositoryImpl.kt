@@ -1,6 +1,8 @@
 package com.example.playlistmaker.setting.data
 
 import android.content.SharedPreferences
+import android.content.res.Configuration
+import android.content.res.Resources
 import com.example.playlistmaker.App
 import com.example.playlistmaker.DARK_THEME_ENABLED
 import com.example.playlistmaker.setting.domain.SettingsRepository
@@ -14,10 +16,15 @@ class SettingsRepositoryImpl(private val prefs: SharedPreferences) : SettingsRep
     }
 
     override fun getThemeSettings(): Boolean {
-        return prefs.getBoolean(DARK_THEME_ENABLED, false)
+        val defaultSystemDarkMode = isDarkModeOn()
+        return prefs.getBoolean(DARK_THEME_ENABLED, defaultSystemDarkMode)
     }
 
-
+        fun isDarkModeOn(): Boolean {
+            val nightModeFlags = Resources.getSystem().configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            val isDarkModeOn = nightModeFlags == Configuration.UI_MODE_NIGHT_YES
+            return isDarkModeOn
+        }
 }
 
 

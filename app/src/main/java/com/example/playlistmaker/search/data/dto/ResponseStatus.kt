@@ -1,5 +1,6 @@
 package com.example.playlistmaker.search.data.dto
 
+
 sealed class ResponseStatus<T>(val data: T? = null, val hasError: Boolean? = false) {
 
     class Success<T>(data: T): ResponseStatus<T>(data)

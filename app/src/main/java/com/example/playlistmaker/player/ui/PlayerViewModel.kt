@@ -1,120 +1,102 @@
 package com.example.playlistmaker.player.ui
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.player.domain.MediaPlayerInteractor
 import com.example.playlistmaker.player.domain.PlayerState
 import com.example.playlistmaker.search.domain.TrackModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlayerViewModel (private val mediaPlayerInteractor: MediaPlayerInteractor): ViewModel() {
+class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) : ViewModel() {
 
-    private val handler = Handler(Looper.getMainLooper())
+    private var timerJob: Job? = null
+    private val RefreshDelayMs = 300L
 
-    private var clickAllowed = true
-    private val RefreshDelayMs = 333L
-    private val ClickDelayMs = 1000L
-    private val _stateLiveData = MutableLiveData<PlayerState>()
-    private val _timerLiveData = MutableLiveData<String>()
-
-    fun observatorScreen(): LiveData<PlayerState> = _stateLiveData
-    fun observatorTimer(): LiveData<String> = _timerLiveData
+    private val _playerState = MutableLiveData<PlayerState>(PlayerState.DEFAULT())
+    fun observePlayerState(): LiveData<PlayerState> = _playerState
 
     init {
-        updateState(PlayerState.DEFAULT)
-        prepareAudioPlayer()
-        setOnCompleteListener()
-        isClickAllowed()
+        prepareMediaPlayer()
+        setCompletionMediaPlayer()
     }
 
-    fun getTrack() : TrackModel {
-        return mediaPlayerInteractor.getTrack()
-    }
-
-    fun isNightTheme() : Boolean {
-        return mediaPlayerInteractor.isNightTheme()
-    }
-
-    private fun prepareAudioPlayer() {
+    private fun prepareMediaPlayer() {
         mediaPlayerInteractor.preparePlayer(getTrack().previewUrl) {
-            updateState(PlayerState.PREPARED)
+            _playerState.postValue(PlayerState.PREPARED())
         }
     }
 
+    private fun setCompletionMediaPlayer() {
+        mediaPlayerInteractor.setOnCompletionListener {
+            timerJob?.cancel()
+            mediaPlayerInteractor.stopPlayer()
+            prepareMediaPlayer()
+        }
+    }
+
+    fun getTrack(): TrackModel {
+        return mediaPlayerInteractor.getTrack()
+    }
+
+    private fun getCurrentPosition(): String {
+        return SimpleDateFormat(
+            "mm:ss",
+            Locale.getDefault()
+        ).format(mediaPlayerInteractor.currentPosition()) ?: "00:00"
+    }
+
+    fun isNightTheme(): Boolean {
+        return mediaPlayerInteractor.isNightTheme()
+    }
 
     private fun startAudioPlayer() {
         mediaPlayerInteractor.startPlayer()
-        updateState(PlayerState.PLAYING(mediaPlayerInteractor.currentPosition()))
+        _playerState.postValue(PlayerState.PLAYING(getCurrentPosition()))
+        startTimer()
     }
 
     private fun pauseAudioPlayer() {
         mediaPlayerInteractor.pausePlayer()
-        updateState(PlayerState.PAUSED)
+        timerJob?.cancel()
+        _playerState.postValue(PlayerState.PAUSED(getCurrentPosition()))
     }
 
-
-    private fun getCurrentPosition(): Int {
-        return mediaPlayerInteractor.currentPosition()
-    }
-
-    private fun setOnCompleteListener() {
-        mediaPlayerInteractor.setOnCompletionListener {
-            handler.removeCallbacksAndMessages(updateTime())
-            updateState(PlayerState.COMPLETED)
+    private fun startTimer() {
+        timerJob = viewModelScope.launch {
+            delay(RefreshDelayMs)
+            while (_playerState.value is PlayerState.PLAYING) {
+                delay(RefreshDelayMs)
+                _playerState.postValue(PlayerState.PLAYING(getCurrentPosition()))
+            }
         }
     }
 
+
     fun playbackControl() {
-        when (_stateLiveData.value) {
+        when (_playerState.value) {
             is PlayerState.PLAYING -> {
                 pauseAudioPlayer()
             }
 
-            is PlayerState.PREPARED, PlayerState.PAUSED, PlayerState.COMPLETED -> {
+            is PlayerState.PREPARED -> {
                 startAudioPlayer()
-                handler.post(updateTime())
             }
-            else -> {prepareAudioPlayer()}
-        }
-    }
 
-    private fun updateState(state: PlayerState) {
-        _stateLiveData.postValue(state)
+            is PlayerState.PAUSED -> {
+                startAudioPlayer()
+            }
+
+            else -> {}
+        }
     }
 
     override fun onCleared() {
-        handler.removeCallbacksAndMessages(null)
         mediaPlayerInteractor.destroyPlayer()
-    }
-
-    fun onPause() {
-        handler.removeCallbacksAndMessages(updateTime())
-        mediaPlayerInteractor.pausePlayer()
-        updateState(PlayerState.PAUSED)
-    }
-
-    private fun updateTime(): Runnable {
-        return object : Runnable {
-            override fun run() {
-                _timerLiveData.postValue(
-                    SimpleDateFormat("mm:ss", Locale.getDefault())
-                        .format(getCurrentPosition())
-                )
-                handler.postDelayed(this, RefreshDelayMs)
-            }
-        }
-    }
-
-    fun isClickAllowed(): Boolean {
-        val current = clickAllowed
-        if (clickAllowed) {
-            clickAllowed = false
-            handler.postDelayed({ clickAllowed = true }, ClickDelayMs)
-        }
-        return current
     }
 }

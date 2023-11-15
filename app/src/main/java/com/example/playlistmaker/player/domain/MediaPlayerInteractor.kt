@@ -5,6 +5,8 @@ import com.example.playlistmaker.search.domain.TrackModel
 
 interface MediaPlayerInteractor {
 
+    val isPlaying : Boolean
+
     fun preparePlayer(url: String, onPreparedListener: () -> Unit)
 
     fun setOnCompletionListener(onCompletionListener: () -> Unit)
@@ -14,6 +16,8 @@ interface MediaPlayerInteractor {
     fun startPlayer()
 
     fun pausePlayer()
+
+    fun stopPlayer()
 
     fun destroyPlayer()
 

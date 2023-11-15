@@ -11,7 +11,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class MediaFragment : Fragment() {
 
-    private lateinit var binding: FragmentMediaBinding
+    private var _binding: FragmentMediaBinding? = null
+    private val binding get()=_binding!!
     private var _tabMediator: TabLayoutMediator? = null
     private val tabMediator get() = _tabMediator !!
 
@@ -21,7 +22,7 @@ class MediaFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
 
-        binding = FragmentMediaBinding.inflate(layoutInflater)
+        _binding = FragmentMediaBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -35,14 +36,12 @@ class MediaFragment : Fragment() {
                 1 -> tab.setText(R.string.playlists)
             }
         }
-
         tabMediator.attach()
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
-
+        _binding = null
         _tabMediator?.detach()
     }
 }

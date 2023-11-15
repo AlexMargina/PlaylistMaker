@@ -2,8 +2,6 @@ package com.example.playlistmaker.search.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -13,11 +11,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.player.ui.PlayerActivity
 import com.example.playlistmaker.search.domain.SearchState
 import com.example.playlistmaker.search.domain.TrackModel
+import com.example.playlistmaker.utils.debounce
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
@@ -26,19 +26,18 @@ class SearchFragment : Fragment() {
     private val clickedSong = ArrayList<TrackModel>()
     private val searchMusicAdapter = SearchMusicAdapter(searchedSong) { trackClickListener(it) }
     private val clickedMusicAdapter = SearchMusicAdapter(clickedSong) { trackClickListener(it) }
-    private val handler = Handler(Looper.getMainLooper())
-    private var searchText = ""
-    private var clickAllowed = true
-    private lateinit var binding: FragmentSearchBinding
+    private lateinit var trackClickListener: (TrackModel) -> Unit
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
-
+    private var searchText = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentSearchBinding.inflate(layoutInflater)
+        _binding = FragmentSearchBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -53,7 +52,7 @@ class SearchFragment : Fragment() {
         // обработка нажатия на кнопку Done
         binding.inputSearchText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                viewModel.searchDebounce(searchText, true)
+                viewModel.searchDebounce(searchText)
                 binding.groupSearched.isVisible = true
             }
             false
@@ -61,7 +60,7 @@ class SearchFragment : Fragment() {
 
         // обработка нажатия на кнопку Обновить
         binding.inetProblem.setOnClickListener {
-            viewModel.searchDebounce(searchText, true)
+            viewModel.searchDebounce(searchText)
         }
 
         // обработка нажатия на кнопку Очистить историю
@@ -106,7 +105,7 @@ class SearchFragment : Fragment() {
                 binding.iconClearSearch.isVisible = ! s.isNullOrEmpty()
                 binding.groupClicked.isVisible = false
                 searchText = s.toString()
-                viewModel.searchDebounce(searchText, false)
+                viewModel.searchDebounce(searchText)
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -114,6 +113,16 @@ class SearchFragment : Fragment() {
 
         provideTextWatcher(textWatcher())
 
+
+        trackClickListener = debounce(
+            CLICK_DEBOUNCE_DELAY,
+            viewLifecycleOwner.lifecycleScope, false
+        ) { track ->
+            viewModel.addTrackToHistory(track, this)
+            runPlayer(track.trackId.toString())
+        }
+
+        binding.inputSearchText.requestFocus()
         // КОНЕЦ  fun onViewCreated
     }
 
@@ -129,23 +138,6 @@ class SearchFragment : Fragment() {
                     binding.groupClicked.isVisible = false
             }
         }
-    }
-
-
-    private fun trackClickListener(track: TrackModel) {
-        if (isClickAllowed()) {
-            viewModel.addTrackToHistory(track, this)
-            runPlayer(track.trackId.toString())
-        }
-    }
-
-    private fun isClickAllowed(): Boolean {
-        val current = clickAllowed
-        if (clickAllowed) {
-            clickAllowed = false
-            handler.postDelayed({ clickAllowed = true }, SEARCH_DEBOUNCE_DELAY)
-        }
-        return current
     }
 
 
@@ -220,8 +212,13 @@ class SearchFragment : Fragment() {
             }
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     companion object {
-        private const val SEARCH_STRING = "SEARCH_STRING"
-        private const val SEARCH_DEBOUNCE_DELAY = 1000L
+        private const val CLICK_DEBOUNCE_DELAY = 300L
     }
 }
