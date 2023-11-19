@@ -3,8 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:theme="@style/Theme.PlaylistMaker"
     tools:context=".media.ui.FavoriteFragment">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewFavorite"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginVertical="@dimen/size_xxxs"
+        android:layout_marginTop="@dimen/size_xxs"
+        android:layout_weight="0.5"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/layout_search_song" />
 
     <LinearLayout
         android:id="@+id/empty_favorite"
@@ -12,7 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingTop="104dp">
+        android:paddingTop="104dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/iv_empty_favorite"

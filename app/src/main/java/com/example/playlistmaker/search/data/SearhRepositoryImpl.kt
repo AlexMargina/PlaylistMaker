@@ -1,6 +1,8 @@
 package com.example.playlistmaker.search.data
 
 
+import com.example.playlistmaker.media.data.db.AppDatabase
+import com.example.playlistmaker.media.data.db.convertor.TrackDbConvertor
 import com.example.playlistmaker.search.data.dto.ResponseStatus
 import com.example.playlistmaker.search.data.dto.TrackDto
 import com.example.playlistmaker.search.data.dto.TracksSearchRequest
@@ -13,7 +15,9 @@ import kotlinx.coroutines.flow.flow
 
 class SearchRepositoryImpl(
     private val networkClient: NetworkClient,
-    private val searchDataStorage: SearchDataStorage
+    private val searchDataStorage: SearchDataStorage,
+    private val appDatabase: AppDatabase,
+    private val trackDbConvertor: TrackDbConvertor,
 ) : SearchRepository {
 
 
@@ -31,16 +35,17 @@ class SearchRepositoryImpl(
                     TrackModel(
                         trackId = it.trackId,
                         trackName = it.trackName,
-                        artistName=it.artistName,
-                        trackTimeMillis=it.trackTimeMillis,
-                        artworkUrl100=it.artworkUrl100,
-                        collectionName=it.collectionName,
-                        releaseDate=it.releaseDate,
-                        primaryGenreName=it.primaryGenreName,
-                        country=it.country,
-                        previewUrl=it.previewUrl
+                        artistName =it.artistName,
+                        trackTimeMillis =it.trackTimeMillis,
+                        artworkUrl100 =it.artworkUrl100,
+                        collectionName =it.collectionName,
+                        releaseDate =it.releaseDate,
+                        primaryGenreName =it.primaryGenreName,
+                        country =it.country,
+                        previewUrl =it.previewUrl
                     )
                 }
+                saveTrack (results)
                  emit(ResponseStatus.Success(data))
             }
         }
@@ -51,6 +56,11 @@ class SearchRepositoryImpl(
         }
 
 
+    }
+
+    private suspend fun saveTrack(tracks: List<TrackDto>) {
+        val trackEntities = tracks.map { track -> trackDbConvertor.map(track) }
+        appDatabase.trackDao().insertTracks(trackEntities)
     }
 
     override fun getTrackHistoryList(): List<TrackModel> {

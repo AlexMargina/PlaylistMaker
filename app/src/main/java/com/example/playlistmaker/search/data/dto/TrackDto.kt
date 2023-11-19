@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class TrackDto(
 
-    val trackId: Int,
+    val trackId: String,
     val trackName: String,
     val artistName: String,
     val trackTimeMillis: Long,
