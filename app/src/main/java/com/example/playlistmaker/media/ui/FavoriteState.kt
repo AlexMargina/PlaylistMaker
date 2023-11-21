@@ -3,15 +3,15 @@ package com.example.playlistmaker.media.ui
 
 import com.example.playlistmaker.search.domain.TrackModel
 
-sealed class HistoryState {
+sealed class FavoriteState {
 
-    object Loading : HistoryState()
+    object Loading : FavoriteState()
 
     data class Content(
-        val movies: List<TrackModel>
-    ) : HistoryState()
+        val tracks: List<TrackModel>
+    ) : FavoriteState()
 
     data class Empty(
         val message: String
-    ) : HistoryState()
+    ) : FavoriteState()
 }

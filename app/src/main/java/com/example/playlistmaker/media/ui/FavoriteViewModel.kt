@@ -2,46 +2,50 @@ package com.example.playlistmaker.media.ui
 
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.R
-import com.example.playlistmaker.media.domain.db.HistoryInteractor
+import com.example.playlistmaker.media.domain.db.FavoriteInteractor
 import com.example.playlistmaker.search.domain.TrackModel
 import kotlinx.coroutines.launch
 
 
-class FavoriteViewModel(private val context: Context, private val historyInteractor: HistoryInteractor ) : ViewModel() {
+class FavoriteViewModel(private val context: Context, private val historyInteractor: FavoriteInteractor ) : ViewModel() {
 
-    private var _liveData = MutableLiveData<String>()
-    val liveData: LiveData<String> = _liveData
+    private val _stateLiveData = MutableLiveData<FavoriteState>()
+    val stateLiveData: LiveData<FavoriteState> =_stateLiveData
+    fun observeState(): LiveData<FavoriteState> = stateLiveData
 
-
-    private val stateLiveData = MutableLiveData<HistoryState>()
-
-    fun observeState(): LiveData<HistoryState> = stateLiveData
+    init {
+        fillData()
+        Log.d("MAALMI", "INIT in FavoriteViewModel")
+    }
 
     fun fillData() {
-        renderState(HistoryState.Loading)
+        renderState(FavoriteState.Loading)
         viewModelScope.launch {
             historyInteractor
-                .historyTracks()
+                .favoriteTracks()
                 .collect { tracks ->
                     processResult(tracks)
                 }
+
         }
     }
 
     private fun processResult(tracks: List<TrackModel>) {
         if (tracks.isEmpty()) {
-            renderState(HistoryState.Empty(context.getString(R.string.empty_favorites)))
+            renderState(FavoriteState.Empty(context.getString(R.string.empty_favorites)))
         } else {
-            renderState(HistoryState.Content(tracks))
+            renderState(FavoriteState.Content(tracks))
+            Log.d("MAALMI", "processResult = ${tracks.size}")
         }
     }
 
-    private fun renderState(state: HistoryState) {
-        stateLiveData.postValue(state)
+    private fun renderState(state: FavoriteState) {
+        _stateLiveData.postValue(state)
     }
 }
