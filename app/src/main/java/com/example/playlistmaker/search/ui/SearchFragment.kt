@@ -24,8 +24,8 @@ class SearchFragment : Fragment() {
 
     private val searchedSong = ArrayList<TrackModel>()
     private val clickedSong = ArrayList<TrackModel>()
-    private val searchMusicAdapter = SearchMusicAdapter(searchedSong) { trackClickListener(it) }
-    private val clickedMusicAdapter = SearchMusicAdapter(clickedSong) { trackClickListener(it) }
+    private val searchMusicAdapter = SearchMusicAdapter(searchedSong)
+    private val clickedMusicAdapter = SearchMusicAdapter(clickedSong)
     private lateinit var trackClickListener: (TrackModel) -> Unit
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
@@ -94,7 +94,8 @@ class SearchFragment : Fragment() {
         binding.recyclerViewSearch.adapter = searchMusicAdapter
         binding.recyclerViewClicked.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewClicked.adapter = clickedMusicAdapter
-
+        clickedMusicAdapter.itemСlick = {track ->  trackClickListener(track) }
+        searchMusicAdapter.itemСlick = {track ->  trackClickListener(track) }
 
         // изменения текста в поле поиска. Привязка обьекта TextWatcher
         fun textWatcher() = object : TextWatcher {

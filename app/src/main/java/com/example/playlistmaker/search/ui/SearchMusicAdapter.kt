@@ -7,10 +7,11 @@ import com.example.playlistmaker.databinding.LayoutSearchSongBinding
 import com.example.playlistmaker.search.domain.TrackModel
 
 class SearchMusicAdapter(
-    private val tracks: ArrayList<TrackModel>,
-    private val clickListener: TrackClickListener
+    tracksForRecycler: ArrayList<TrackModel>
 ) : RecyclerView.Adapter<SearchMusicViewHolder>() {
 
+    var tracks = tracksForRecycler
+    var itemСlick : ((TrackModel) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchMusicViewHolder {
         return SearchMusicViewHolder(
             LayoutSearchSongBinding
@@ -25,6 +26,8 @@ class SearchMusicAdapter(
 
     override fun onBindViewHolder(holder: SearchMusicViewHolder, position: Int) {
         holder.bind(tracks[position])
-        holder.itemView.setOnClickListener { clickListener.onTrackClick(tracks.get(position)) }
+        holder.itemView.setOnClickListener {
+            itemСlick?.invoke(tracks[position])
+        }
     }
 }

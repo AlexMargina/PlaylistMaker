@@ -11,7 +11,7 @@ import com.example.playlistmaker.media.data.db.entity.TrackEntity
 interface TrackDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFavoriteTrack(track: List<TrackEntity>)
+    suspend fun insertFavoriteTrack(tracks: List<TrackEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTracks(tracks: List<TrackEntity>)

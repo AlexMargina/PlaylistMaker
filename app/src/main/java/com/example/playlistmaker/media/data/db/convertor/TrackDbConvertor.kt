@@ -35,5 +35,21 @@ class TrackDbConvertor {
             track.previewUrl
         )
     }
+
+
+    fun map(track: TrackModel): TrackEntity {
+        return TrackEntity(
+            track.trackId,
+            track.trackName,
+            track.artistName,
+            track.trackTimeMillis,
+            track.artworkUrl100,
+            track.collectionName,
+            track.releaseDate,
+            track.primaryGenreName,
+            track.country,
+            track.previewUrl
+        )
+    }
 }
 

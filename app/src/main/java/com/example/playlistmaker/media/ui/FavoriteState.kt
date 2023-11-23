@@ -8,7 +8,7 @@ sealed class FavoriteState {
     object Loading : FavoriteState()
 
     data class Content(
-        val tracks: List<TrackModel>
+        val tracks: ArrayList<TrackModel>
     ) : FavoriteState()
 
     data class Empty(

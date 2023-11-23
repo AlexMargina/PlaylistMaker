@@ -4,9 +4,11 @@ import com.example.playlistmaker.search.domain.TrackModel
 import kotlinx.coroutines.flow.Flow
 
 interface FavoriteRepository {
-    fun favoriteTracks(): Flow<List<TrackModel>>
+    fun favoriteTracks(): Flow<ArrayList<TrackModel>>
 
     suspend fun deleteDbTrack (trackId :String)
 
     suspend fun insertDbTrack (track: TrackModel)
+
+    fun setClickedTrack(track: TrackModel)
 }

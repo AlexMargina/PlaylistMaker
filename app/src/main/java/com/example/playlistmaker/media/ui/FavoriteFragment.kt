@@ -24,15 +24,13 @@ class FavoriteFragment : Fragment() {
     private lateinit var binding: FragmentFavoritesBinding
     private val viewModel by viewModel<FavoriteViewModel>()
     private val favoriteSong = ArrayList<TrackModel>()
-    private val favoriteMusicAdapter = SearchMusicAdapter(favoriteSong) { trackClickListener(it) }
+    private val favoriteMusicAdapter = SearchMusicAdapter(favoriteSong)
     private lateinit var trackClickListener: (TrackModel) -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
-        binding.ivEmptyFavorite.setImageResource(R.drawable.song_not_found)
-        binding.tvEmptyFavorite.text = getString(R.string.empty_favorites)
         return binding.root
     }
 
@@ -40,18 +38,22 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.stateLiveData.observe(viewLifecycleOwner) {
-           it -> updateFavorite(it)
-            Log.d("MAALMI", "Изменение liveData ${it.toString()}")
+           state -> updateFavorite(state)
+            Log.d("MAALMI_FavTrag", "Изменение liveData ${state.toString()}")
         }
 
         binding.recyclerViewFavorited.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewFavorited.adapter = favoriteMusicAdapter
 
+        favoriteMusicAdapter.itemСlick = { track ->
+           trackClickListener(track)
+        }
+
         trackClickListener = debounce(
             SearchFragment.CLICK_DEBOUNCE_DELAY,
             viewLifecycleOwner.lifecycleScope, false
         ) { track ->
- //           viewModel.addTrackToHistory(track, this)
+            viewModel.setClickedTrack(track, this)
             runPlayer(track.trackId.toString())
         }
     }
@@ -60,6 +62,7 @@ class FavoriteFragment : Fragment() {
     private fun runPlayer(trackId: String) {
         val playerIntent = Intent(requireContext(), PlayerActivity::class.java)
         playerIntent.putExtra("trackId", trackId)
+        Log.d("MAALMI_FavTrag", "runPlayer($trackId) ")
         startActivity(playerIntent)
     }
 
@@ -70,30 +73,27 @@ class FavoriteFragment : Fragment() {
 
             when (state) {
                 is FavoriteState.Content -> {
-                    Log.d("MAALMI", "Выполняем Content ")
+                    Log.d("MAALMI_FavTrag", "Выполняем Content ")
                     binding.ivEmptyFavorite.isVisible=false
                     binding.groupFavorited.isVisible =true
-                    favoriteSong.clear()
-                    favoriteSong.addAll(state.tracks )
-                    Log.d("MAALMI", "avoriteSong = $favoriteSong ")
+
+                    Log.d("MAALMI_FavTrag", "avoriteSong = $favoriteSong ")
+                    favoriteMusicAdapter.tracks.clear()
+                    favoriteMusicAdapter.tracks.addAll(state.tracks)
                     favoriteMusicAdapter.notifyDataSetChanged()
                 }
 
+
                 else -> {
-                    Log.d("MAALMI", "Выполняем Empty")
+                    Log.d("MAALMI_FavTrag", "Выполняем Empty")
                     binding.ivEmptyFavorite.isVisible=true
+                    binding.ivEmptyFavorite.setImageResource(R.drawable.song_not_found)
+                    binding.tvEmptyFavorite.text = getString(R.string.empty_favorites)
                     binding.groupFavorited.isVisible = false
                 }
             }
         }
     }
-
-
-
-
-
-
-
 
 
 

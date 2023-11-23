@@ -13,7 +13,7 @@ import com.example.playlistmaker.search.domain.TrackModel
 import kotlinx.coroutines.launch
 
 
-class FavoriteViewModel(private val context: Context, private val historyInteractor: FavoriteInteractor ) : ViewModel() {
+class FavoriteViewModel(private val context: Context, private val favoriteInteractor: FavoriteInteractor ) : ViewModel() {
 
     private val _stateLiveData = MutableLiveData<FavoriteState>()
     val stateLiveData: LiveData<FavoriteState> =_stateLiveData
@@ -27,7 +27,7 @@ class FavoriteViewModel(private val context: Context, private val historyInterac
     fun fillData() {
         renderState(FavoriteState.Loading)
         viewModelScope.launch {
-            historyInteractor
+            favoriteInteractor
                 .favoriteTracks()
                 .collect { tracks ->
                     processResult(tracks)
@@ -36,7 +36,7 @@ class FavoriteViewModel(private val context: Context, private val historyInterac
         }
     }
 
-    private fun processResult(tracks: List<TrackModel>) {
+    private fun processResult(tracks: ArrayList<TrackModel>) {
         if (tracks.isEmpty()) {
             renderState(FavoriteState.Empty(context.getString(R.string.empty_favorites)))
         } else {
@@ -47,5 +47,9 @@ class FavoriteViewModel(private val context: Context, private val historyInterac
 
     private fun renderState(state: FavoriteState) {
         _stateLiveData.postValue(state)
+    }
+
+    fun setClickedTrack(track: TrackModel, favoriteFragment: FavoriteFragment) {
+        favoriteInteractor.setClickedTrack(track)
     }
 }
