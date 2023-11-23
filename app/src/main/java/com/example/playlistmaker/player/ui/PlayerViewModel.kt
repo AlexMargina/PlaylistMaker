@@ -16,6 +16,7 @@ import java.util.Locale
 class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) : ViewModel() {
 
     private var timerJob: Job? = null
+    private var favoriteJob: Job? = null
     private val RefreshDelayMs = 300L
 
     private val _playerState = MutableLiveData<PlayerState>(PlayerState.DEFAULT())
@@ -96,14 +97,18 @@ class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) 
         }
     }
 
-    suspend fun likeOrDislike() {
+     fun likeOrDislike() {
         val playedTrack = getTrack()
-        if (playedTrack.isFavorite) {
-            insertDbTrackToFavorite(playedTrack)
-        }  else {
-            deleteDbTrackFromFavorite(playedTrack.trackId)
+        favoriteJob = viewModelScope.launch {
+            if (playedTrack.isFavorite) {
+                insertDbTrackToFavorite(playedTrack)
+            }  else {
+                deleteDbTrackFromFavorite(playedTrack.trackId)
+            }
+                _playerState.postValue(PlayerState.PLAYING(getCurrentPosition()))
+            }
         }
-    }
+
 
     suspend fun insertDbTrackToFavorite(track: TrackModel) {
         mediaPlayerInteractor.insertDbTrackToFavorite(track)
