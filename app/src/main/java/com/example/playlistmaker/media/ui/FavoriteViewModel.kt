@@ -52,4 +52,6 @@ class FavoriteViewModel(private val context: Context, private val favoriteIntera
     fun setClickedTrack(track: TrackModel, favoriteFragment: FavoriteFragment) {
         favoriteInteractor.setClickedTrack(track)
     }
+
+
 }

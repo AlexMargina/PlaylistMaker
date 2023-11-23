@@ -2,10 +2,10 @@ package com.example.playlistmaker.player.domain
 
 import com.example.playlistmaker.search.domain.TrackModel
 
-class MediaPlayerInteractorImpl(val mediaPlayerRepository :MediaPlayerRepository) :
+class MediaPlayerInteractorImpl(val mediaPlayerRepository: MediaPlayerRepository) :
     MediaPlayerInteractor {
 
-    override val isPlaying  = mediaPlayerRepository.isPlaying
+    override val isPlaying = mediaPlayerRepository.isPlaying
 
     override fun preparePlayer(url: String, onPreparedListener: () -> Unit) {
         mediaPlayerRepository.preparePlayer(url, onPreparedListener)
@@ -35,13 +35,22 @@ class MediaPlayerInteractorImpl(val mediaPlayerRepository :MediaPlayerRepository
         mediaPlayerRepository.destroyPlayer()
     }
 
-    override fun getTrack() : TrackModel {
+    override fun getTrack(): TrackModel {
         return mediaPlayerRepository.getTrack()
     }
 
-    override fun isNightTheme() : Boolean {
+    override fun isNightTheme(): Boolean {
         return mediaPlayerRepository.isNightTheme()
     }
+
+    override suspend fun insertDbTrackToFavorite(track: TrackModel) {
+        mediaPlayerRepository.insertDbTrackToFavorite(track)
+    }
+
+    override suspend fun deleteDbTrackFromFavorite(trackId: String) {
+        mediaPlayerRepository.deleteDbTrackFromFavorite(trackId)
+    }
+
 }
 
 

@@ -7,4 +7,6 @@ interface FavoriteInteractor {
     fun favoriteTracks(): Flow<ArrayList<TrackModel>>
 
     fun setClickedTrack(track: TrackModel)
+
+
 }

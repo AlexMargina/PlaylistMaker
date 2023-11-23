@@ -35,6 +35,10 @@ class PlayerActivity : AppCompatActivity() {
 
         binding.ivBack.setOnClickListener { finish() }
 
+        binding.ivLike.setOnClickListener {
+            viewModel.likeOrDislike()
+        }
+
         assign(getTrack())
     }
 

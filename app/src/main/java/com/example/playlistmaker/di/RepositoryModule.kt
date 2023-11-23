@@ -18,7 +18,7 @@ import org.koin.dsl.module
 val repositoryModule = module {
 
     factory<MediaPlayerRepository> {
-        MediaPlayerRepositoryImpl(get())
+        MediaPlayerRepositoryImpl(get(), get(), get())
     }
 
     single<ExternalNavigator> {

@@ -5,7 +5,7 @@ import com.example.playlistmaker.search.domain.TrackModel
 
 interface MediaPlayerInteractor {
 
-    val isPlaying : Boolean
+    val isPlaying: Boolean
 
     fun preparePlayer(url: String, onPreparedListener: () -> Unit)
 
@@ -21,7 +21,11 @@ interface MediaPlayerInteractor {
 
     fun destroyPlayer()
 
-    fun getTrack() : TrackModel
+    fun getTrack(): TrackModel
 
-    fun isNightTheme() : Boolean
+    fun isNightTheme(): Boolean
+
+    suspend fun insertDbTrackToFavorite(track: TrackModel)
+
+    suspend fun deleteDbTrackFromFavorite(trackId: String)
 }

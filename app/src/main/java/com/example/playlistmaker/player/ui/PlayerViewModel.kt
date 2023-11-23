@@ -96,6 +96,23 @@ class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) 
         }
     }
 
+    suspend fun likeOrDislike() {
+        val playedTrack = getTrack()
+        if (playedTrack.isFavorite) {
+            insertDbTrackToFavorite(playedTrack)
+        }  else {
+            deleteDbTrackFromFavorite(playedTrack.trackId)
+        }
+    }
+
+    suspend fun insertDbTrackToFavorite(track: TrackModel) {
+        mediaPlayerInteractor.insertDbTrackToFavorite(track)
+    }
+
+     suspend fun deleteDbTrackFromFavorite(trackId: String) {
+         mediaPlayerInteractor.deleteDbTrackFromFavorite(trackId)
+    }
+
     override fun onCleared() {
         mediaPlayerInteractor.destroyPlayer()
     }

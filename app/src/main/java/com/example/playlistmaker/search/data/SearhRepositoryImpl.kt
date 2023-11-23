@@ -42,10 +42,11 @@ class SearchRepositoryImpl(
                         releaseDate =it.releaseDate,
                         primaryGenreName =it.primaryGenreName,
                         country =it.country,
-                        previewUrl =it.previewUrl
+                        previewUrl =it.previewUrl,
+                        isFavorite = checkIsFavorite(it.trackId)
                     )
                 }
-                saveTrack (results)
+
                  emit(ResponseStatus.Success(data))
             }
         }
@@ -54,14 +55,12 @@ class SearchRepositoryImpl(
                 emit (ResponseStatus.Error())
             }
         }
-
-
     }
 
-    private suspend fun saveTrack(tracks: List<TrackDto>) {
-        val trackEntities = tracks.map { track -> trackDbConvertor.map(track) }
-        appDatabase.trackDao().insertTracks(trackEntities)
+    suspend fun checkIsFavorite (trackId: String) : Boolean {
+        return  (appDatabase.trackDao().getFavoriteTrack(trackId).size>0)
     }
+
 
     override fun getTrackHistoryList(): List<TrackModel> {
          val historyTracks = searchDataStorage.getSearchHistory().map {
@@ -106,9 +105,8 @@ class SearchRepositoryImpl(
         searchDataStorage.clearHistory()
     }
 
+
     companion object {
-
         var clickedTracks= arrayListOf<TrackModel>()
-
     }
 }

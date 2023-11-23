@@ -8,4 +8,6 @@ interface SearchRepository {
     fun getTrackHistoryList(): List<TrackModel>
     fun addTrackInHistory(track: TrackModel)
     fun clearHistory()
+
+
 }

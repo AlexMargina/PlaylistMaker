@@ -8,7 +8,6 @@ interface FavoriteRepository {
 
     suspend fun deleteDbTrack (trackId :String)
 
-    suspend fun insertDbTrack (track: TrackModel)
 
     fun setClickedTrack(track: TrackModel)
 }
