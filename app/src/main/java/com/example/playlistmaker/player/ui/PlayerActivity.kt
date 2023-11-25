@@ -37,6 +37,12 @@ class PlayerActivity : AppCompatActivity() {
 
         binding.ivLike.setOnClickListener {
             viewModel.likeOrDislike()
+
+            if (getTrack().isFavorite) {
+                binding.ivLike.setImageResource(R.drawable.buttonlike)
+            } else {
+                binding.ivLike.setImageResource(R.drawable.buttondislike)
+            }
         }
 
         assign(getTrack())
@@ -113,6 +119,7 @@ class PlayerActivity : AppCompatActivity() {
             tvYear.setText(playedTrack.releaseDate.substring(0, 4))
             tvGenre.setText(playedTrack.primaryGenreName)
             tvCountry.setText(playedTrack.country)
+            if (playedTrack.isFavorite) ivLike.setImageResource(R.drawable.buttonlike)
         }
 
         val coverUrl100 = playedTrack.artworkUrl100

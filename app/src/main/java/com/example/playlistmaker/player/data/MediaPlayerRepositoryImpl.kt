@@ -59,11 +59,12 @@ class MediaPlayerRepositoryImpl(
     }
 
     override suspend fun insertDbTrackToFavorite(track: TrackModel) {
+        track.isFavorite=true
         val listTracks = arrayListOf<TrackModel>()
         listTracks.add(track)
         val trackEntity = convertToTrackEntity(listTracks)
         appDatabase.trackDao().insertFavoriteTrack(trackEntity)
-        clickedTracks[0].isFavorite = true
+        clickedTracks.add(0, track)
     }
 
     private fun convertToTrackEntity(listTracks: ArrayList<TrackModel>): ArrayList<TrackEntity> {
@@ -72,6 +73,8 @@ class MediaPlayerRepositoryImpl(
 
     override suspend fun deleteDbTrackFromFavorite(trackId: String) {
         appDatabase.trackDao().deleteTrack(trackId)
-        clickedTracks[0].isFavorite = false
+        val trackDislikeOnPosition = clickedTracks.filter { trackModel -> trackModel.trackId==trackId } [0]
+        val position = clickedTracks.indexOf(trackDislikeOnPosition)
+        clickedTracks[position].isFavorite = false
     }
 }

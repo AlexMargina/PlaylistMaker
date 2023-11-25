@@ -62,7 +62,7 @@ class SearchRepositoryImpl(
     }
 
 
-    override fun getTrackHistoryList(): List<TrackModel> {
+    override suspend fun getTrackHistoryList(): List<TrackModel> {
          val historyTracks = searchDataStorage.getSearchHistory().map {
             TrackModel(
                 it.trackId,
@@ -74,14 +74,16 @@ class SearchRepositoryImpl(
                 it.releaseDate,
                 it.primaryGenreName,
                 it.country,
-                it.previewUrl
+                it.previewUrl,
+                it.isFavorite
             )
         }
        clickedTracks = historyTracks as ArrayList<TrackModel>
-        return historyTracks
+        return clickedTracks
     }
 
-    override fun addTrackInHistory(track: TrackModel) {
+
+    override suspend fun addTrackInHistory(track: TrackModel) {
 
        clickedTracks.add(0,track)
 
@@ -96,12 +98,13 @@ class SearchRepositoryImpl(
                 track.releaseDate,
                 track.primaryGenreName,
                 track.country,
-                track.previewUrl
+                track.previewUrl,
+                track.isFavorite
             )
         )
     }
 
-    override fun clearHistory() {
+    override suspend fun clearHistory() {
         searchDataStorage.clearHistory()
     }
 

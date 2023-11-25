@@ -101,13 +101,14 @@ class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) 
         val playedTrack = getTrack()
         favoriteJob = viewModelScope.launch {
             if (playedTrack.isFavorite) {
-                insertDbTrackToFavorite(playedTrack)
-            }  else {
+                playedTrack.isFavorite = false
                 deleteDbTrackFromFavorite(playedTrack.trackId)
-            }
-                _playerState.postValue(PlayerState.PLAYING(getCurrentPosition()))
+            }  else {
+                playedTrack.isFavorite = true
+                insertDbTrackToFavorite(playedTrack)
             }
         }
+     }
 
 
     suspend fun insertDbTrackToFavorite(track: TrackModel) {

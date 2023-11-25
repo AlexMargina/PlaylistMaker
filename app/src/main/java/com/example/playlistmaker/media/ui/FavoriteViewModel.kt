@@ -32,7 +32,6 @@ class FavoriteViewModel(private val context: Context, private val favoriteIntera
                 .collect { tracks ->
                     processResult(tracks)
                 }
-
         }
     }
 

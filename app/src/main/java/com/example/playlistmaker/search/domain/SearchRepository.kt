@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface SearchRepository {
     suspend fun searchTrack(expression: String): Flow<ResponseStatus<List<TrackModel>>>
-    fun getTrackHistoryList(): List<TrackModel>
-    fun addTrackInHistory(track: TrackModel)
-    fun clearHistory()
+    suspend fun getTrackHistoryList(): List<TrackModel>
+    suspend fun addTrackInHistory(track: TrackModel)
+    suspend fun clearHistory()
 
 
 }

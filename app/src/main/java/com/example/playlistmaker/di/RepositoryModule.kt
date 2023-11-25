@@ -30,7 +30,7 @@ val repositoryModule = module {
     }
 
     single <SearchDataStorage> {
-        SharedPrefsUtils(get(), get())
+        SharedPrefsUtils(get(), get(), get())
     }
 
     single<SearchRepository> {

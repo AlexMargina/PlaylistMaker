@@ -10,7 +10,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentFavoritesBinding
 import com.example.playlistmaker.player.ui.PlayerActivity
 import com.example.playlistmaker.search.domain.TrackModel
@@ -37,6 +36,8 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.fillData()
+
         viewModel.stateLiveData.observe(viewLifecycleOwner) {
            state -> updateFavorite(state)
             Log.d("MAALMI_FavTrag", "Изменение liveData ${state.toString()}")
@@ -58,7 +59,6 @@ class FavoriteFragment : Fragment() {
         }
     }
 
-
     private fun runPlayer(trackId: String) {
         val playerIntent = Intent(requireContext(), PlayerActivity::class.java)
         playerIntent.putExtra("trackId", trackId)
@@ -70,31 +70,30 @@ class FavoriteFragment : Fragment() {
     private fun updateFavorite(state: FavoriteState) {
         binding.apply {
 
-
             when (state) {
                 is FavoriteState.Content -> {
-                    Log.d("MAALMI_FavTrag", "Выполняем Content ")
+                    Log.d("MAALMI_FavFrag", "Выполняем Content ")
                     binding.ivEmptyFavorite.isVisible=false
+                    binding.tvEmptyFavorite.isVisible=false
                     binding.groupFavorited.isVisible =true
 
-                    Log.d("MAALMI_FavTrag", "avoriteSong = $favoriteSong ")
+                    Log.d("MAALMI_FavTrag", "favoriteSong = $favoriteSong ")
                     favoriteMusicAdapter.tracks.clear()
+                    state.tracks.map { trackModel -> trackModel.isFavorite=true }
                     favoriteMusicAdapter.tracks.addAll(state.tracks)
                     favoriteMusicAdapter.notifyDataSetChanged()
                 }
 
 
                 else -> {
-                    Log.d("MAALMI_FavTrag", "Выполняем Empty")
-                    binding.ivEmptyFavorite.isVisible=true
-                    binding.ivEmptyFavorite.setImageResource(R.drawable.song_not_found)
-                    binding.tvEmptyFavorite.text = getString(R.string.empty_favorites)
+                    Log.d("MAALMI_FavFrag", "Выполняем Empty")
                     binding.groupFavorited.isVisible = false
+                    binding.ivEmptyFavorite.isVisible=true
+                    binding.tvEmptyFavorite.isVisible=true
                 }
             }
         }
     }
-
 
 
     companion object {
