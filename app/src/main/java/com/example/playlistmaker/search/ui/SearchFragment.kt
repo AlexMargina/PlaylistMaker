@@ -119,8 +119,9 @@ class SearchFragment : Fragment() {
             CLICK_DEBOUNCE_DELAY,
             viewLifecycleOwner.lifecycleScope, false
         ) { track ->
-            viewModel.addTrackToHistory(track, this)
-            runPlayer(track.trackId.toString())
+            viewModel.addTrackToHistory(track)
+            Log.d ("MAALMI_SearchFragm", "Отправил на запись $track  в viewModel.addTrackToHistory")
+            runPlayer(track.trackId)
         }
 
         binding.inputSearchText.requestFocus()
@@ -195,14 +196,14 @@ class SearchFragment : Fragment() {
 
                 }
 
-                is SearchState.ContentHistoryList -> {
+                is SearchState.Content -> {
                     Log.d("MAALMI", "Выполняем ContentHistoryList")
                     groupClicked.isVisible = true
                     groupProgress.isVisible = false
                     groupSearched.isVisible = false
                     recyclerViewClicked.isVisible = true
                     clickedSong.clear()
-                    clickedSong.addAll(state.historyList)
+                    clickedSong.addAll(state.tracks)
                     clickedMusicAdapter.notifyDataSetChanged()
                 }
 

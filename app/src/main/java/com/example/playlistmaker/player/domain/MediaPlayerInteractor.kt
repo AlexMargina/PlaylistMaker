@@ -23,6 +23,8 @@ interface MediaPlayerInteractor {
 
     fun getTrack(): TrackModel
 
+    suspend fun saveTrack(track: TrackModel)
+
     fun isNightTheme(): Boolean
 
     suspend fun insertDbTrackToFavorite(track: TrackModel)

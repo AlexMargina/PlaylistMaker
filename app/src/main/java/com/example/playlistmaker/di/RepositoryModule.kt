@@ -11,7 +11,7 @@ import com.example.playlistmaker.search.domain.SearchRepository
 import com.example.playlistmaker.setting.data.SettingsRepositoryImpl
 import com.example.playlistmaker.setting.domain.SettingsRepository
 import com.example.playlistmaker.sharing.data.ExternalNavigatorImpl
-import com.example.playlistmaker.sharing.data.SharedPrefsUtils
+import com.example.playlistmaker.search.data.SharedPrefsUtils
 import com.example.playlistmaker.sharing.domain.ExternalNavigator
 import org.koin.dsl.module
 

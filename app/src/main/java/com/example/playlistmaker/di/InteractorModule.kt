@@ -15,7 +15,7 @@ import org.koin.dsl.module
 val interactorModule = module {
 
     factory<MediaPlayerInteractor> {
-        MediaPlayerInteractorImpl(get())
+        MediaPlayerInteractorImpl(get(), get())
     }
 
     single<SharingInteractor> {

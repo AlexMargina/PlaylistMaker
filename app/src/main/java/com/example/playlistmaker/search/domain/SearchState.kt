@@ -10,8 +10,6 @@ sealed interface SearchState {
 
     class Empty : SearchState
 
-    data class ContentHistoryList(val historyList: List<TrackModel>) : SearchState
-
     class EmptyHistoryList() : SearchState
 
 }

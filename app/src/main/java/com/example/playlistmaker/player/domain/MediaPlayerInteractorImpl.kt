@@ -1,9 +1,12 @@
 package com.example.playlistmaker.player.domain
 
+import com.example.playlistmaker.search.domain.SearchRepository
 import com.example.playlistmaker.search.domain.TrackModel
 
-class MediaPlayerInteractorImpl(val mediaPlayerRepository: MediaPlayerRepository) :
-    MediaPlayerInteractor {
+class MediaPlayerInteractorImpl(
+        val mediaPlayerRepository: MediaPlayerRepository,
+        val searchRepository: SearchRepository
+    ) :  MediaPlayerInteractor {
 
     override val isPlaying = mediaPlayerRepository.isPlaying
 
@@ -37,6 +40,10 @@ class MediaPlayerInteractorImpl(val mediaPlayerRepository: MediaPlayerRepository
 
     override fun getTrack(): TrackModel {
         return mediaPlayerRepository.getTrack()
+    }
+
+    override suspend fun saveTrack(track: TrackModel) {
+        searchRepository.addTrackToHistory(track)
     }
 
     override fun isNightTheme(): Boolean {

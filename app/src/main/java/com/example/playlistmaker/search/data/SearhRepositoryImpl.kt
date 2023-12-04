@@ -1,6 +1,7 @@
 package com.example.playlistmaker.search.data
 
 
+import android.util.Log
 import com.example.playlistmaker.media.data.db.AppDatabase
 import com.example.playlistmaker.media.data.db.convertor.TrackDbConvertor
 import com.example.playlistmaker.search.data.dto.ResponseStatus
@@ -83,9 +84,16 @@ class SearchRepositoryImpl(
     }
 
 
-    override suspend fun addTrackInHistory(track: TrackModel) {
+    override suspend fun addTrackToHistory(track: TrackModel) {
+        for (clickedTrack in clickedTracks) {
+            if (clickedTrack.trackId==track.trackId) {
+                clickedTracks.remove(clickedTrack)
+                Log.d ("MAALMI_SearchRepo", "Удалил запись с trackId= ${track.trackId} ")
+            }
+        }
 
        clickedTracks.add(0,track)
+        Log.d ("MAALMI_SearchRepo", "Добавил запись с trackId= ${track.trackId} ")
 
         searchDataStorage.addTClickedSearchSongs(
             TrackDto(

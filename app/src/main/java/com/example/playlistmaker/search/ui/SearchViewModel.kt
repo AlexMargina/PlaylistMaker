@@ -73,14 +73,14 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
                     if (tracks.isNullOrEmpty()) {
                         updateState(SearchState.EmptyHistoryList())
                     } else {
-                        updateState(SearchState.ContentHistoryList(tracks))
+                        updateState(SearchState.Content(tracks))
                     }
                 }
             })
         }
     }
 
-    fun addTrackToHistory(track: TrackModel, activity: SearchFragment) {
+    fun addTrackToHistory(track: TrackModel) {
         viewModelScope.launch { searchInteractor.addTrackToHistory(track) }
     }
 

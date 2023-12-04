@@ -45,6 +45,9 @@ class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) 
         return mediaPlayerInteractor.getTrack()
     }
 
+    suspend fun saveFavoriteTrack (track: TrackModel) {
+        mediaPlayerInteractor.saveTrack(track)
+    }
     private fun getCurrentPosition(): String {
         return SimpleDateFormat(
             "mm:ss",
@@ -102,13 +105,16 @@ class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) 
         favoriteJob = viewModelScope.launch {
             if (playedTrack.isFavorite) {
                 playedTrack.isFavorite = false
+                saveFavoriteTrack(playedTrack)
                 deleteDbTrackFromFavorite(playedTrack.trackId)
             }  else {
                 playedTrack.isFavorite = true
                 insertDbTrackToFavorite(playedTrack)
+                saveFavoriteTrack(playedTrack)
             }
         }
      }
+
 
 
     suspend fun insertDbTrackToFavorite(track: TrackModel) {

@@ -1,10 +1,11 @@
-package com.example.playlistmaker.sharing.data
+package com.example.playlistmaker.search.data
 
 import android.content.SharedPreferences
+import android.util.Log
 import com.example.playlistmaker.CLICKED_SEARCH_TRACK
 import com.example.playlistmaker.media.data.db.AppDatabase
-import com.example.playlistmaker.search.data.SearchDataStorage
 import com.example.playlistmaker.search.data.dto.TrackDto
+import com.example.playlistmaker.search.domain.TrackModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
@@ -25,13 +26,18 @@ class SharedPrefsUtils(
     }
 
     override suspend fun addTClickedSearchSongs(track: TrackDto) {
-        if (readClickedSearchSongs().contains(track)) { readClickedSearchSongs().remove(track) }
+        Log.d ("MAALMI_SharedPref", "Пришел на запись trackId= ${track.trackId} ")
+        val clickedSearchSongs = readClickedSearchSongs()
+        if (clickedSearchSongs.contains(track)) { clickedSearchSongs.remove(track) }
 
-        while (readClickedSearchSongs().size >= 10) { readClickedSearchSongs().removeLast()  }
-
-        readClickedSearchSongs().add(0, track)
-        writeClickedSearchSongs(readClickedSearchSongs())
+        while (clickedSearchSongs.size >= 10) { clickedSearchSongs.removeLast()  }
+        Log.d ("MAALMI_SearchRepo", "Добавил запись с trackId= ${track.trackId} ")
+        clickedSearchSongs.add(0, track)
+        Log.d ("MAALMI_SearchRepo", "Добавил и отправляю SharedPrefs = ${clickedSearchSongs[0]} ")
+        writeClickedSearchSongs(clickedSearchSongs)
     }
+
+
 
     private fun writeClickedSearchSongs(savedSongs: ArrayList<TrackDto>) {
         sharedPref
