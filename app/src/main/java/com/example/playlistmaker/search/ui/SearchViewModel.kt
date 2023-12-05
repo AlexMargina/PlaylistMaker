@@ -73,7 +73,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
                     if (tracks.isNullOrEmpty()) {
                         updateState(SearchState.EmptyHistoryList())
                     } else {
-                        updateState(SearchState.Content(tracks))
+                        updateState(SearchState.ContentHistory(tracks))
                     }
                 }
             })
@@ -86,6 +86,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
 
     fun clearHistory() {
         viewModelScope.launch { searchInteractor.clearHistory() }
+        updateState(SearchState.EmptyHistoryList())
     }
 
     private fun updateState(state: SearchState) {

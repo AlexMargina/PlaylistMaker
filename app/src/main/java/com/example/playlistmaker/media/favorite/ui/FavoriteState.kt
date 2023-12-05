@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.ui
+package com.example.playlistmaker.media.favorite.ui
 
 
 import com.example.playlistmaker.search.domain.TrackModel

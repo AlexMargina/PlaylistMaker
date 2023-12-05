@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.ui
+package com.example.playlistmaker.media.favorite.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -40,7 +40,6 @@ class FavoriteFragment : Fragment() {
 
         viewModel.stateLiveData.observe(viewLifecycleOwner) {
            state -> updateFavorite(state)
-            Log.d("MAALMI_FavTrag", "Изменение liveData ${state.toString()}")
         }
 
         binding.recyclerViewFavorited.layoutManager = LinearLayoutManager(requireContext())

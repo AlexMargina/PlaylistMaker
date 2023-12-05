@@ -1,10 +1,10 @@
-package com.example.playlistmaker.media.data.db.dao
+package com.example.playlistmaker.media.favorite.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.playlistmaker.media.data.db.entity.TrackEntity
+import com.example.playlistmaker.media.favorite.data.entity.TrackEntity
 
 
 @Dao

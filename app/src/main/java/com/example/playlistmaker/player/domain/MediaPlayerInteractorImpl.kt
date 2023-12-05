@@ -1,11 +1,13 @@
 package com.example.playlistmaker.player.domain
 
+import com.example.playlistmaker.media.favorite.domain.FavoriteRepository
 import com.example.playlistmaker.search.domain.SearchRepository
 import com.example.playlistmaker.search.domain.TrackModel
 
 class MediaPlayerInteractorImpl(
         val mediaPlayerRepository: MediaPlayerRepository,
-        val searchRepository: SearchRepository
+        val searchRepository: SearchRepository,
+        val favoriteRepository: FavoriteRepository
     ) :  MediaPlayerInteractor {
 
     override val isPlaying = mediaPlayerRepository.isPlaying
@@ -50,12 +52,12 @@ class MediaPlayerInteractorImpl(
         return mediaPlayerRepository.isNightTheme()
     }
 
-    override suspend fun insertDbTrackToFavorite(track: TrackModel) {
-        mediaPlayerRepository.insertDbTrackToFavorite(track)
+    override suspend fun insertTrackToFavorite(track: TrackModel) {
+        favoriteRepository.insertDbTrackToFavorite(track)
     }
 
-    override suspend fun deleteDbTrackFromFavorite(trackId: String) {
-        mediaPlayerRepository.deleteDbTrackFromFavorite(trackId)
+    override suspend fun deleteTrackFromFavorite(trackId: String) {
+        favoriteRepository.deleteDbTrackFromFavorite(trackId)
     }
 
 }

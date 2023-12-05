@@ -27,7 +27,7 @@ interface MediaPlayerInteractor {
 
     fun isNightTheme(): Boolean
 
-    suspend fun insertDbTrackToFavorite(track: TrackModel)
+    suspend fun insertTrackToFavorite(track: TrackModel)
 
-    suspend fun deleteDbTrackFromFavorite(trackId: String)
+    suspend fun deleteTrackFromFavorite(trackId: String)
 }

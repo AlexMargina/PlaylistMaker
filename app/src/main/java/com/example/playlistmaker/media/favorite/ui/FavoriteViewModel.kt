@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.ui
+package com.example.playlistmaker.media.favorite.ui
 
 
 import android.content.Context
@@ -8,16 +8,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.R
-import com.example.playlistmaker.media.domain.db.FavoriteInteractor
+import com.example.playlistmaker.media.favorite.domain.FavoriteInteractor
 import com.example.playlistmaker.search.domain.TrackModel
 import kotlinx.coroutines.launch
 
 
-class FavoriteViewModel(private val context: Context, private val favoriteInteractor: FavoriteInteractor ) : ViewModel() {
+class FavoriteViewModel(private val context: Context, private val favoriteInteractor: FavoriteInteractor) : ViewModel() {
 
     private val _stateLiveData = MutableLiveData<FavoriteState>()
     val stateLiveData: LiveData<FavoriteState> =_stateLiveData
-    fun observeState(): LiveData<FavoriteState> = stateLiveData
 
     init {
         fillData()

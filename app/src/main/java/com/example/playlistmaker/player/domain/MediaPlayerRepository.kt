@@ -24,8 +24,4 @@ interface MediaPlayerRepository {
 
     fun isNightTheme() : Boolean
 
-
-    suspend fun insertDbTrackToFavorite (track: TrackModel)
-
-     suspend fun deleteDbTrackFromFavorite(trackId: String)
 }

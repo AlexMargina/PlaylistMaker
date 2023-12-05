@@ -1,6 +1,6 @@
-package com.example.playlistmaker.media.data.db.convertor
+package com.example.playlistmaker.media.favorite.data.convertor
 
-import com.example.playlistmaker.media.data.db.entity.TrackEntity
+import com.example.playlistmaker.media.favorite.data.entity.TrackEntity
 import com.example.playlistmaker.search.data.dto.TrackDto
 import com.example.playlistmaker.search.domain.TrackModel
 

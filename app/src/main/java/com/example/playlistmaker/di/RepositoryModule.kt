@@ -1,24 +1,24 @@
 package com.example.playlistmaker.di
 
-import com.example.playlistmaker.media.data.db.FavoriteRepositoryImpl
-import com.example.playlistmaker.media.data.db.convertor.TrackDbConvertor
-import com.example.playlistmaker.media.domain.db.FavoriteRepository
+import com.example.playlistmaker.media.favorite.data.FavoriteRepositoryImpl
+import com.example.playlistmaker.media.favorite.data.convertor.TrackDbConvertor
+import com.example.playlistmaker.media.favorite.domain.FavoriteRepository
 import com.example.playlistmaker.player.data.MediaPlayerRepositoryImpl
 import com.example.playlistmaker.player.domain.MediaPlayerRepository
 import com.example.playlistmaker.search.data.SearchDataStorage
 import com.example.playlistmaker.search.data.SearchRepositoryImpl
+import com.example.playlistmaker.search.data.SharedPrefsUtils
 import com.example.playlistmaker.search.domain.SearchRepository
 import com.example.playlistmaker.setting.data.SettingsRepositoryImpl
 import com.example.playlistmaker.setting.domain.SettingsRepository
 import com.example.playlistmaker.sharing.data.ExternalNavigatorImpl
-import com.example.playlistmaker.search.data.SharedPrefsUtils
 import com.example.playlistmaker.sharing.domain.ExternalNavigator
 import org.koin.dsl.module
 
 val repositoryModule = module {
 
     factory<MediaPlayerRepository> {
-        MediaPlayerRepositoryImpl(get(), get(), get())
+        MediaPlayerRepositoryImpl(get())
     }
 
     single<ExternalNavigator> {

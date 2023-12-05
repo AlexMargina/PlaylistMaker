@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:theme="@style/Theme.PlaylistMaker"
-    tools:context=".media.ui.FavoriteFragment">
+    tools:context=".media.favorite.ui.FavoriteFragment">
 
 
       <LinearLayout
@@ -47,21 +47,12 @@
         android:orientation="vertical"
         android:visibility="visible">
 
-        <TextView
-            style="@style/CapTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size_xs"
-            android:text="@string/fav_tracks"
-            android:textAlignment="center"
-            android:textStyle="bold" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewFavorited"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginVertical="@dimen/size_xxxs"
-            android:layout_marginTop="@dimen/size_xxs"
+            android:layout_marginVertical="@dimen/size_sl"
+            android:layout_marginTop="@dimen/size_xxl"
             android:layout_weight="0.5"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
