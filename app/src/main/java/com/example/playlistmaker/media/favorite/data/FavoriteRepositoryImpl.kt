@@ -30,7 +30,7 @@ class FavoriteRepositoryImpl(
     }
 
     override fun setClickedTrack(track: TrackModel) {
-        clickedTracks.add(0,track)
+        clickedTracks.add(0, track)
     }
 
     private suspend fun saveTracks(tracks: List<TrackDto>) {
@@ -39,7 +39,7 @@ class FavoriteRepositoryImpl(
     }
 
     override suspend fun insertDbTrackToFavorite(track: TrackModel) {
-        track.isFavorite=true
+        track.isFavorite = true
         val listTracks = arrayListOf<TrackModel>()
         listTracks.add(track)
         val trackEntity = convertToTrackEntity(listTracks)
@@ -48,12 +48,13 @@ class FavoriteRepositoryImpl(
     }
 
     private fun convertToTrackEntity(listTracks: ArrayList<TrackModel>): ArrayList<TrackEntity> {
-        return listTracks.map { track -> trackDbConvertor.map(track) }  as ArrayList<TrackEntity>
+        return listTracks.map { track -> trackDbConvertor.map(track) } as ArrayList<TrackEntity>
     }
 
     override suspend fun deleteDbTrackFromFavorite(trackId: String) {
         appDatabase.trackDao().deleteTrack(trackId)
-        val trackDislikeOnPosition = clickedTracks.filter { trackModel -> trackModel.trackId==trackId } [0]
+        val trackDislikeOnPosition =
+            clickedTracks.filter { trackModel -> trackModel.trackId == trackId }[0]
         val position = clickedTracks.indexOf(trackDislikeOnPosition)
         clickedTracks[position].isFavorite = false
     }
