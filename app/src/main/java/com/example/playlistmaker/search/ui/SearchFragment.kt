@@ -66,7 +66,7 @@ class SearchFragment : Fragment() {
         // обработка нажатия на кнопку Очистить историю
         binding.clearHistory.setOnClickListener {
             viewModel.clearHistory()
-            viewModel.getTracksHistory()
+            //viewModel.getTracksHistory()
             binding.groupClicked.isVisible = false
             binding.recyclerViewClicked.adapter?.notifyDataSetChanged()
         }
@@ -196,8 +196,8 @@ class SearchFragment : Fragment() {
 
                 }
 
-                is SearchState.Content -> {
-                    Log.d("MAALMI", "Выполняем ContentHistoryList")
+                is SearchState.ContentHistory -> {
+                    Log.d("MAALMI", "Выполняем ContentHistory")
                     groupClicked.isVisible = true
                     groupProgress.isVisible = false
                     groupSearched.isVisible = false

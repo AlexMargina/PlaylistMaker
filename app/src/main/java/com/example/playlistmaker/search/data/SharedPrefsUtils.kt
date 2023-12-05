@@ -21,8 +21,8 @@ class SharedPrefsUtils(
     override suspend fun getSearchHistory() = readClickedSearchSongs()
 
     override suspend fun clearHistory() {
-        readClickedSearchSongs().clear()
-        writeClickedSearchSongs(readClickedSearchSongs())
+        val clearList = arrayListOf<TrackDto>()
+        writeClickedSearchSongs(clearList)
     }
 
     override suspend fun addTClickedSearchSongs(track: TrackDto) {

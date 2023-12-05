@@ -13,15 +13,17 @@ import com.example.playlistmaker.search.domain.TrackModel
 import kotlinx.coroutines.launch
 
 
-class FavoriteViewModel(private val context: Context, private val favoriteInteractor: FavoriteInteractor ) : ViewModel() {
+class FavoriteViewModel(
+    private val context: Context,
+    private val favoriteInteractor: FavoriteInteractor
+) : ViewModel() {
 
     private val _stateLiveData = MutableLiveData<FavoriteState>()
-    val stateLiveData: LiveData<FavoriteState> =_stateLiveData
+    val stateLiveData: LiveData<FavoriteState> = _stateLiveData
     fun observeState(): LiveData<FavoriteState> = stateLiveData
 
     init {
         fillData()
-        Log.d("MAALMI", "INIT in FavoriteViewModel")
     }
 
     fun fillData() {
@@ -39,8 +41,13 @@ class FavoriteViewModel(private val context: Context, private val favoriteIntera
         if (tracks.isEmpty()) {
             renderState(FavoriteState.Empty(context.getString(R.string.empty_favorites)))
         } else {
+            val mutableTracks = mutableListOf<TrackModel>()
+            mutableTracks.addAll(tracks)
+            mutableTracks.reverse()
+            tracks.clear()
+            tracks.addAll(mutableTracks)
             renderState(FavoriteState.Content(tracks))
-            Log.d("MAALMI", "processResult = ${tracks.size}")
+            Log.d("MAALMI", "favoriteTracks.processResult = ${tracks.size}")
         }
     }
 

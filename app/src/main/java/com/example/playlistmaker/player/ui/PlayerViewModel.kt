@@ -105,12 +105,12 @@ class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) 
         favoriteJob = viewModelScope.launch {
             if (playedTrack.isFavorite) {
                 playedTrack.isFavorite = false
-                saveFavoriteTrack(playedTrack)
+             //   saveFavoriteTrack(playedTrack)
                 deleteDbTrackFromFavorite(playedTrack.trackId)
             }  else {
                 playedTrack.isFavorite = true
                 insertDbTrackToFavorite(playedTrack)
-                saveFavoriteTrack(playedTrack)
+               // saveFavoriteTrack(playedTrack)
             }
         }
      }

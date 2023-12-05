@@ -79,12 +79,15 @@ class SearchRepositoryImpl(
                 it.isFavorite
             )
         }
-       clickedTracks = historyTracks as ArrayList<TrackModel>
+        clickedTracks.clear()
+        clickedTracks.addAll(historyTracks)
         return clickedTracks
     }
 
 
     override suspend fun addTrackToHistory(track: TrackModel) {
+
+
         for (clickedTrack in clickedTracks) {
             if (clickedTrack.trackId==track.trackId) {
                 clickedTracks.remove(clickedTrack)
@@ -113,6 +116,7 @@ class SearchRepositoryImpl(
     }
 
     override suspend fun clearHistory() {
+        clickedTracks.clear()
         searchDataStorage.clearHistory()
     }
 

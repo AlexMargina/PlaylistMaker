@@ -38,8 +38,8 @@ class FavoriteFragment : Fragment() {
 
         viewModel.fillData()
 
-        viewModel.stateLiveData.observe(viewLifecycleOwner) {
-           state -> updateFavorite(state)
+        viewModel.stateLiveData.observe(viewLifecycleOwner) { state ->
+            updateFavorite(state)
             Log.d("MAALMI_FavTrag", "Изменение liveData ${state.toString()}")
         }
 
@@ -47,7 +47,7 @@ class FavoriteFragment : Fragment() {
         binding.recyclerViewFavorited.adapter = favoriteMusicAdapter
 
         favoriteMusicAdapter.itemСlick = { track ->
-           trackClickListener(track)
+            trackClickListener(track)
         }
 
         trackClickListener = debounce(
@@ -72,14 +72,13 @@ class FavoriteFragment : Fragment() {
 
             when (state) {
                 is FavoriteState.Content -> {
-                    Log.d("MAALMI_FavFrag", "Выполняем Content ")
-                    binding.ivEmptyFavorite.isVisible=false
-                    binding.tvEmptyFavorite.isVisible=false
-                    binding.groupFavorited.isVisible =true
+                    binding.ivEmptyFavorite.isVisible = false
+                    binding.tvEmptyFavorite.isVisible = false
+                    binding.groupFavorited.isVisible = true
 
-                    Log.d("MAALMI_FavTrag", "favoriteSong = $favoriteSong ")
+                    Log.d("MAALMI_FavTrag", "Выполняем Content. favoriteSong = $favoriteSong ")
                     favoriteMusicAdapter.tracks.clear()
-                    state.tracks.map { trackModel -> trackModel.isFavorite=true }
+                    state.tracks.map { trackModel -> trackModel.isFavorite = true }
                     favoriteMusicAdapter.tracks.addAll(state.tracks)
                     favoriteMusicAdapter.notifyDataSetChanged()
                 }
@@ -88,8 +87,8 @@ class FavoriteFragment : Fragment() {
                 else -> {
                     Log.d("MAALMI_FavFrag", "Выполняем Empty")
                     binding.groupFavorited.isVisible = false
-                    binding.ivEmptyFavorite.isVisible=true
-                    binding.tvEmptyFavorite.isVisible=true
+                    binding.ivEmptyFavorite.isVisible = true
+                    binding.tvEmptyFavorite.isVisible = true
                 }
             }
         }
