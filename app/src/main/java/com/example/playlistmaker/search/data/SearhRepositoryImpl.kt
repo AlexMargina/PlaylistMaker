@@ -86,6 +86,8 @@ class SearchRepositoryImpl(
 
 
     override suspend fun addTrackToHistory(track: TrackModel) {
+
+
         for (clickedTrack in clickedTracks) {
             if (clickedTrack.trackId==track.trackId) {
                 clickedTracks.remove(clickedTrack)
