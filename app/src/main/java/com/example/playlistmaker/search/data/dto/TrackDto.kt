@@ -17,5 +17,4 @@ data class TrackDto(
     val previewUrl: String,
     val isFavorite: Boolean = false
     ) : Serializable {
-
 }

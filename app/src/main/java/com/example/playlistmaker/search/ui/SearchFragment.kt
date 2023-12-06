@@ -24,8 +24,8 @@ class SearchFragment : Fragment() {
 
     private val searchedSong = ArrayList<TrackModel>()
     private val clickedSong = ArrayList<TrackModel>()
-    private val searchMusicAdapter = SearchMusicAdapter(searchedSong)
-    private val clickedMusicAdapter = SearchMusicAdapter(clickedSong)
+    private val searchMusicAdapter = SearchMusicAdapter(searchedSong) { trackClickListener(it) }
+    private val clickedMusicAdapter = SearchMusicAdapter(clickedSong) { trackClickListener(it) }
     private lateinit var trackClickListener: (TrackModel) -> Unit
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
@@ -66,6 +66,7 @@ class SearchFragment : Fragment() {
         // обработка нажатия на кнопку Очистить историю
         binding.clearHistory.setOnClickListener {
             viewModel.clearHistory()
+            viewModel.getTracksHistory()
             binding.groupClicked.isVisible = false
             binding.recyclerViewClicked.adapter?.notifyDataSetChanged()
         }
@@ -93,8 +94,7 @@ class SearchFragment : Fragment() {
         binding.recyclerViewSearch.adapter = searchMusicAdapter
         binding.recyclerViewClicked.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewClicked.adapter = clickedMusicAdapter
-        clickedMusicAdapter.itemСlick = {track ->  trackClickListener(track) }
-        searchMusicAdapter.itemСlick = {track ->  trackClickListener(track) }
+
 
         // изменения текста в поле поиска. Привязка обьекта TextWatcher
         fun textWatcher() = object : TextWatcher {
@@ -118,9 +118,9 @@ class SearchFragment : Fragment() {
             CLICK_DEBOUNCE_DELAY,
             viewLifecycleOwner.lifecycleScope, false
         ) { track ->
+            Log.d("MAALMI_SearchFrag", " track=${track}")
             viewModel.addTrackToHistory(track)
-            Log.d ("MAALMI_SearchFragm", "Отправил на запись $track  в viewModel.addTrackToHistory")
-            runPlayer(track.trackId)
+            runPlayer(track.trackId.toString())
         }
 
         binding.inputSearchText.requestFocus()
@@ -210,6 +210,8 @@ class SearchFragment : Fragment() {
                     Log.d("MAALMI", "Выполняем EmptyHistoryList")
                     groupClicked.isVisible = false
                 }
+
+                else -> {}
             }
         }
     }

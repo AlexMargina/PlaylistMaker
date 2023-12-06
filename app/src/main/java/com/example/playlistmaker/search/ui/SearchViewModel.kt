@@ -1,5 +1,6 @@
 package com.example.playlistmaker.search.ui
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -81,6 +82,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     }
 
     fun addTrackToHistory(track: TrackModel) {
+        Log.d("MAALMI_SearchFrag", " addTrackToHistory")
         viewModelScope.launch { searchInteractor.addTrackToHistory(track) }
     }
 

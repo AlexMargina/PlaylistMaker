@@ -18,7 +18,6 @@ class PlayerActivity : AppCompatActivity() {
     private val viewModel by viewModel<PlayerViewModel>()
     private lateinit var binding: ActivityPlayerBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
@@ -132,5 +131,4 @@ class PlayerActivity : AppCompatActivity() {
             .into(binding.ivCover512)
         binding.btPlay.isEnabled = false
     }
-
 }

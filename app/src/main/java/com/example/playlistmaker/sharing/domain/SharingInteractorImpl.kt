@@ -13,5 +13,4 @@ class SharingInteractorImpl (private val externalNavigator: ExternalNavigator) :
     override fun openSupport() {
         externalNavigator.sendMail()
     }
-
 }

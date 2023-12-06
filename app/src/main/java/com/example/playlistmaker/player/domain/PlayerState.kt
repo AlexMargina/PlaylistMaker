@@ -9,5 +9,4 @@ sealed class PlayerState(val isPlayButtonEnabled: Boolean, val buttonText: Strin
     class PLAYING(progress: String) : PlayerState(true, "PAUSE", progress)
 
     class PAUSED(progress: String) : PlayerState(true, "PLAY", progress)
-
 }

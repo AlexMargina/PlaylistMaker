@@ -13,5 +13,4 @@ sealed interface SearchState {
     class Empty : SearchState
 
     class EmptyHistoryList() : SearchState
-
 }

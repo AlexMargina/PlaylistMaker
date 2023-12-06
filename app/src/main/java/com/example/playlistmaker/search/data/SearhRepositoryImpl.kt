@@ -2,8 +2,8 @@ package com.example.playlistmaker.search.data
 
 
 import android.util.Log
-import com.example.playlistmaker.media.favorite.data.db.AppDatabase
 import com.example.playlistmaker.media.favorite.data.convertor.TrackDbConvertor
+import com.example.playlistmaker.media.favorite.data.db.AppDatabase
 import com.example.playlistmaker.search.data.dto.ResponseStatus
 import com.example.playlistmaker.search.data.dto.TrackDto
 import com.example.playlistmaker.search.data.dto.TracksSearchRequest
@@ -86,18 +86,10 @@ class SearchRepositoryImpl(
 
 
     override suspend fun addTrackToHistory(track: TrackModel) {
-
-
-        for (clickedTrack in clickedTracks) {
-            if (clickedTrack.trackId==track.trackId) {
-                clickedTracks.remove(clickedTrack)
-                Log.d ("MAALMI_SearchRepo", "Удалил запись с trackId= ${track.trackId} ")
-            }
-        }
-
-       clickedTracks.add(0,track)
-        Log.d ("MAALMI_SearchRepo", "Добавил запись с trackId= ${track.trackId} ")
-
+        Log.d("MAALMI_SearchRepo", " addTrackToHistory track=${track.trackName}, clickedTrack.size=${clickedTracks.size}")
+        if (clickedTracks.contains(track)) { clickedTracks.remove(track) }
+        clickedTracks.add(0, track)
+        Log.d ("MAALMI_SearchRepo", "Отправляю на запись в searchDataStorage ${track.trackName} ")
         searchDataStorage.addTClickedSearchSongs(
             TrackDto(
                 track.trackId,
@@ -113,6 +105,8 @@ class SearchRepositoryImpl(
                 track.isFavorite
             )
         )
+        getTrackHistoryList()
+        Log.d ("MAALMI_SearchRepo", "После getTrackHistoryList() clickedTracks.size= ${clickedTracks.size} ")
     }
 
     override suspend fun clearHistory() {

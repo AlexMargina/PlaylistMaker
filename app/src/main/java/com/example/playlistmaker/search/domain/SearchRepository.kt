@@ -8,6 +8,4 @@ interface SearchRepository {
     suspend fun getTrackHistoryList(): List<TrackModel>
     suspend fun addTrackToHistory(track: TrackModel)
     suspend fun clearHistory()
-
-
 }

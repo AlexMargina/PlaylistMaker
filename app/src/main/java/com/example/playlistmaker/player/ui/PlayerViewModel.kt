@@ -45,9 +45,10 @@ class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) 
         return mediaPlayerInteractor.getTrack()
     }
 
-    suspend fun saveFavoriteTrack (track: TrackModel) {
+    suspend fun saveFavoriteTrack(track: TrackModel) {
         mediaPlayerInteractor.saveTrack(track)
     }
+
     private fun getCurrentPosition(): String {
         return SimpleDateFormat(
             "mm:ss",
@@ -100,25 +101,25 @@ class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) 
         }
     }
 
-     fun likeOrDislike() {
+    fun likeOrDislike() {
         val playedTrack = getTrack()
         favoriteJob = viewModelScope.launch {
             if (playedTrack.isFavorite) {
                 playedTrack.isFavorite = false
                 deleteTrackFromFavorite(playedTrack.trackId)
-            }  else {
+            } else {
                 playedTrack.isFavorite = true
                 insertTrackToFavorite(playedTrack)
             }
         }
-     }
+    }
 
     suspend fun insertTrackToFavorite(track: TrackModel) {
         mediaPlayerInteractor.insertTrackToFavorite(track)
     }
 
-     suspend fun deleteTrackFromFavorite(trackId: String) {
-         mediaPlayerInteractor.deleteTrackFromFavorite(trackId)
+    suspend fun deleteTrackFromFavorite(trackId: String) {
+        mediaPlayerInteractor.deleteTrackFromFavorite(trackId)
     }
 
     override fun onCleared() {

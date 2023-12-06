@@ -30,9 +30,9 @@ class SharedPrefsUtils(
         if (clickedSearchSongs.contains(track)) { clickedSearchSongs.remove(track) }
 
         while (clickedSearchSongs.size >= 10) { clickedSearchSongs.removeLast()  }
-        Log.d ("MAALMI_SearchRepo", "Добавил запись с trackId= ${track.trackId} ")
+        Log.d ("MAALMI_SharedPref", "Добавил запись с trackId= ${track.trackId} ")
         clickedSearchSongs.add(0, track)
-        Log.d ("MAALMI_SearchRepo", "Добавил и отправляю SharedPrefs = ${clickedSearchSongs[0]} ")
+        Log.d ("MAALMI_SharedPref", "Добавил и отправляю SharedPrefs = ${clickedSearchSongs[0]} ")
         writeClickedSearchSongs(clickedSearchSongs)
     }
 
@@ -70,4 +70,3 @@ class SharedPrefsUtils(
         return  (appDatabase.trackDao().getFavoriteTrack(trackId).size>0)
     }
 }
-

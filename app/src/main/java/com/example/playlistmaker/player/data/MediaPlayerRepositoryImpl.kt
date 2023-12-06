@@ -52,6 +52,4 @@ class MediaPlayerRepositoryImpl(
     override fun isNightTheme(): Boolean {
         return App.darkTheme
     }
-
-
 }

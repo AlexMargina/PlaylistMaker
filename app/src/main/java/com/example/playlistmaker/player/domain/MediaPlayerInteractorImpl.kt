@@ -59,8 +59,4 @@ class MediaPlayerInteractorImpl(
     override suspend fun deleteTrackFromFavorite(trackId: String) {
         favoriteRepository.deleteDbTrackFromFavorite(trackId)
     }
-
 }
-
-
-

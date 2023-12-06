@@ -23,7 +23,7 @@ class FavoriteFragment : Fragment() {
     private lateinit var binding: FragmentFavoritesBinding
     private val viewModel by viewModel<FavoriteViewModel>()
     private val favoriteSong = ArrayList<TrackModel>()
-    private val favoriteMusicAdapter = SearchMusicAdapter(favoriteSong)
+    private val favoriteMusicAdapter = SearchMusicAdapter(favoriteSong) { trackClickListener(it) }
     private lateinit var trackClickListener: (TrackModel) -> Unit
 
     override fun onCreateView(
@@ -36,8 +36,6 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.fillData()
-
         viewModel.stateLiveData.observe(viewLifecycleOwner) {
            state -> updateFavorite(state)
         }
@@ -45,9 +43,6 @@ class FavoriteFragment : Fragment() {
         binding.recyclerViewFavorited.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewFavorited.adapter = favoriteMusicAdapter
 
-        favoriteMusicAdapter.itemСlick = { track ->
-           trackClickListener(track)
-        }
 
         trackClickListener = debounce(
             SearchFragment.CLICK_DEBOUNCE_DELAY,
@@ -58,13 +53,17 @@ class FavoriteFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.fillData()
+    }
+
     private fun runPlayer(trackId: String) {
         val playerIntent = Intent(requireContext(), PlayerActivity::class.java)
         playerIntent.putExtra("trackId", trackId)
         Log.d("MAALMI_FavTrag", "runPlayer($trackId) ")
         startActivity(playerIntent)
     }
-
 
     private fun updateFavorite(state: FavoriteState) {
         binding.apply {
@@ -83,7 +82,6 @@ class FavoriteFragment : Fragment() {
                     favoriteMusicAdapter.notifyDataSetChanged()
                 }
 
-
                 else -> {
                     Log.d("MAALMI_FavFrag", "Выполняем Empty")
                     binding.groupFavorited.isVisible = false
@@ -94,9 +92,7 @@ class FavoriteFragment : Fragment() {
         }
     }
 
-
     companion object {
-
         fun newInstance() = FavoriteFragment().apply {
             arguments = Bundle().apply {}
         }

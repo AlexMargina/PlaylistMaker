@@ -5,5 +5,4 @@ interface SettingsRepository  {
     fun getThemeSettings(): Boolean?
 
     fun switchTheme(darkThemeEnabled: Boolean)
-
 }
