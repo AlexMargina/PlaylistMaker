@@ -24,47 +24,48 @@ class SearchRepositoryImpl(
 
     override suspend fun searchTrack(expression: String): Flow<ResponseStatus<List<TrackModel>>> =
         flow {
-        val response = networkClient.doRequest(TracksSearchRequest(expression))
+            val response = networkClient.doRequest(TracksSearchRequest(expression))
 
-         when (response.resultCode) {
-            -1 -> {
-                emit (ResponseStatus.Error())
-            }
-
-            200 -> { with(response as TracksSearchResponse) {
-                val data = results.map {
-                    TrackModel(
-                        trackId = it.trackId,
-                        trackName = it.trackName,
-                        artistName =it.artistName,
-                        trackTimeMillis =it.trackTimeMillis,
-                        artworkUrl100 =it.artworkUrl100,
-                        collectionName =it.collectionName,
-                        releaseDate =it.releaseDate,
-                        primaryGenreName =it.primaryGenreName,
-                        country =it.country,
-                        previewUrl =it.previewUrl,
-                        isFavorite = checkIsFavorite(it.trackId)
-                    )
+            when (response.resultCode) {
+                - 1 -> {
+                    emit(ResponseStatus.Error())
                 }
 
-                 emit(ResponseStatus.Success(data))
+                200 -> {
+                    with(response as TracksSearchResponse) {
+                        val data = results.map {
+                            TrackModel(
+                                trackId = it.trackId,
+                                trackName = it.trackName,
+                                artistName = it.artistName,
+                                trackTimeMillis = it.trackTimeMillis,
+                                artworkUrl100 = it.artworkUrl100,
+                                collectionName = it.collectionName,
+                                releaseDate = it.releaseDate,
+                                primaryGenreName = it.primaryGenreName,
+                                country = it.country,
+                                previewUrl = it.previewUrl,
+                                isFavorite = checkIsFavorite(it.trackId)
+                            )
+                        }
+
+                        emit(ResponseStatus.Success(data))
+                    }
+                }
+
+                else -> {
+                    emit(ResponseStatus.Error())
+                }
             }
         }
 
-            else -> {
-                emit (ResponseStatus.Error())
-            }
-        }
-    }
-
-    suspend fun checkIsFavorite (trackId: String) : Boolean {
-        return  (appDatabase.trackDao().getFavoriteTrack(trackId).size>0)
+    suspend fun checkIsFavorite(trackId: String): Boolean {
+        return (appDatabase.trackDao().getFavoriteTrack(trackId).size > 0)
     }
 
 
     override suspend fun getTrackHistoryList(): List<TrackModel> {
-         val historyTracks = searchDataStorage.getSearchHistory().map {
+        val historyTracks = searchDataStorage.getSearchHistory().map {
             TrackModel(
                 it.trackId,
                 it.trackName,
@@ -86,10 +87,12 @@ class SearchRepositoryImpl(
 
 
     override suspend fun addTrackToHistory(track: TrackModel) {
-        Log.d("MAALMI_SearchRepo", " addTrackToHistory track=${track.trackName}, clickedTrack.size=${clickedTracks.size}")
-        if (clickedTracks.contains(track)) { clickedTracks.remove(track) }
+        Log.d("MAALMI_SearchRepo"," addTrackToHistory track=${track.trackName}"  )
+        if (clickedTracks.contains(track)) {
+            clickedTracks.remove(track)
+        }
         clickedTracks.add(0, track)
-        Log.d ("MAALMI_SearchRepo", "Отправляю на запись в searchDataStorage ${track.trackName} ")
+        Log.d("MAALMI_SearchRepo", "Отправляю на запись в searchDataStorage ${track.trackName} ")
         searchDataStorage.addTClickedSearchSongs(
             TrackDto(
                 track.trackId,
@@ -106,7 +109,7 @@ class SearchRepositoryImpl(
             )
         )
         getTrackHistoryList()
-        Log.d ("MAALMI_SearchRepo", "После getTrackHistoryList() clickedTracks.size= ${clickedTracks.size} ")
+        Log.d("MAALMI_SearchRepo","После getTrackHistoryList() clickedTracks.size= ${clickedTracks.size} " )
     }
 
     override suspend fun clearHistory() {
@@ -116,6 +119,6 @@ class SearchRepositoryImpl(
 
 
     companion object {
-        var clickedTracks= arrayListOf<TrackModel>()
+        var clickedTracks = arrayListOf<TrackModel>()
     }
 }
