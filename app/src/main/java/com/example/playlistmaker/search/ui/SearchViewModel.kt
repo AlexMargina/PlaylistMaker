@@ -82,7 +82,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     }
 
     fun addTrackToHistory(track: TrackModel) {
-        Log.d("MAALMI_SearchFrag", " addTrackToHistory")
+        Log.d("MAALMI_SearchVM", "2. addTrackToHistory")
         viewModelScope.launch { searchInteractor.addTrackToHistory(track) }
     }
 

@@ -82,17 +82,24 @@ class SearchRepositoryImpl(
         }
         clickedTracks.clear()
         clickedTracks.addAll(historyTracks)
+        Log.d("MAALMI_SearchRepo","! getTrackHistoryList clickedTracks=${clickedTracks.size}"  )
         return clickedTracks
     }
 
 
     override suspend fun addTrackToHistory(track: TrackModel) {
-        Log.d("MAALMI_SearchRepo"," addTrackToHistory track=${track.trackName}"  )
-        if (clickedTracks.contains(track)) {
-            clickedTracks.remove(track)
+        Log.d("MAALMI_SearchRepo","3. addTrackToHistory track=${track}"  )
+
+        for (clickedTrack in clickedTracks) {
+            if (clickedTrack.trackId == track.trackId) {
+                clickedTracks.remove(clickedTrack)
+                Log.d ("MAALMI_SearchRepo", "4. Удалил запись с trackId= ${track.trackId} ")  //1
+                break
+            }
         }
+
         clickedTracks.add(0, track)
-        Log.d("MAALMI_SearchRepo", "Отправляю на запись в searchDataStorage ${track.trackName} ")
+        Log.d("MAALMI_SearchRepo", "5. Добавил ${clickedTracks[0].trackId} с isFavorite = ${clickedTracks[0].isFavorite}  и отправляю на запись в searchDataStorage ")
         searchDataStorage.addTClickedSearchSongs(
             TrackDto(
                 track.trackId,
@@ -108,8 +115,7 @@ class SearchRepositoryImpl(
                 track.isFavorite
             )
         )
-        getTrackHistoryList()
-        Log.d("MAALMI_SearchRepo","После getTrackHistoryList() clickedTracks.size= ${clickedTracks.size} " )
+        Log.d("MAALMI_SearchRepo", "6. Отправил на запись в searchDataStorage clickedTracks = ${clickedTracks.size}")
     }
 
     override suspend fun clearHistory() {

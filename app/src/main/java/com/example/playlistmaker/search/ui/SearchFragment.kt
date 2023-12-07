@@ -118,7 +118,7 @@ class SearchFragment : Fragment() {
             CLICK_DEBOUNCE_DELAY,
             viewLifecycleOwner.lifecycleScope, false
         ) { track ->
-            Log.d("MAALMI_SearchFrag", " track=${track}")
+            Log.d("MAALMI_SearchFrag", "1. Нажали на track=${track}")
             viewModel.addTrackToHistory(track)
             runPlayer(track.trackId.toString())
         }
