@@ -41,13 +41,7 @@ class FavoriteViewModel(
         if (tracks.isEmpty()) {
             renderState(FavoriteState.Empty(context.getString(R.string.empty_favorites)))
         } else {
-            val mutableTracks = mutableListOf<TrackModel>()
-            mutableTracks.addAll(tracks)
-            mutableTracks.reverse()
-            tracks.clear()
-            tracks.addAll(mutableTracks)
             renderState(FavoriteState.Content(tracks))
-            Log.d("MAALMI", "processResult = ${tracks.size}")
         }
     }
 

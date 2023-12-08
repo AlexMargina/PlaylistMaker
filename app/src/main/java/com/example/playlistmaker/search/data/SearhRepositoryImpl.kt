@@ -99,7 +99,7 @@ class SearchRepositoryImpl(
         }
 
         clickedTracks.add(0, track)
-        Log.d("MAALMI_SearchRepo", "5. Добавил ${clickedTracks[0].trackId} с isFavorite = ${clickedTracks[0].isFavorite}  и отправляю на запись в searchDataStorage ")
+        Log.d("MAALMI_SearchRepo", "5. Добавил ${clickedTracks[0].trackId} с isFavorite = ${clickedTracks[0].isFavorite}  " )
         searchDataStorage.addTClickedSearchSongs(
             TrackDto(
                 track.trackId,

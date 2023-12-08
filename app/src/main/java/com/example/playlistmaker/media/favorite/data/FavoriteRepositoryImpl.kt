@@ -16,7 +16,7 @@ class FavoriteRepositoryImpl(
 ) : FavoriteRepository {
 
     override fun favoriteTracks(): Flow<ArrayList<TrackModel>> = flow {
-        val tracks = appDatabase.trackDao().getTracks()
+        val tracks = appDatabase.trackDao().getTracksByTime()
         emit(convertFromTrackEntity(tracks as ArrayList<TrackEntity>))
     }
 
