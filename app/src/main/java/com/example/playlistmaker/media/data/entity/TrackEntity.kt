@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.favorite.data.entity
+package com.example.playlistmaker.media.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

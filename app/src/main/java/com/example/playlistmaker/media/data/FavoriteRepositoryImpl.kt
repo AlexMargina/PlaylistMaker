@@ -1,9 +1,9 @@
-package com.example.playlistmaker.media.favorite.data
+package com.example.playlistmaker.media.data
 
-import com.example.playlistmaker.media.favorite.data.convertor.TrackDbConvertor
-import com.example.playlistmaker.media.favorite.data.db.AppDatabase
-import com.example.playlistmaker.media.favorite.data.entity.TrackEntity
-import com.example.playlistmaker.media.favorite.domain.FavoriteRepository
+import com.example.playlistmaker.media.data.convertor.TrackDbConvertor
+import com.example.playlistmaker.media.data.db.AppDatabase
+import com.example.playlistmaker.media.data.entity.TrackEntity
+import com.example.playlistmaker.media.domain.favorite.FavoriteRepository
 import com.example.playlistmaker.search.data.SearchRepositoryImpl.Companion.clickedTracks
 import com.example.playlistmaker.search.data.dto.TrackDto
 import com.example.playlistmaker.search.domain.TrackModel

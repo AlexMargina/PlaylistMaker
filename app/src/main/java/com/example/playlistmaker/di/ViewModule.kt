@@ -1,8 +1,8 @@
 package com.example.playlistmaker.di
 
 import com.example.playlistmaker.main.ui.MainViewModel
-import com.example.playlistmaker.media.favorite.ui.FavoriteViewModel
-import com.example.playlistmaker.media.playlist.PlaylistViewModel
+import com.example.playlistmaker.media.ui.favorite.FavoriteViewModel
+import com.example.playlistmaker.media.ui.playlist.PlaylistViewModel
 import com.example.playlistmaker.player.domain.MediaPlayerInteractor
 import com.example.playlistmaker.player.ui.PlayerViewModel
 import com.example.playlistmaker.search.ui.SearchViewModel

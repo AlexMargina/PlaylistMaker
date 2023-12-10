@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:theme="@style/Theme.PlaylistMaker"
-    tools:context=".media.favorite.ui.FavoriteFragment">
+    tools:context=".media.ui.favorite.FavoriteFragment">
 
 
       <LinearLayout

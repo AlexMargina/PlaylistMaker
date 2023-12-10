@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.favorite.ui
+package com.example.playlistmaker.media.ui.favorite
 
 
 import android.content.Context
@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.R
-import com.example.playlistmaker.media.favorite.domain.FavoriteInteractor
+import com.example.playlistmaker.media.domain.favorite.FavoriteInteractor
 import com.example.playlistmaker.search.domain.TrackModel
 import kotlinx.coroutines.launch
 

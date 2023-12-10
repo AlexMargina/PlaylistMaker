@@ -3,7 +3,7 @@ package com.example.playlistmaker.search.data
 import android.content.SharedPreferences
 import android.util.Log
 import com.example.playlistmaker.CLICKED_SEARCH_TRACK
-import com.example.playlistmaker.media.favorite.data.db.AppDatabase
+import com.example.playlistmaker.media.data.db.AppDatabase
 import com.example.playlistmaker.search.data.dto.TrackDto
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Theme.PlaylistMaker"
-    tools:context=".media.playlist.PlaylistFragment">
+    tools:context=".media.ui.playlist.PlaylistFragment">
 
     <LinearLayout
         android:id="@+id/empty_playlist"
