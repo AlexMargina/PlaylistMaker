@@ -6,7 +6,9 @@ import com.example.playlistmaker.player.domain.MediaPlayerRepository
 import com.example.playlistmaker.search.data.SearchRepositoryImpl.Companion.clickedTracks
 import com.example.playlistmaker.search.domain.TrackModel
 
-class MediaPlayerRepositoryImpl(private val mediaPlayer : MediaPlayer) : MediaPlayerRepository {
+class MediaPlayerRepositoryImpl(
+    private val mediaPlayer: MediaPlayer
+) : MediaPlayerRepository {
 
     override val isPlaying = mediaPlayer.isPlaying
 
@@ -43,11 +45,11 @@ class MediaPlayerRepositoryImpl(private val mediaPlayer : MediaPlayer) : MediaPl
         mediaPlayer.release()
     }
 
-    override fun getTrack() : TrackModel {
+    override fun getTrack(): TrackModel {
         return clickedTracks[0]
     }
 
-    override fun isNightTheme() : Boolean {
+    override fun isNightTheme(): Boolean {
         return App.darkTheme
     }
 }

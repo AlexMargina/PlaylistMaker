@@ -15,7 +15,6 @@ class SettingViewModel(
 
 
 
-
     init {
         _theme.postValue(settingsInteractor.getThemeSettings())
     }

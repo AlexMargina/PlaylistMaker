@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:paddingHorizontal="@dimen/size_s"
     android:theme="@style/Theme.PlaylistMaker"
     tools:context="com.example.playlistmaker.main.ui.MainActivity">
 
@@ -21,7 +20,7 @@
             style="@style/TextBigStyle"
             android:padding="0dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/size_xxxs"
+            android:layout_marginStart="@dimen/size_s"
             android:text="@string/mediateca" />
     </LinearLayout>
 

@@ -92,7 +92,7 @@
         android:id="@+id/iv_like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/buttonlike"
+        android:src="@drawable/buttondislike"
         app:layout_constraintBottom_toTopOf="@id/tv_playback_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bt_play"

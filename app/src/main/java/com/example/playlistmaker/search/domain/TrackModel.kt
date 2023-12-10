@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 data class TrackModel(
-    val trackId: Int,
+    val trackId: String,
     val trackName: String,
     val artistName: String,
     val trackTimeMillis: Long,
@@ -13,7 +13,8 @@ data class TrackModel(
     val releaseDate: String,
     val primaryGenreName: String,
     val country: String,
-    val previewUrl: String
+    val previewUrl: String,
+    var isFavorite: Boolean = false
 ) {
     fun getDuration() = SimpleDateFormat("mm:ss", Locale.getDefault()).format(trackTimeMillis)
 }

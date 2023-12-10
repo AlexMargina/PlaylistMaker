@@ -18,7 +18,6 @@ class PlayerActivity : AppCompatActivity() {
     private val viewModel by viewModel<PlayerViewModel>()
     private lateinit var binding: ActivityPlayerBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
@@ -34,6 +33,16 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         binding.ivBack.setOnClickListener { finish() }
+
+        binding.ivLike.setOnClickListener {
+            viewModel.likeOrDislike()
+
+            if (getTrack().isFavorite) {
+                binding.ivLike.setImageResource(R.drawable.buttonlike)
+            } else {
+                binding.ivLike.setImageResource(R.drawable.buttondislike)
+            }
+        }
 
         assign(getTrack())
     }
@@ -109,6 +118,7 @@ class PlayerActivity : AppCompatActivity() {
             tvYear.setText(playedTrack.releaseDate.substring(0, 4))
             tvGenre.setText(playedTrack.primaryGenreName)
             tvCountry.setText(playedTrack.country)
+            if (playedTrack.isFavorite) ivLike.setImageResource(R.drawable.buttonlike)
         }
 
         val coverUrl100 = playedTrack.artworkUrl100
@@ -121,5 +131,4 @@ class PlayerActivity : AppCompatActivity() {
             .into(binding.ivCover512)
         binding.btPlay.isEnabled = false
     }
-
 }

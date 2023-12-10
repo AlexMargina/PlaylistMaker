@@ -1,5 +1,6 @@
 package com.example.playlistmaker.search.domain
 
+import android.util.Log
 import com.example.playlistmaker.search.data.dto.ResponseStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -22,15 +23,16 @@ class SearchInteractorImpl(private val repository: SearchRepository) : SearchInt
         }
     }
 
-    override fun getTracksHistory(consumer: SearchInteractor.HistoryConsumer) {
+    override suspend fun getTracksHistory(consumer: SearchInteractor.HistoryConsumer) {
         consumer.consume(repository.getTrackHistoryList())
     }
 
-    override fun addTrackToHistory(track: TrackModel) {
-        repository.addTrackInHistory(track)
+    override suspend fun addTrackToHistory(track: TrackModel) {
+        repository.addTrackToHistory(track)
+        Log.d ("MAALMI_SearchIteractor", "addTrackToHistory: ${track.trackName}")
     }
 
-    override fun clearHistory() {
+    override suspend fun clearHistory() {
         repository.clearHistory()
     }
 }

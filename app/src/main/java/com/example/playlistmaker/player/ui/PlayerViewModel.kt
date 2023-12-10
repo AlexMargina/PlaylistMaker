@@ -16,6 +16,7 @@ import java.util.Locale
 class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) : ViewModel() {
 
     private var timerJob: Job? = null
+    private var favoriteJob: Job? = null
     private val RefreshDelayMs = 300L
 
     private val _playerState = MutableLiveData<PlayerState>(PlayerState.DEFAULT())
@@ -42,6 +43,10 @@ class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) 
 
     fun getTrack(): TrackModel {
         return mediaPlayerInteractor.getTrack()
+    }
+
+    suspend fun saveFavoriteTrack(track: TrackModel) {
+        mediaPlayerInteractor.saveTrack(track)
     }
 
     private fun getCurrentPosition(): String {
@@ -94,6 +99,27 @@ class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) 
 
             else -> {}
         }
+    }
+
+    fun likeOrDislike() {
+        val playedTrack = getTrack()
+        favoriteJob = viewModelScope.launch {
+            if (playedTrack.isFavorite) {
+                playedTrack.isFavorite = false
+                deleteTrackFromFavorite(playedTrack.trackId)
+            } else {
+                playedTrack.isFavorite = true
+                insertTrackToFavorite(playedTrack)
+            }
+        }
+    }
+
+    suspend fun insertTrackToFavorite(track: TrackModel) {
+        mediaPlayerInteractor.insertTrackToFavorite(track)
+    }
+
+    suspend fun deleteTrackFromFavorite(trackId: String) {
+        mediaPlayerInteractor.deleteTrackFromFavorite(trackId)
     }
 
     override fun onCleared() {

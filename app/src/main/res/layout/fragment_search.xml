@@ -75,7 +75,7 @@
 
         </FrameLayout>
 
-        <!--Блок для поиска новых песен -->
+        <!--Блок для найденных новых песен -->
         <FrameLayout
             android:id="@+id/group_searched"
             android:layout_width="match_parent"
@@ -157,6 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/size_s"
+                android:layout_marginBottom="@dimen/frame_layout_height"
                 android:text="@string/clear_history" />
 
         </LinearLayout>

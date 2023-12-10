@@ -118,7 +118,8 @@ class SearchFragment : Fragment() {
             CLICK_DEBOUNCE_DELAY,
             viewLifecycleOwner.lifecycleScope, false
         ) { track ->
-            viewModel.addTrackToHistory(track, this)
+            Log.d("MAALMI_SearchFrag", "1. Нажали на track=${track}")
+            viewModel.addTrackToHistory(track)
             runPlayer(track.trackId.toString())
         }
 
@@ -194,14 +195,14 @@ class SearchFragment : Fragment() {
 
                 }
 
-                is SearchState.ContentHistoryList -> {
+                is SearchState.ContentHistory -> {
                     Log.d("MAALMI", "Выполняем ContentHistoryList")
                     groupClicked.isVisible = true
                     groupProgress.isVisible = false
                     groupSearched.isVisible = false
                     recyclerViewClicked.isVisible = true
                     clickedSong.clear()
-                    clickedSong.addAll(state.historyList)
+                    clickedSong.addAll(state.tracks)
                     clickedMusicAdapter.notifyDataSetChanged()
                 }
 
@@ -209,6 +210,8 @@ class SearchFragment : Fragment() {
                     Log.d("MAALMI", "Выполняем EmptyHistoryList")
                     groupClicked.isVisible = false
                 }
+
+                else -> {}
             }
         }
     }
@@ -219,6 +222,6 @@ class SearchFragment : Fragment() {
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 300L
+        const val CLICK_DEBOUNCE_DELAY = 300L
     }
 }

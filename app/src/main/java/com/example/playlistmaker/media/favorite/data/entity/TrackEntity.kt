@@ -1,10 +1,14 @@
-package com.example.playlistmaker.search.data.dto
+package com.example.playlistmaker.media.favorite.data.entity
 
-import java.io.Serializable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.util.Calendar
 
 
-data class TrackDto(
+@Entity(tableName = "track_table")
+data class TrackEntity(
 
+    @PrimaryKey
     val trackId: String,
     val trackName: String,
     val artistName: String,
@@ -15,6 +19,6 @@ data class TrackDto(
     val primaryGenreName: String,
     val country: String,
     val previewUrl: String,
-    val isFavorite: Boolean = false
-    ) : Serializable {
-}
+    val inDbTime : Long = Calendar.getInstance().time.time
+)
+

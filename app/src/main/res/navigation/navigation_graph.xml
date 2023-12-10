@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/mediaFragment"
-        android:name="com.example.playlistmaker.media.ui.MediaFragment"
+        android:name="com.example.playlistmaker.media.playlist.MediaFragment"
         android:label="MediaFragment" >
         <action
             android:id="@+id/action_mediaFragment_to_settingsActivity"

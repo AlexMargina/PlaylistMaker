@@ -1,5 +1,6 @@
 package com.example.playlistmaker.search.ui
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,7 +20,8 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     private var latestSearchText: String? = null
 
     private val trackSearchDebounce = debounce<String>(
-        SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { changedText ->
+        SEARCH_DEBOUNCE_DELAY, viewModelScope, true
+    ) { changedText ->
         searchSong(changedText)
     }
 
@@ -54,9 +56,11 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
             errorMessage != null -> {
                 updateState(SearchState.Empty())
             }
+
             tracks.isEmpty() -> {
                 updateState(SearchState.Content(tracks))
             }
+
             else -> {
                 updateState(SearchState.Content(tracks))
             }
@@ -64,23 +68,27 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     }
 
     fun getTracksHistory() {
-        searchInteractor.getTracksHistory(object : SearchInteractor.HistoryConsumer {
-            override fun consume(tracks: List<TrackModel>?) {
-                if (tracks.isNullOrEmpty()) {
-                    updateState(SearchState.EmptyHistoryList())
-                } else {
-                    updateState(SearchState.ContentHistoryList(tracks))
+        viewModelScope.launch {
+            searchInteractor.getTracksHistory(object : SearchInteractor.HistoryConsumer {
+                override fun consume(tracks: List<TrackModel>?) {
+                    if (tracks.isNullOrEmpty()) {
+                        updateState(SearchState.EmptyHistoryList())
+                    } else {
+                        updateState(SearchState.ContentHistory(tracks))
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
-    fun addTrackToHistory(track: TrackModel, activity: SearchFragment) {
-        searchInteractor.addTrackToHistory(track)
+    fun addTrackToHistory(track: TrackModel) {
+        Log.d("MAALMI_SearchVM", "2. addTrackToHistory")
+        viewModelScope.launch { searchInteractor.addTrackToHistory(track) }
     }
 
     fun clearHistory() {
-        searchInteractor.clearHistory()
+        viewModelScope.launch { searchInteractor.clearHistory() }
+        updateState(SearchState.EmptyHistoryList())
     }
 
     private fun updateState(state: SearchState) {

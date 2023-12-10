@@ -26,6 +26,3 @@ class SettingsRepositoryImpl(private val prefs: SharedPreferences) : SettingsRep
             return isDarkModeOn
         }
 }
-
-
-
