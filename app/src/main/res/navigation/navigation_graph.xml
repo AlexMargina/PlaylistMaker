@@ -40,5 +40,33 @@
             android:id="@+id/action_mediaFragment_to_searchFragment2"
             app:destination="@id/searchFragment" />
     </fragment>
+    <activity
+        android:id="@+id/playerActivity"
+        android:name="com.example.playlistmaker.player.ui.PlayerActivity"
+        android:label="activity_new"
+        tools:layout="@layout/activity_player" >
+
+    </activity>
+    <fragment
+        android:id="@+id/playlistFragment"
+        android:name="com.example.playlistmaker.media.ui.playlist.PlaylistFragment"
+        android:label="PlaylistFragment" >
+        <action
+            android:id="@+id/action_playlistFragment_to_newPlaylistFragment"
+            app:destination="@id/newPlaylistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.playlistmaker.media.ui.favorite.FavoriteFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/newPlaylistFragment"
+        android:name="com.example.playlistmaker.media.ui.newPlaylist.NewPlaylistFragment"
+        android:label="NewPlaylistFragment" >
+        <action
+            android:id="@+id/action_newPlaylistFragment_to_playlistFragment"
+            app:destination="@id/playlistFragment" />
+    </fragment>
 </navigation>
 

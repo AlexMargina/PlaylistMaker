@@ -31,9 +31,17 @@
     <string name="rf">Russia</string>
     <string name="mediateca">Media library</string>
     <string name="new_playlist">New playlist</string>
+    <string name="name_playlist">Name</string>
     <string name="fav_tracks">Favorite tracks</string>
     <string name="playlists">Playlists</string>
     <string name="empty_playlist">Your playlist is empty</string>
     <string name="empty_favorites">Medialibrary is empty</string>
+    <string name="descript_playlist">Description</string>
+    <string name="create">Create</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="title_dialog_new_playlist">Finish creation the playlist?</string>
+    <string name="message_dialog_new_playlist">All data will be canceled</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="finish_button">Finish creation</string>
 
 </resources>
