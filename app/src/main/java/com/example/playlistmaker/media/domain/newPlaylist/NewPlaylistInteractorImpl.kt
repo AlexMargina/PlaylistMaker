@@ -1,7 +1,6 @@
 package com.example.playlistmaker.media.domain.newPlaylist
 
 import android.net.Uri
-import com.e.playlistmaker.library.domain.newPlaylist.NewPlaylistRepository
 
 class NewPlaylistInteractorImpl(private val repository: NewPlaylistRepository) :
     NewPlaylistInteractor {

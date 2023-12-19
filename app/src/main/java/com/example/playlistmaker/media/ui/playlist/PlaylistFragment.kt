@@ -40,7 +40,7 @@ class PlaylistFragment : Fragment() {
         }
 
         binding.btNewPlaylist.setOnClickListener {
-            findNavController().navigate(R.id.action_playlistFragment_to_newPlaylistFragment)
+            findNavController().navigate(R.id.action_mediaFragment_to_newPlaylistFragment)
         }
 
         binding.recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2)
