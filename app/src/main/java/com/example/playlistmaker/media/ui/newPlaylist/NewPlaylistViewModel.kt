@@ -35,9 +35,9 @@ class NewPlaylistViewModel(
     fun createPlaylist(playlist: Playlist) {
         viewModelScope.launch {
             if (loadUri != null) {
-                newPlaylistInteractor.savePicture(loadUri!!, playlist.title)
+                newPlaylistInteractor.savePicture(loadUri!!, playlist.namePl)
             }
-            interactor.createPlaylist(playlist)
+            interactor.insertPlaylist(playlist)
             interactor.getPlaylists().collect { list ->
                 _playlistLiveData.postValue(list)
             }

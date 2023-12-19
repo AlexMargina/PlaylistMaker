@@ -12,13 +12,13 @@ class PlaylistViewHolder (private val binding: LayoutPlaylistsBinding) : Recycle
 
     fun bind(playlist: Playlist) {
         Glide.with(itemView)
-            .load(playlist.uriForImage)
+            .load(playlist.imagePl)
             .placeholder(R.drawable.media_placeholder)
             .centerCrop()
             .transform(RoundedCorners(8))
             .into(binding.ivCover)
 
-        binding.tvTitle .text = playlist.title
+        binding.tvTitle .text = playlist.namePl
         binding.tvCount.text = convertCountToText(playlist.countTracks)
     }
 

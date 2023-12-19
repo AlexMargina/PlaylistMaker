@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.Flow
 
 class PlaylistInteractorImpl(private val repository: PlaylistRepository) : PlaylistInteractor {
 
-    override suspend fun createPlaylist(playlist: Playlist) {
-        repository.createPlaylist(playlist)
+    override suspend fun insertPlaylist(playlist: Playlist) {
+        repository.insertPlaylist(playlist)
     }
 
     override suspend fun addNewTrack(track: TrackModel, playlist: Playlist) {

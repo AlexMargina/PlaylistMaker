@@ -81,10 +81,10 @@ class NewPlaylistFragment : Fragment() {
         binding.tvNewPlaylist.setOnClickListener {
             viewModel.createPlaylist(
                 Playlist(
-                    playlistId = 0,
-                    title = binding.etNamePl.text.toString(),
-                    description = binding.etDescriptPl.text.toString(),
-                    uriForImage = if (loadUri != null) {
+                   idPl = 0,
+                    namePl = binding.etNamePl.text.toString(),
+                    descriptPl = binding.etDescriptPl.text.toString(),
+                    imagePl = if (loadUri != null) {
                         loadUri.toString()
                     } else {
                         ""

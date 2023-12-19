@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
 import com.example.playlistmaker.media.domain.Playlist
+import com.example.playlistmaker.media.ui.newPlaylist.NewPlaylistViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFragment : Fragment() {
@@ -18,6 +19,8 @@ class PlaylistFragment : Fragment() {
     private val binding  get() = _binding!!
 
     private val viewModel by viewModel<PlaylistViewModel>()
+
+    private val newViewModel by viewModel<NewPlaylistViewModel>()
 
     private val adapter = PlaylistAdapter()
 
@@ -37,6 +40,12 @@ class PlaylistFragment : Fragment() {
                 PlaylistState.Empty -> showEmptyResult()
                 is PlaylistState.Playlists -> showPlaylists(playlistState.playlists)
             }
+        }
+
+        newViewModel.playlistLiveData.observe(viewLifecycleOwner) { playlist ->
+            adapter.playlists.clear()
+            adapter.playlists.addAll(playlist)
+            adapter.notifyDataSetChanged()
         }
 
         binding.btNewPlaylist.setOnClickListener {

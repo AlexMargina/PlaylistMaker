@@ -1,11 +1,13 @@
 package com.example.playlistmaker.media.domain
 
+import com.example.playlistmaker.search.domain.TrackModel
+
 
 data class Playlist(
-    val playlistId: Int,
-    val title: String,
-    val description: String = "",
-    val uriForImage: String = "",
-    val tracksId: MutableList<String> = mutableListOf(),
+    val idPl: Int,
+    val namePl: String,
+    val descriptPl: String = "",
+    val imagePl: String = "",
+    val tracksPl: ArrayList<TrackModel> = arrayListOf(),
     var countTracks: Int = 0,
 )
