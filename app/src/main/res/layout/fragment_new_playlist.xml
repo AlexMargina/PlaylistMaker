@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="@dimen/size_sl"
-        android:src="@drawable/back" ></ImageView>
+        android:src="@drawable/back" />
 
     <TextView
         android:id="@+id/tv_new_playlist"
@@ -22,16 +22,18 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_back"
-        android:text="@string/new_playlist"    ></TextView>
+        android:text="@string/new_playlist" />
 
     <ImageView
         android:id="@+id/iv_coverPl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_new_playlist"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="24dp"
         android:paddingTop="@dimen/frame_layout_height"
-        android:src="@drawable/dotted_rectangle"></ImageView>
+        android:src="@drawable/dotted_rectangle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_new_playlist"
+        app:layout_constraintBottom_toTopOf="@id/tv_namePl"/>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -40,7 +42,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/iv_coverPl"
         app:layout_constraintBottom_toBottomOf="@id/iv_coverPl"
-        android:src="@drawable/image_load"></ImageView>
+        android:src="@drawable/image_load"/>
 
     <TextView
         android:id="@+id/tv_namePl"
@@ -49,7 +51,8 @@
         app:layout_constraintBottom_toTopOf="@id/et_namePl"
         app:layout_constraintTop_toBottomOf="@id/iv_coverPl"
         android:paddingTop="@dimen/size_xl"
-        android:text="Название"></TextView>
+        android:text="Название"
+        />
 
     <EditText
         android:id="@+id/et_namePl"
@@ -59,7 +62,8 @@
         app:layout_constraintBottom_toTopOf="@id/tv_descriptPl"
         android:paddingTop="@dimen/size_xl"
         android:foregroundTint="@color/text_color"
-        android:hint="@string/name_playlist"></EditText>
+        android:hint="@string/name_playlist"
+        />
 
     <TextView
         android:id="@+id/tv_descriptPl"
@@ -68,17 +72,19 @@
         app:layout_constraintTop_toBottomOf="@id/et_namePl"
         app:layout_constraintBottom_toTopOf="@id/et_descriptPl"
         android:paddingTop="@dimen/size_xl"
-        android:text="Название"></TextView>
+        android:text="Название"
+        />
 
     <EditText
         android:id="@+id/et_descriptPl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_descriptPl"
+        app:layout_constraintBottom_toTopOf="@id/tv_button_new"
         android:hint="@string/descript_playlist"
         android:paddingTop="@dimen/size_xl"
         android:foregroundTint="@color/text_color"
-        ></EditText>
+        />
 
     <TextView
         android:id="@+id/tv_button_new"
@@ -92,6 +98,8 @@
         android:tooltipText="@string/new_playlist"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_descriptPl"></TextView>
+        app:layout_constraintTop_toBottomOf="@id/et_descriptPl"
+        android:layout_marginBottom="@dimen/size_xxl"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

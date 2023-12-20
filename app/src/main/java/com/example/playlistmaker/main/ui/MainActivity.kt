@@ -1,6 +1,7 @@
 package com.example.playlistmaker.main.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -25,5 +26,14 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bnv_main)
         bottomNavigationView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener {_, nd, _ ->
+            if(nd.id == R.id.action_mediaFragment_to_newPlaylistFragment){
+                bottomNavigationView.visibility = View.GONE
+            }else{
+                bottomNavigationView.visibility = View.VISIBLE
+            }
+        }
+
     }
 }

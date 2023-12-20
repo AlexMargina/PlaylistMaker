@@ -5,12 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.navigation.get
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
 import com.example.playlistmaker.media.domain.Playlist
 import com.example.playlistmaker.media.ui.newPlaylist.NewPlaylistViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFragment : Fragment() {
@@ -35,6 +39,7 @@ class PlaylistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         viewModel.liveData.observe(viewLifecycleOwner)  { playlistState ->
             when (playlistState) {
                 PlaylistState.Empty -> showEmptyResult()
@@ -49,7 +54,15 @@ class PlaylistFragment : Fragment() {
         }
 
         binding.btNewPlaylist.setOnClickListener {
-            findNavController().navigate(R.id.action_mediaFragment_to_newPlaylistFragment)
+            val navigation = findNavController()
+            navigation.navigate(R.id.action_mediaFragment_to_newPlaylistFragment)
+            navigation.addOnDestinationChangedListener {_, nd, _ ->
+                if(nd.id == R.id.action_mediaFragment_to_newPlaylistFragment){
+                    //nd.
+                }else{
+                    //navigation.visibility = View.VISIBLE
+                }
+            }
         }
 
         binding.recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2)
