@@ -1,6 +1,7 @@
 package com.example.playlistmaker.media.ui.newPlaylist
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -31,13 +33,19 @@ class NewPlaylistFragment : Fragment() {
 
     private var loadUri: Uri? = null
 
-        val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean->
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
                 // Пользователь дал разрешение, можно продолжать работу
+                viewModel.loadCover()
+                //                binding.permissionGranted.visibility = View.VISIBLE
             } else {
                 // Пользователь отказал в предоставлении разрешения
+//                binding.permissionRequestFrame.visibility = View.VISIBLE
+//                binding.permissionGranted.visibility = View.GONE
             }
         }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,25 +59,26 @@ class NewPlaylistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.placeholderLiveData.observe(viewLifecycleOwner) { result ->
-            if (!result) {
+        viewModel.placeholderLiveData.observe(viewLifecycleOwner) { cover ->
+            if (!cover) {
                 binding.ivCoverPl .background = null
-                // binding.image.visibility = View.GONE
+                //binding.ivCoverPl .visibility = View.GONE
             }
         }
+
         viewModel.pictureLiveData.observe(viewLifecycleOwner) { uri ->
             loadUri = uri
-            binding.ivCoverPl.setImageURI(uri)
+            binding.ivCoverPlImage.setImageURI(uri)
+            binding.ivPicturePlus.visibility = View.GONE
         }
 
         viewModel.loadPickMedia(this)
 
-        // TODO Проверка разрешения checkPermission()
+        checkPermission()
 
         //1. Нажатие на область выбора обложки
         binding.ivCoverPl.setOnClickListener {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-            viewModel.loadCover()
         }
 
         // 2. сделать неактивной кнопку Создать
@@ -78,8 +87,8 @@ class NewPlaylistFragment : Fragment() {
         }
 
         // 3. Нажатие на кнопку Создать
-        binding.tvNewPlaylist.setOnClickListener {
-            viewModel.createPlaylist(
+        binding.tvButtonNew.setOnClickListener {
+            viewModel.insertPlaylist(
                 Playlist(
                    idPl = 0,
                     namePl = binding.etNamePl.text.toString(),
@@ -91,12 +100,13 @@ class NewPlaylistFragment : Fragment() {
                     }
                 )
             )
-            findNavController().navigateUp()
+
             playlistViewModel.showPlaylist()
 
             Toast.makeText(requireActivity(), "Плейлист «${binding.etNamePl.text}» создан",
                 Toast.LENGTH_SHORT
             ).show()
+            findNavController().navigateUp()
         }
 
         completeDialog = MaterialAlertDialogBuilder(requireActivity())
@@ -142,6 +152,19 @@ class NewPlaylistFragment : Fragment() {
             completeDialog.show()
         } else {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun checkPermission() {
+        val permissionProvided = ContextCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.CAMERA
+        )
+        if (permissionProvided == PackageManager.PERMISSION_GRANTED) {
+//            binding.permissionRequestFrame.visibility = View.GONE
+//            binding.permissionGranted.visibility = View.VISIBLE
+        } else if (permissionProvided == PackageManager.PERMISSION_DENIED) {
+//            binding.permissionRequestFrame.visibility = View.VISIBLE
+//            binding.permissionGranted.visibility = View.GONE
         }
     }
 

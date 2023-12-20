@@ -28,12 +28,11 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener {_, nd, _ ->
-            if(nd.id == R.id.action_mediaFragment_to_newPlaylistFragment){
+            if(nd.id == R.id.newPlaylistFragment || nd.id == R.id.playerActivity){
                 bottomNavigationView.visibility = View.GONE
             }else{
                 bottomNavigationView.visibility = View.VISIBLE
             }
         }
-
     }
 }

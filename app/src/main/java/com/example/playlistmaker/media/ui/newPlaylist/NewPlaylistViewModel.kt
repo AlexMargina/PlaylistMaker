@@ -17,7 +17,6 @@ class NewPlaylistViewModel(
     private val interactor: PlaylistInteractor,
     private val newPlaylistInteractor: NewPlaylistInteractor,
 ) : ViewModel() {
-//    val
 
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
 
@@ -32,10 +31,10 @@ class NewPlaylistViewModel(
     private var _pictureLiveData = MutableLiveData<Uri?>()
     val pictureLiveData: LiveData<Uri?> = _pictureLiveData
 
-    fun createPlaylist(playlist: Playlist) {
+    fun insertPlaylist(playlist: Playlist) {
         viewModelScope.launch {
             if (loadUri != null) {
-                newPlaylistInteractor.savePicture(loadUri!!, playlist.namePl)
+                newPlaylistInteractor.savePicture(loadUri !!, playlist.namePl)
             }
             interactor.insertPlaylist(playlist)
             interactor.getPlaylists().collect { list ->
@@ -44,7 +43,7 @@ class NewPlaylistViewModel(
         }
     }
 
-    fun loadPickMedia (newPlaylistFragment: NewPlaylistFragment) {
+    fun loadPickMedia(newPlaylistFragment: NewPlaylistFragment) {
         pickMedia =
             newPlaylistFragment.registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 viewModelScope.launch {
@@ -59,7 +58,8 @@ class NewPlaylistViewModel(
 
     fun loadCover() {
         viewModelScope.launch {
-
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
     }
 }
+
