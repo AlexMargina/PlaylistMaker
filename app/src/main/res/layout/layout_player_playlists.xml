@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/size_xxs"
+    android:layout_marginStart="@dimen/icon_padding"
+    android:orientation="horizontal">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/card_layout_height"
+        android:layout_height="@dimen/card_layout_height"
+        android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="0dp">
+
+        <ImageView
+            android:id="@+id/image_playlist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:clipToOutline="true" />
+    </androidx.cardview.widget.CardView>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/frame_layout_height"
+        android:layout_marginEnd="@dimen/size_s">
+
+        <TextView
+            android:id="@+id/namePl"
+            style="@style/TextSongStyle"
+            android:layout_gravity="top"
+            android:layout_marginStart="@dimen/size_xxs"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingTop="@dimen/size_xs"
+            android:paddingEnd="@dimen/size_xl"
+            tools:text="Название плэйлиста" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_count_tracks"
+                style="@style/TextArtiStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginStart="@dimen/size_xxs"
+                android:layout_marginBottom="@dimen/size_xs"
+                android:ellipsize="end"
+                android:maxWidth="@dimen/maxWindth_songArtist"
+                android:maxLines="1"
+                tools:text="Количество трэков" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

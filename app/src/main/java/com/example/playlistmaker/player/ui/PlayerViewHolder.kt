@@ -1,26 +1,25 @@
-package com.example.playlistmaker.media.ui.playlist
+package com.example.playlistmaker.player.ui
 
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.LayoutPlaylistsBinding
+import com.example.playlistmaker.databinding.LayoutPlayerPlaylistsBinding
 import com.example.playlistmaker.media.domain.Playlist
 
-class PlaylistViewHolder (private val binding: LayoutPlaylistsBinding) : RecyclerView.ViewHolder(binding.root)
+class PlayerViewHolder(private val binding: LayoutPlayerPlaylistsBinding) : RecyclerView.ViewHolder(binding.root)
 {
-
     fun bind(playlist: Playlist) {
-        binding.tvTitle .text = playlist.namePl
-        binding.tvCount.text = convertCountToText(playlist.countTracks)
-        Log.d ("MAALMI_PlaylistViewHolder", "imagePl = ${playlist.imagePl}")
+        binding.namePl.text = playlist.namePl
+        binding.tvCountTracks.text = convertCountToText(playlist.countTracks)
         Glide.with(itemView)
             .load(playlist.imagePl)
             .placeholder(R.drawable.media_placeholder)
             .centerCrop()
-            .transform(RoundedCorners(8))
-            .into(binding.ivCover)
+            .transform(RoundedCorners(3))
+            .into(binding.imagePlaylist)
+
+
     }
 
     private fun convertCountToText(countTracks: Int): String {

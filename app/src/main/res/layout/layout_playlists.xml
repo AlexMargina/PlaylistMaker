@@ -4,15 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/edit_text_dn">
+    android:layout_margin="@dimen/size_xxs"
+    android:background="@color/background_icon">
 
         <ImageView
             android:id="@+id/iv_cover"
+            app:circularflow_viewCenter="@color/background_icon"
+            android:scaleType="fitCenter"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/media_placeholder"
-            android:layout_width="match_parent"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            android:layout_width="0dp"
             android:layout_height="0dp"/>
 
         <TextView
@@ -23,7 +28,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/ys_display_regular"
             android:maxLines="1"
-            android:textColor="@color/tab_item_color"
+            android:textColor="@color/text_color"
             android:textFontWeight="400"
             android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +43,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/ys_display_regular"
             android:maxLines="1"
-            android:textColor="@color/color_switch_dn"
+            android:textColor="@color/text_color"
             android:textFontWeight="400"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"

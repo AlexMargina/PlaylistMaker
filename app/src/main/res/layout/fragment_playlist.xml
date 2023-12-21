@@ -28,7 +28,7 @@
             style="@style/MediaButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/frame_layout_height"
+            android:layout_marginBottom="@dimen/size_xs"
             android:text="@string/new_playlist" />
 
         <ImageView
@@ -36,6 +36,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="center"
+            android:layout_marginTop="@dimen/size_xxxl"
             style="@style/ListNotFoundStyle"/>
 
         <TextView
@@ -56,9 +57,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="48dp"
             tools:listitem="@layout/layout_playlists" />
 
 
