@@ -133,7 +133,7 @@ class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor,
         mediaPlayerInteractor.destroyPlayer()
     }
 
-    fun showPlaylist() {
+    fun getPlaylist() {
         viewModelScope.launch {
             playlistInteractor.getPlaylists()
                 .collect { processResult(it) }

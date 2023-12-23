@@ -1,6 +1,5 @@
 package com.example.playlistmaker.media.ui.favorite
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,9 +8,10 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentFavoritesBinding
-import com.example.playlistmaker.player.ui.PlayerActivity
 import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.search.ui.SearchFragment
 import com.example.playlistmaker.search.ui.SearchMusicAdapter
@@ -59,10 +59,8 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun runPlayer(trackId: String) {
-        val playerIntent = Intent(requireContext(), PlayerActivity::class.java)
-        playerIntent.putExtra("trackId", trackId)
         Log.d("MAALMI_FavTrag", "runPlayer($trackId) ")
-        startActivity(playerIntent)
+        findNavController().navigate(R.id.playerFragment)
     }
 
     private fun updateFavorite(state: FavoriteState) {

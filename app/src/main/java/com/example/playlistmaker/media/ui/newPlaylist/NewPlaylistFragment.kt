@@ -101,7 +101,7 @@ class NewPlaylistFragment : Fragment() {
                 )
             )
 
-            playlistViewModel.showPlaylist()
+            playlistViewModel.getPlaylist()
 
             Toast.makeText(requireActivity(), "Плейлист «${binding.etNamePl.text}» создан",
                 Toast.LENGTH_SHORT

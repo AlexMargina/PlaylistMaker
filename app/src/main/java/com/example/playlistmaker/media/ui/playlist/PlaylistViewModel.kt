@@ -13,7 +13,7 @@ class PlaylistViewModel (private val interactor : PlaylistInteractor) : ViewMode
     private var _liveData = MutableLiveData<PlaylistState>()
     val liveData: LiveData<PlaylistState> = _liveData
 
-    fun showPlaylist() {
+    fun getPlaylist() {
         viewModelScope.launch {
             interactor.getPlaylists()
                 .collect { processResult(it) }

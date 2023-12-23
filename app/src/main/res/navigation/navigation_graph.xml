@@ -29,8 +29,8 @@
             android:id="@+id/action_searchFragment2_to_settingsActivity"
             app:destination="@id/settingsFragment" />
         <action
-            android:id="@+id/action_searchFragment_to_playerActivity"
-            app:destination="@id/playerActivity" />
+            android:id="@+id/action_searchFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
     </fragment>
     <fragment
         android:id="@+id/mediaFragment"
@@ -46,14 +46,10 @@
         <action
             android:id="@+id/action_mediaFragment_to_newPlaylistFragment"
             app:destination="@id/newPlaylistFragment" />
+        <action
+            android:id="@+id/action_mediaFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
     </fragment>
-    <activity
-        android:id="@+id/playerActivity"
-        android:name="com.example.playlistmaker.player.ui.PlayerActivity"
-        android:label="activity_new"
-        tools:layout="@layout/activity_player" >
-
-    </activity>
     <fragment
         android:id="@+id/playlistFragment"
         android:name="com.example.playlistmaker.media.ui.playlist.PlaylistFragment"
@@ -72,8 +68,8 @@
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites" >
         <action
-            android:id="@+id/action_favoriteFragment_to_playerActivity"
-            app:destination="@id/playerActivity" />
+            android:id="@+id/action_favoriteFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
     </fragment>
     <fragment
         android:id="@+id/newPlaylistFragment"
@@ -83,6 +79,20 @@
         <action
             android:id="@+id/action_newPlaylistFragment_to_playlistFragment"
             app:destination="@id/playlistFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.playlistmaker.main.ui.MainActivity"
+        android:label="fragment_media"
+        tools:layout="@layout/fragment_media" />
+    <fragment
+        android:id="@+id/playerFragment"
+        android:name="com.example.playlistmaker.player.ui.PlayerFragment"
+        android:label="PlayerFragment"
+        tools:layout="@layout/fragment_player">
+        <action
+            android:id="@+id/action_playerFragment_to_newPlaylistFragment"
+            app:destination="@id/newPlaylistFragment" />
     </fragment>
 </navigation>
 

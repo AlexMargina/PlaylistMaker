@@ -1,12 +1,16 @@
 package com.example.playlistmaker.player.ui
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.ActivityPlayerBinding
+import com.example.playlistmaker.databinding.FragmentPlayerBinding
 import com.example.playlistmaker.media.ui.playlist.PlaylistState
 import com.example.playlistmaker.player.domain.PlayerState
 import com.example.playlistmaker.search.domain.TrackModel
@@ -16,62 +20,64 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-class PlayerActivity : AppCompatActivity() {
+class PlayerFragment : Fragment() {
 
     private val viewModel by viewModel<PlayerViewModel>()
-    private lateinit var binding: ActivityPlayerBinding
+    private lateinit var binding: FragmentPlayerBinding
     private val adapter = PlayerAdapter()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityPlayerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
+        binding = FragmentPlayerBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val bottomSheetGroup = binding.playlistsBottomSheet
         val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetGroup)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        binding.recyclerAddToPlaylist.layoutManager = GridLayoutManager(this, 1)
+        binding.recyclerAddToPlaylist.layoutManager = GridLayoutManager(requireContext(), 1)
         binding.recyclerAddToPlaylist.adapter = adapter
 
-        viewModel.observePlayerState().observe(this) {
+        viewModel.observePlayerState().observe(requireActivity()) {
             refreshTime(it.progress)
             refreshScreen(it)
         }
 
-        viewModel.playlistsLiveData.observe(this)  { playlistState ->
+        viewModel.playlistsLiveData.observe(requireActivity())  { playlistState ->
             displaylist(playlistState)
         }
 
+        binding.btPlay.setOnClickListener { viewModel.playbackControl() }
 
+        binding.ivBack.setOnClickListener { findNavController().navigateUp() }
 
-        binding.btPlay.setOnClickListener {
-            viewModel.playbackControl()
-        }
-
-        binding.ivBack.setOnClickListener { finish() }
-
-        binding.ivLike.setOnClickListener {
-            viewModel.likeOrDislike()
-
-            if (getTrack().isFavorite) {
-                binding.ivLike.setImageResource(R.drawable.buttonlike)
-            } else {
-                binding.ivLike.setImageResource(R.drawable.buttondislike)
-            }
-        }
+        binding.ivLike.setOnClickListener { addLikeOrDislike() }
 
         assign(getTrack())
 
-        binding.ivAdd.setOnClickListener {
+        binding.ivAdd.setOnClickListener {addTrackToPlalist()
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            viewModel.showPlaylist()
-
-            viewModel.playlistsLiveData.observe(this) { playlistState ->displaylist(playlistState)
-
-                }
             }
-        }
 
+        binding.btNewPlaylistPlayer.setOnClickListener {
+           findNavController().navigate(R.id.action_playerFragment_to_newPlaylistFragment)
+        }
+    }
+
+
+    private fun addTrackToPlalist (){
+        viewModel.getPlaylist()
+        viewModel.playlistsLiveData.observe(requireActivity()) {
+                playlistState ->displaylist(playlistState)
+        }
+    }
     private fun displaylist(playlistState: PlaylistState) {
         when (playlistState) {
             PlaylistState.Empty -> {}
@@ -136,6 +142,14 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
+    private fun addLikeOrDislike() {
+        viewModel.likeOrDislike()
+        if (getTrack().isFavorite) {
+            binding.ivLike.setImageResource(R.drawable.buttonlike)
+        } else {
+            binding.ivLike.setImageResource(R.drawable.buttondislike)
+        }
+    }
 
     fun getTrack(): TrackModel {
         return viewModel.getTrack()

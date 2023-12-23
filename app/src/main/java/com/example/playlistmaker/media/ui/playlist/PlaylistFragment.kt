@@ -39,7 +39,7 @@ class PlaylistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         Log.d ("MAALMI_PlaylistFragment", "onViewCreated = $view")
-        viewModel.showPlaylist()
+        viewModel.getPlaylist()
         viewModel.liveData.observe(viewLifecycleOwner)  { playlistState ->
             Log.d ("MAALMI_PlaylistFragment", "playlistState= $playlistState")
             when (playlistState) {
