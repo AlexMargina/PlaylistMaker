@@ -16,11 +16,11 @@ class PlaylistViewModel (private val interactor : PlaylistInteractor) : ViewMode
     fun showPlaylist() {
         viewModelScope.launch {
             interactor.getPlaylists()
-                .collect { positiveResult(it) }
+                .collect { processResult(it) }
         }
     }
 
-    private fun positiveResult(playlists: List<Playlist>) {
+    private fun processResult(playlists: List<Playlist>) {
         if (playlists.isEmpty()) {
             _liveData.postValue(PlaylistState.Empty)
         } else {

@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.playlistmaker.media.domain.Playlist
 import com.example.playlistmaker.media.domain.playlist.PlaylistInteractor
+import com.example.playlistmaker.media.ui.playlist.PlaylistState
 import com.example.playlistmaker.player.domain.MediaPlayerInteractor
 import com.example.playlistmaker.player.domain.PlayerState
 import com.example.playlistmaker.search.domain.TrackModel
@@ -23,6 +25,9 @@ class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor,
 
     private val _playerState = MutableLiveData<PlayerState>(PlayerState.DEFAULT())
     fun observePlayerState(): LiveData<PlayerState> = _playerState
+
+    private var _liveData = MutableLiveData<PlaylistState>()
+    val playlistsLiveData: LiveData<PlaylistState> = _liveData
 
     init {
         prepareMediaPlayer()
@@ -126,5 +131,20 @@ class PlayerViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor,
 
     override fun onCleared() {
         mediaPlayerInteractor.destroyPlayer()
+    }
+
+    fun showPlaylist() {
+        viewModelScope.launch {
+            playlistInteractor.getPlaylists()
+                .collect { processResult(it) }
+        }
+    }
+
+    private fun processResult(playlists: List<Playlist>) {
+        if (playlists.isEmpty()) {
+            _liveData.postValue(PlaylistState.Empty)
+        } else {
+            _liveData.postValue(PlaylistState.Playlists(playlists))
+        }
     }
 }

@@ -2,12 +2,15 @@ package com.example.playlistmaker.player.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityPlayerBinding
+import com.example.playlistmaker.media.ui.playlist.PlaylistState
 import com.example.playlistmaker.player.domain.PlayerState
 import com.example.playlistmaker.search.domain.TrackModel
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -17,16 +20,29 @@ class PlayerActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<PlayerViewModel>()
     private lateinit var binding: ActivityPlayerBinding
+    private val adapter = PlayerAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val bottomSheetGroup = binding.playlistsBottomSheet
+        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetGroup)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        binding.recyclerAddToPlaylist.layoutManager = GridLayoutManager(this, 1)
+        binding.recyclerAddToPlaylist.adapter = adapter
+
         viewModel.observePlayerState().observe(this) {
             refreshTime(it.progress)
             refreshScreen(it)
         }
+
+        viewModel.playlistsLiveData.observe(this)  { playlistState ->
+            displaylist(playlistState)
+        }
+
+
 
         binding.btPlay.setOnClickListener {
             viewModel.playbackControl()
@@ -45,7 +61,28 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         assign(getTrack())
+
+        binding.ivAdd.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            viewModel.showPlaylist()
+
+            viewModel.playlistsLiveData.observe(this) { playlistState ->displaylist(playlistState)
+
+                }
+            }
+        }
+
+    private fun displaylist(playlistState: PlaylistState) {
+        when (playlistState) {
+            PlaylistState.Empty -> {}
+            is PlaylistState.Playlists -> {
+                adapter.playlists.addAll(playlistState.playlists)
+                adapter.notifyDataSetChanged()
+            }
+        }
     }
+
+
 
     fun refreshTime(time: String) {
         if (viewModel.observePlayerState().value != PlayerState.PREPARED()) {binding.tvPlaybackTime.text = time}
