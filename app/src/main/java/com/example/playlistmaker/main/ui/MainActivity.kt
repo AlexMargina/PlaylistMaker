@@ -1,8 +1,8 @@
 package com.example.playlistmaker.main.ui
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.playlistmaker.R
@@ -28,11 +28,8 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener {_, nd, _ ->
-            if(nd.id == R.id.newPlaylistFragment || nd.id == R.id.playerFragment){
-                bottomNavigationView.visibility = View.GONE
-            }else{
-                bottomNavigationView.visibility = View.VISIBLE
-            }
+            bottomNavigationView.isVisible =
+                ! (nd.id == R.id.newPlaylistFragment || nd.id == R.id.playerFragment)
         }
     }
 }

@@ -10,8 +10,8 @@ class PlaylistAdapter : RecyclerView.Adapter<PlaylistViewHolder>() {
     var playlists = arrayListOf<Playlist>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
-        val layoutInspector = LayoutInflater.from(parent.context)
-        return PlaylistViewHolder(LayoutPlaylistsBinding.inflate(layoutInspector, parent, false))
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return PlaylistViewHolder(LayoutPlaylistsBinding.inflate(layoutInflater, parent, false))
     }
 
     override fun getItemCount(): Int {

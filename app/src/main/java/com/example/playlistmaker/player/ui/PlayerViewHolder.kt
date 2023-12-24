@@ -18,8 +18,9 @@ class PlayerViewHolder(private val binding: LayoutPlayerPlaylistsBinding) : Recy
             .centerCrop()
             .transform(RoundedCorners(3))
             .into(binding.imagePlaylist)
-
-
+//
+//    itemView.setOnClickListener { PlayerAdapter().clickListener?.invoke(playlist) }
+//        Log.d("MAALMI_MusicAdapter", "playlist=${playlist}")
     }
 
     private fun convertCountToText(countTracks: Int): String {

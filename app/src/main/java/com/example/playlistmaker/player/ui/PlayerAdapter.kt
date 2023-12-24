@@ -1,6 +1,5 @@
 package com.example.playlistmaker.player.ui
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -26,11 +25,7 @@ class PlayerAdapter(): RecyclerView.Adapter<PlayerViewHolder>(){
     override fun getItemCount() = playlists.size
 
     override fun onBindViewHolder(holder: PlayerViewHolder, position: Int) {
-
         holder.bind(playlists[position])
         holder.itemView.setOnClickListener { clickListener?.invoke(playlists[position]) }
-
-        Log.d("MAALMI_MusicAdapter", "get(position)=$position track=${playlists[position]}")
-
     }
 }
