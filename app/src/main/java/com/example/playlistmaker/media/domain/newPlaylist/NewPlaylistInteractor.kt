@@ -6,4 +6,5 @@ interface NewPlaylistInteractor {
 
     suspend fun savePicture(uri: Uri, fileName: String)
     suspend fun loadPicture(fileName: String): Uri?
+    fun imagePath () : String
 }

@@ -12,4 +12,8 @@ class NewPlaylistInteractorImpl(private val repository: NewPlaylistRepository) :
     override suspend fun loadPicture(fileName: String): Uri? {
         return repository.loadPicture(fileName)
     }
+
+    override fun imagePath () : String {
+        return repository.imagePath()
+    }
 }

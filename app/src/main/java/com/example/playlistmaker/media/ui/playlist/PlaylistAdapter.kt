@@ -21,5 +21,4 @@ class PlaylistAdapter : RecyclerView.Adapter<PlaylistViewHolder>() {
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
         holder.bind(playlists[position])
     }
-
 }

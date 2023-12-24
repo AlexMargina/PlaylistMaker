@@ -3,6 +3,7 @@ package com.example.playlistmaker.media.ui.newPlaylist
 import android.Manifest
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.example.playlistmaker.databinding.FragmentNewPlaylistBinding
 import com.example.playlistmaker.media.domain.Playlist
 import com.example.playlistmaker.media.ui.playlist.PlaylistViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -82,18 +84,21 @@ class NewPlaylistFragment : Fragment() {
 
         // 3. Нажатие на кнопку Создать
         binding.tvButtonNew.setOnClickListener {
+            val imageFileNamePl = viewModel.imagePath() + "/" + binding.etNamePl.editText!!.text.toString() + ".jpg"
+            Log.d ("MAALMI_NewPlaylistFragment", "imageFileNamePl = ${imageFileNamePl}")
             viewModel.insertPlaylist(
                 Playlist(
                    idPl = 0,
                     namePl = binding.etNamePl.editText!!.text.toString() ,
                     descriptPl = binding.etDescriptPl.editText!!.text.toString(),
                     imagePl = if (selectedUri != null) {
-                        selectedUri.toString()
-                    } else {
-                       "Не выбрано"
+                        imageFileNamePl
+                     } else {
+                       ""
                     }
                 )
             )
+
 
             playlistViewModel.getPlaylist()
 
@@ -125,10 +130,17 @@ class NewPlaylistFragment : Fragment() {
 
          // 5. Изменения поля НАЗВАНИЕ
         binding.etNamePl.editText!!.doOnTextChanged { text, start, before, count ->
+            text?.let { binding.etNamePl.changeColorOnTextChange(it) }
             binding.tvButtonNew.isEnabled = ! text.isNullOrEmpty()
+        }
+
+        // 6. Изменения поля ОПИСАНИЕ
+        binding.etDescriptPl.editText!!.doOnTextChanged { text, start, before, count ->
+            text?.let { binding.etDescriptPl.changeColorOnTextChange(it) }
         }
     }
 
+    
     private fun reallyCompleteToExit() {
         if (binding.ivCoverPl .background == null
             || binding.etNamePl.editText!!.text!!.isNotEmpty()
@@ -145,4 +157,14 @@ class NewPlaylistFragment : Fragment() {
             requireContext(), Manifest.permission.CAMERA
         )
     }
+}
+
+private fun TextInputLayout.changeColorOnTextChange(text: CharSequence) {
+    if (text.isEmpty()) this.changeStrokeColor(R.color.empty_element)
+    else this.changeStrokeColor(R.color.filled_element)
+}
+
+private fun TextInputLayout.changeStrokeColor(colorStateListId: Int) {
+    this.defaultHintTextColor = resources.getColorStateList(colorStateListId, null)
+    this.setBoxStrokeColorStateList(resources.getColorStateList(colorStateListId, null))
 }

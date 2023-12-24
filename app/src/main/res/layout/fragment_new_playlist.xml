@@ -30,25 +30,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        app:layout_constraintDimensionRatio="w,1:1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_new_playlist"
-        app:layout_constraintBottom_toTopOf="@id/et_namePl"
+        android:background="@color/background_icon"
+        app:cardBackgroundColor="@color/background_icon"
         app:cardCornerRadius="8dp"
-        app:cardElevation="0dp">
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toTopOf="@id/et_namePl"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_new_playlist">
 
         <ImageView
             android:id="@+id/ivCoverPlImage"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:minWidth="350dp"
-            android:maxHeight="350dp"
-            app:layout_constraintDimensionRatio="h,1:1"
             android:layout_marginHorizontal="@dimen/size_l"
+            android:maxHeight="350dp"
+            android:minWidth="350dp"
             android:padding="@dimen/size_xs"
             android:src="@drawable/dotted_rectangle"
-            />
+            app:layout_constraintDimensionRatio="h,1:1" />
 
     </androidx.cardview.widget.CardView>
 
@@ -72,10 +73,11 @@
         app:layout_constraintTop_toBottomOf="@id/iv_coverPl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/size_xs"
         android:layout_marginHorizontal="@dimen/size_sl"
-        app:boxStrokeColor="@color/edit_text_dn"
+        app:boxStrokeColor="@color/empty_element"
         app:boxStrokeWidth="1dp"
-        app:boxStrokeWidthFocused="2dp"
+        app:boxStrokeWidthFocused="1dp"
         android:hint="@string/name_playlist">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -97,9 +99,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="@dimen/size_sl"
-        app:boxStrokeColor="@color/edit_text_dn"
+        app:boxStrokeColor="@color/empty_element"
         app:boxStrokeWidth="1dp"
-        app:boxStrokeWidthFocused="2dp"
+        app:boxStrokeWidthFocused="1dp"
         android:hint="@string/descript_playlist">
 
         <com.google.android.material.textfield.TextInputEditText

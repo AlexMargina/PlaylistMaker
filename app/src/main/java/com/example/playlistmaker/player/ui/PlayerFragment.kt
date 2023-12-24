@@ -197,7 +197,6 @@ class PlayerFragment : Fragment() {
         return viewModel.getTrack()
     }
 
-
     private fun assign(playedTrack: TrackModel) {
 
         val duration = SimpleDateFormat("mm:ss", Locale.getDefault())

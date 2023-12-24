@@ -51,7 +51,9 @@ class NewPlaylistViewModel(
         }
     }
 
-
+    fun imagePath () : String {
+        return newPlaylistInteractor.imagePath()
+    }
 
     fun loadCover() {
         viewModelScope.launch {

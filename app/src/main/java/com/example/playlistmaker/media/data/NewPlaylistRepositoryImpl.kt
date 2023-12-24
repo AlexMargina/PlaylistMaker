@@ -21,6 +21,8 @@ class NewPlaylistRepositoryImpl  (val context: Context) : NewPlaylistRepository 
         if (!filePath.exists()) filePath.mkdirs()
     }
 
+    override fun imagePath () : String = filePath.path
+
     override suspend fun savePicture(uri: Uri, fileName: String) {
 
             //создаём экземпляр класса File, который указывает на файл внутри каталога
@@ -41,7 +43,7 @@ class NewPlaylistRepositoryImpl  (val context: Context) : NewPlaylistRepository 
 
     override suspend fun loadPicture(imageFileName: String): Uri? {
         val file = File(filePath, "$imageFileName.jpg")
-        Log.d ("MAALMI_loadPicture", "uri= ${file.toUri()}, fileName=$imageFileName ")
+        Log.d ("MAALMI_loadPicture", "load... uri= ${file.toUri()}, fileName=$imageFileName ")
         return if (file.exists()) {
             file.toUri()
 
