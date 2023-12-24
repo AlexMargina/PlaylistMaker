@@ -33,6 +33,7 @@
         <TextView
             android:id="@+id/namePl"
             style="@style/TextSongStyle"
+            android:textColor="@color/text_color"
             android:layout_gravity="top"
             android:layout_marginStart="@dimen/size_xxs"
             android:ellipsize="end"

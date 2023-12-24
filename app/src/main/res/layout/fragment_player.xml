@@ -261,11 +261,10 @@
     <LinearLayout
         android:id="@+id/playlists_bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="713dp"
-        android:background="@drawable/edit_text_rounded"
+        android:layout_height="match_parent"
+        android:background="@drawable/bottomsheet_rounded"
         android:orientation="vertical"
         app:behavior_hideable="true"
-        app:behavior_peekHeight="260dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <!-- Вёрстка Bottom Sheet с кнопкой и списком -->
@@ -283,7 +282,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/size_sl"
             android:text="@string/add_to_playlist"
-            android:textSize="@dimen/text_19sp" />
+            android:textSize="@dimen/text_19sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/bt_new_playlist_player"
@@ -291,7 +291,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/size_sl"
+            android:layout_margin="@dimen/size_l"
             android:layout_marginBottom="@dimen/size_xs"
             android:text="@string/new_playlist"
             android:textAlignment="center"

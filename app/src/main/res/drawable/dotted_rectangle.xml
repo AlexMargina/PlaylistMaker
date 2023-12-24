@@ -6,7 +6,7 @@
     <size android:width="312dp"
         android:height="312dp"/>
 
-    <stroke android:color="#FF0000"
+    <stroke android:color="#A9A9AA"
         android:width="2dp"
         android:dashGap="16dp"
         android:dashWidth="16dp"/>

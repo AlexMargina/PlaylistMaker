@@ -27,7 +27,6 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
     override suspend fun getPlaylists(): Flow<List<Playlist>> {
         val playlistFlow = appDatabase.playlistDao().getPlaylists()
         return playlistFlow.map { playlist -> playlist.map { convertToPlaylist(it) } }
-
     }
 
     private fun convertToEntityPlaylist(playlist: Playlist): PlaylistEntity {

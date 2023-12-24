@@ -1,7 +1,6 @@
 package com.example.playlistmaker.media.ui.newPlaylist
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -31,21 +30,19 @@ class NewPlaylistFragment : Fragment() {
 
     private lateinit var completeDialog: MaterialAlertDialogBuilder
 
-    private var loadUri: Uri? = null
+    private var selectedUri: Uri? = null
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
                 // Пользователь дал разрешение, можно продолжать работу
                 viewModel.loadCover()
-                //                binding.permissionGranted.visibility = View.VISIBLE
             } else {
-                // Пользователь отказал в предоставлении разрешения
-//                binding.permissionRequestFrame.visibility = View.VISIBLE
-//                binding.permissionGranted.visibility = View.GONE
+                Toast.makeText(requireActivity(),
+                   "Разрешение необходимо для выбора обложек плэйлистов",
+                    Toast.LENGTH_SHORT ).show()
             }
         }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,17 +56,14 @@ class NewPlaylistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.placeholderLiveData.observe(viewLifecycleOwner) { cover ->
-            if (!cover) {
-                binding.ivCoverPl .background = null
-                //binding.ivCoverPl .visibility = View.GONE
-            }
-        }
-
         viewModel.pictureLiveData.observe(viewLifecycleOwner) { uri ->
-            loadUri = uri
-            binding.ivCoverPlImage.setImageURI(uri)
-            binding.ivPicturePlus.visibility = View.GONE
+            if (uri==null) {
+                binding.ivCoverPl .background = null
+            } else {
+                selectedUri = uri
+                binding.ivCoverPlImage.setImageURI(uri)
+                binding.ivPicturePlus.visibility = View.GONE
+            }
         }
 
         viewModel.loadPickMedia(this)
@@ -81,8 +75,8 @@ class NewPlaylistFragment : Fragment() {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
 
-        // 2. сделать неактивной кнопку Создать
-        if (binding.tvNamePl.text!!.isEmpty()) {
+         //2. сделать неактивной кнопку Создать
+        if (binding.etNamePl.editText!!.text.isEmpty()) {
             binding.tvButtonNew.isEnabled = false
         }
 
@@ -91,21 +85,21 @@ class NewPlaylistFragment : Fragment() {
             viewModel.insertPlaylist(
                 Playlist(
                    idPl = 0,
-                    namePl = binding.etNamePl.text.toString(),
-                    descriptPl = binding.etDescriptPl.text.toString(),
-                    imagePl = if (loadUri != null) {
-                        loadUri.toString()
+                    namePl = binding.etNamePl.editText!!.text.toString() ,
+                    descriptPl = binding.etDescriptPl.editText!!.text.toString(),
+                    imagePl = if (selectedUri != null) {
+                        selectedUri.toString()
                     } else {
-                        ""
+                       "Не выбрано"
                     }
                 )
             )
 
             playlistViewModel.getPlaylist()
 
-            Toast.makeText(requireActivity(), "Плейлист «${binding.etNamePl.text}» создан",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(requireActivity(),
+                "Плейлист ${binding.etNamePl.editText!!.text} создан",
+                Toast.LENGTH_SHORT ).show()
             findNavController().navigateUp()
         }
 
@@ -129,25 +123,16 @@ class NewPlaylistFragment : Fragment() {
             reallyCompleteToExit()
         }
 
-        // 5. Изменения поля НАЗВАНИЕ
-        binding.etNamePl.doOnTextChanged { text, _, _, _ ->
-            if (text.isNullOrEmpty()) this.binding.etNamePl.setBackgroundResource (R.color.empty_element)
-            else this.binding.etNamePl.setBackgroundResource(R.color.filled_element)
-           //TODO  Замена рамки etNamePl если есть   text
+         // 5. Изменения поля НАЗВАНИЕ
+        binding.etNamePl.editText!!.doOnTextChanged { text, start, before, count ->
             binding.tvButtonNew.isEnabled = ! text.isNullOrEmpty()
-        }
-
-        binding.etDescriptPl.doOnTextChanged { text, _, _, _ ->
-            if (text.isNullOrEmpty()) this.binding.etDescriptPl.setBackgroundResource (R.color.empty_element)
-            else this.binding.etDescriptPl.setBackgroundResource(R.color.filled_element)
         }
     }
 
-
     private fun reallyCompleteToExit() {
         if (binding.ivCoverPl .background == null
-            || binding.etNamePl .text!!.isNotEmpty()
-            || binding.etDescriptPl .text!!.isNotEmpty()
+            || binding.etNamePl.editText!!.text!!.isNotEmpty()
+            || binding.etDescriptPl.editText!!.text!!.isNotEmpty()
         ) {
             completeDialog.show()
         } else {
@@ -159,13 +144,5 @@ class NewPlaylistFragment : Fragment() {
         val permissionProvided = ContextCompat.checkSelfPermission(
             requireContext(), Manifest.permission.CAMERA
         )
-        if (permissionProvided == PackageManager.PERMISSION_GRANTED) {
-//            binding.permissionRequestFrame.visibility = View.GONE
-//            binding.permissionGranted.visibility = View.VISIBLE
-        } else if (permissionProvided == PackageManager.PERMISSION_DENIED) {
-//            binding.permissionRequestFrame.visibility = View.VISIBLE
-//            binding.permissionGranted.visibility = View.GONE
-        }
     }
-
 }

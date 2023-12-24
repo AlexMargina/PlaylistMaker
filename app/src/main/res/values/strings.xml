@@ -45,7 +45,7 @@
     <string name="null_time" translatable="false">00:00</string>
     <string name="mediateca">Медиатека</string>
     <string name="new_playlist">Новый плэйлист</string>
-    <string name="name_playlist">Название</string>
+    <string name="name_playlist">Название*</string>
     <string name="fav_tracks">Избранные песни</string>
     <string name="playlists">Плэйлисты</string>
     <string name="empty_playlist">Вы не создали

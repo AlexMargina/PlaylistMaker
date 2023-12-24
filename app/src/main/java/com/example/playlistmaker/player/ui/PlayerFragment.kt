@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -27,7 +26,7 @@ class PlayerFragment : Fragment() {
     private val viewModel by viewModel<PlayerViewModel>()
     private lateinit var binding: FragmentPlayerBinding
     private val adapter = PlayerAdapter()
-    private lateinit var bottomSheetBehavior : BottomSheetBehavior<LinearLayout>
+    //private lateinit var bottomSheetBehavior : BottomSheetBehavior<LinearLayout>
 
 
     override fun onCreateView(
@@ -42,9 +41,18 @@ class PlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val bottomSheetGroup = binding.playlistsBottomSheet
-        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetGroup)
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.playlistsBottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_HIDDEN -> { binding.overlay.visibility = View.GONE  }
+                    else -> { binding.overlay.visibility = View.VISIBLE }
+                }
+            }
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+        })
+
         binding.recyclerAddToPlaylist.layoutManager = GridLayoutManager(requireContext(), 1)
         binding.recyclerAddToPlaylist.adapter = adapter
 
@@ -59,6 +67,7 @@ class PlayerFragment : Fragment() {
 
         viewModel.addLiveData.observe(viewLifecycleOwner) { reply ->
             displayAddReplyToToast(reply)
+            if (reply is ReplyOnAddTrack.Added) bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
 
         binding.btPlay.setOnClickListener { viewModel.playbackControl() }
@@ -69,7 +78,7 @@ class PlayerFragment : Fragment() {
 
         assign(getTrack())
 
-        binding.ivAdd.setOnClickListener {addTrackToPlaylist()
+        binding.ivAdd.setOnClickListener {fillPlaylistsOnBottom()
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }
 
@@ -84,7 +93,7 @@ class PlayerFragment : Fragment() {
     }
 
 
-    private fun addTrackToPlaylist (){
+    private fun fillPlaylistsOnBottom (){
         viewModel.getPlaylist()
         viewModel.playlistsLiveData.observe(requireActivity()) {
                 playlistState ->displaylist(playlistState)
@@ -95,6 +104,7 @@ class PlayerFragment : Fragment() {
         when (playlistState) {
             PlaylistState.Empty -> {}
             is PlaylistState.Playlists -> {
+                adapter.playlists.clear()
                 adapter.playlists.addAll(playlistState.playlists)
                 adapter.notifyDataSetChanged()
             }
@@ -109,7 +119,7 @@ class PlayerFragment : Fragment() {
                     "Добавлено в плейлист ${reply.playlist.namePl}",
                     Toast.LENGTH_SHORT
                 ).show()
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
             }
 
             is ReplyOnAddTrack.Contained -> {
