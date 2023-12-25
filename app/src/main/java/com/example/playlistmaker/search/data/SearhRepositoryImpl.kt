@@ -2,8 +2,8 @@ package com.example.playlistmaker.search.data
 
 
 import android.util.Log
-import com.example.playlistmaker.media.favorite.data.convertor.TrackDbConvertor
-import com.example.playlistmaker.media.favorite.data.db.AppDatabase
+import com.example.playlistmaker.media.data.convertor.TrackDbConvertor
+import com.example.playlistmaker.media.data.db.AppDatabase
 import com.example.playlistmaker.search.data.dto.ResponseStatus
 import com.example.playlistmaker.search.data.dto.TrackDto
 import com.example.playlistmaker.search.data.dto.TracksSearchRequest

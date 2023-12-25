@@ -1,6 +1,6 @@
 package com.example.playlistmaker.player.domain
 
-import com.example.playlistmaker.media.favorite.domain.FavoriteRepository
+import com.example.playlistmaker.media.domain.favorite.FavoriteRepository
 import com.example.playlistmaker.search.domain.SearchRepository
 import com.example.playlistmaker.search.domain.TrackModel
 

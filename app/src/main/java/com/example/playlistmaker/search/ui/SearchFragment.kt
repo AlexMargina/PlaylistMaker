@@ -1,6 +1,5 @@
 package com.example.playlistmaker.search.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,9 +11,10 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
-import com.example.playlistmaker.player.ui.PlayerActivity
 import com.example.playlistmaker.search.domain.SearchState
 import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.utils.debounce
@@ -143,9 +143,7 @@ class SearchFragment : Fragment() {
 
 
     private fun runPlayer(trackId: String) {
-        val playerIntent = Intent(requireContext(), PlayerActivity::class.java)
-        playerIntent.putExtra("trackId", trackId)
-        startActivity(playerIntent)
+        findNavController().navigate(R.id.action_searchFragment_to_playerFragment)
     }
 
 

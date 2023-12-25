@@ -45,10 +45,18 @@
     <string name="null_time" translatable="false">00:00</string>
     <string name="mediateca">Медиатека</string>
     <string name="new_playlist">Новый плэйлист</string>
+    <string name="name_playlist">Название*</string>
     <string name="fav_tracks">Избранные песни</string>
     <string name="playlists">Плэйлисты</string>
     <string name="empty_playlist">Вы не создали
         \nни одного плейлиста</string>
     <string name="empty_favorites">Ваша медиатека пуста</string>
+    <string name="descript_playlist">Описание</string>
+    <string name="create">Создать</string>
+    <string name="add_to_playlist">Добавить в плейлист</string>
+    <string name="title_dialog_new_playlist">Завершить создание плейлиста?</string>
+    <string name="message_dialog_new_playlist">Все несохраненные данные будут потеряны</string>
+    <string name="cancel_button">Отмена</string>
+    <string name="finish_button">Завершить</string>
 
 </resources>

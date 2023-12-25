@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/size_sl">
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="@dimen/size_sl"
+        android:src="@drawable/back" />
+
+    <TextView
+        android:id="@+id/tv_new_playlist"
+        style="@style/TextBigStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_back"
+        android:text="@string/new_playlist" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/iv_coverPl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/size_xxs"
+        android:background="@color/background_icon"
+        app:cardBackgroundColor="@color/background_icon"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toTopOf="@id/et_namePl"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_new_playlist">
+
+        <ImageView
+            android:id="@+id/ivCoverPlImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxHeight="350dp"
+            android:minWidth="350dp"
+            android:paddingVertical="@dimen/size_xs"
+            android:src="@drawable/dotted_rectangle"
+            app:layout_constraintDimensionRatio="h,1:1" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <ImageView
+        android:id="@+id/iv_picture_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/image_load"
+        app:layout_constraintBottom_toBottomOf="@id/iv_coverPl"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_coverPl" />
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/et_namePl"
+        style="@style/TextfieldStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/iv_coverPl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/size_xs"
+        app:boxStrokeColor="@color/empty_element"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeWidthFocused="1dp"
+        android:hint="@string/name_playlist">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textCursorDrawable="@drawable/cursor_drawable"
+                android:textColor="@color/text_color"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/et_descriptPl"
+        style="@style/TextfieldStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/et_namePl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginVertical="@dimen/size_sl"
+        app:boxStrokeColor="@color/empty_element"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeWidthFocused="1dp"
+        android:hint="@string/descript_playlist">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textCursorDrawable="@drawable/cursor_drawable"
+            android:textColor="@color/text_color"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/tv_button_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/size_sl"
+            android:text="@string/create"
+            android:theme="@style/Theme.PlaylistMaker"
+            android:textAppearance="@style/MediaButtonStyle"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_19sp"
+            android:tooltipText="@string/new_playlist"
+            app:cornerRadius="@dimen/size_xl"
+            android:background="@drawable/select_button_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:strokeWidth="@dimen/icon_padding" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
