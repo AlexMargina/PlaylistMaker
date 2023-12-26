@@ -148,7 +148,7 @@
     <LinearLayout
         android:id="@+id/playlists_bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="192dp"
+        android:layout_height="172dp"
         android:background="@drawable/bottomsheet_rounded"
         android:orientation="vertical"
         app:behavior_hideable="false"
@@ -160,15 +160,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/size_xs"
-            android:src="@drawable/rectangle_1457"
-            />
+            android:src="@drawable/rectangle_1457" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_add_to_playlist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/layout_player_playlists"
-            />
+            tools:listitem="@layout/layout_player_playlists" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

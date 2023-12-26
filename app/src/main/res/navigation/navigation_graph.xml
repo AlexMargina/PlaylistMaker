@@ -88,5 +88,14 @@
             android:id="@+id/action_playerFragment_to_newPlaylistFragment"
             app:destination="@id/newPlaylistFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/displayPlaylist"
+        android:name="com.example.playlistmaker.media.ui.displayPlaylist.DisplayPlaylist"
+        android:label="DisplayPlaylist"
+        tools:layout="@layout/fragment_display_playlist">
+        <action
+            android:id="@+id/action_displayPlaylist_to_playerFragment"
+            app:destination="@id/playerFragment" />
+    </fragment>
 </navigation>
 
