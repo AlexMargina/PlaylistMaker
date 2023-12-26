@@ -43,8 +43,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/iv_back" />
 
-
-
+    <!-- Информация о ПЛЭЙЛИСТЕ -->
     <TextView
         android:id="@+id/tv_name_pl"
         style="@style/PlayerTrackTextStyle"
@@ -56,7 +55,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_cover_playlist" />
-
 
     <TextView
         android:id="@+id/tv_descipt_pl"
@@ -105,7 +103,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/size_xxs"
-
         android:layout_marginVertical="@dimen/size_xxs"
         android:text="98 трэков"
         android:textSize="18sp"
@@ -114,6 +111,7 @@
         app:layout_constraintEnd_toStartOf="tv_playlist_count"
         app:layout_constraintTop_toBottomOf="@id/tv_descipt_pl" />
 
+    <!-- Кнопки ПОДЕЛИТЬСЯ и ЕЩЁ -->
     <ImageButton
         android:id="@+id/ib_share"
         android:layout_width="@dimen/size_xl"
@@ -150,27 +148,27 @@
     <LinearLayout
         android:id="@+id/playlists_bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="216dp"
+        android:layout_height="192dp"
         android:background="@drawable/bottomsheet_rounded"
         android:orientation="vertical"
-        app:behavior_hideable="true"
+        app:behavior_hideable="false"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <!-- Вёрстка Bottom Sheet с кнопкой и списком -->
+        <!-- Вёрстка Bottom Sheet со списком -->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/size_xs"
-            android:src="@drawable/rectangle_1457" />
-
-
+            android:src="@drawable/rectangle_1457"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_add_to_playlist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/layout_player_playlists" />
+            tools:listitem="@layout/layout_player_playlists"
+            />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

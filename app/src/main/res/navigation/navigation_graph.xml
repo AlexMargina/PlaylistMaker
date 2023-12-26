@@ -11,9 +11,6 @@
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings" >
         <action
-            android:id="@+id/action_settingsActivity_to_searchFragment2"
-            app:destination="@id/searchFragment" />
-        <action
             android:id="@+id/action_settingsActivity_to_mediaFragment"
             app:destination="@id/mediaFragment" />
     </fragment>
@@ -25,9 +22,6 @@
         <action
             android:id="@+id/action_searchFragment2_to_mediaFragment"
             app:destination="@id/mediaFragment" />
-        <action
-            android:id="@+id/action_searchFragment2_to_settingsActivity"
-            app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_searchFragment_to_playerFragment"
             app:destination="@id/playerFragment" />
