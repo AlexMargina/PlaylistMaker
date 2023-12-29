@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_playlistFragment_to_mediaFragment"
             app:destination="@id/mediaFragment" />
+        <action
+            android:id="@+id/action_playlistFragment_to_displayPlaylist"
+            app:destination="@id/displayPlaylist" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -90,7 +93,7 @@
     </fragment>
     <fragment
         android:id="@+id/displayPlaylist"
-        android:name="com.example.playlistmaker.media.ui.displayPlaylist.DisplayPlaylist"
+        android:name="com.example.playlistmaker.media.ui.displayPlaylist.DisplayPlaylistFragment"
         android:label="DisplayPlaylist"
         tools:layout="@layout/fragment_display_playlist">
         <action

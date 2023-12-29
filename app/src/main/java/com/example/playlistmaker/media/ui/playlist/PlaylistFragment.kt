@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
 import com.example.playlistmaker.media.domain.Playlist
+import com.example.playlistmaker.media.ui.displayPlaylist.DisplayPlaylistFragment
 import com.example.playlistmaker.media.ui.newPlaylist.NewPlaylistViewModel
 import com.example.playlistmaker.media.ui.playlist.PlaylistState.Playlists
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -19,11 +20,8 @@ class PlaylistFragment : Fragment() {
 
     private var _binding: FragmentPlaylistBinding? = null
     private val binding  get() = _binding!!
-
     private val viewModel by viewModel<PlaylistViewModel>()
-
     private val newViewModel by viewModel<NewPlaylistViewModel>()
-
     private val adapter = PlaylistAdapter()
 
     override fun onCreateView(
@@ -61,6 +59,14 @@ class PlaylistFragment : Fragment() {
 
         binding.recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2)
         binding.recyclerView.adapter = adapter
+
+        adapter.playlistClickListener= {playlist ->
+        findNavController().navigate(
+                R.id.displayPlaylist,
+                DisplayPlaylistFragment.passArgs (1) /// заменить на playlistId
+            )
+
+        }
     }
 
     private fun showPlaylists(playlists: List<Playlist>) {

@@ -18,4 +18,10 @@ class PlaylistInteractorImpl(private val repository: PlaylistRepository) : Playl
     override suspend fun getPlaylists(): Flow<List<Playlist>> {
         return repository.getPlaylists()
     }
+
+    override fun getPlaylistById(idPl: Int): Playlist {
+        TODO("Not yet implemented")
+    }
+
+
 }

@@ -30,11 +30,7 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
     }
 
     private fun convertToEntityPlaylist(playlist: Playlist): PlaylistEntity {
-        var time_pl : Long = 0L
-        for (i in (0 .. playlist.tracksPl.size)) {
-            time_pl += playlist . tracksPl [i].trackTimeMillis
-        }
-
+        var time_pl : Long = 1110L
         return PlaylistEntity(
             idPl = playlist.idPl,
             namePl = playlist.namePl,

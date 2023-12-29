@@ -47,6 +47,7 @@
     <TextView
         android:id="@+id/tv_name_pl"
         style="@style/PlayerTrackTextStyle"
+        android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/size_sl"
@@ -59,6 +60,7 @@
     <TextView
         android:id="@+id/tv_descipt_pl"
         style="@style/PlayerArtistTextStyle"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -76,7 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size_sl"
-
+        android:textColor="@color/black"
         android:layout_marginVertical="@dimen/size_xxs"
         android:text="00:00"
         android:textSize="18sp"
@@ -89,6 +91,7 @@
         android:layout_width="@dimen/size_point"
         android:layout_height="@dimen/size_point"
         android:layout_gravity="center_vertical"
+        android:textColor="@color/black"
         android:layout_marginTop="@dimen/size_sl"
         app:layout_constraintStart_toEndOf="@id/tv_playlist_time"
         app:layout_constraintTop_toBottomOf="@id/tv_descipt_pl"
@@ -100,16 +103,16 @@
     <TextView
         android:id="@+id/tv_playlist_count"
         style="@style/PlayerArtistTextStyle"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/size_xxs"
-        android:layout_marginVertical="@dimen/size_xxs"
         android:text="98 трэков"
         android:textSize="18sp"
         android:textAlignment="center"
         app:layout_constraintStart_toEndOf="@id/iv_point"
-        app:layout_constraintEnd_toStartOf="tv_playlist_count"
-        app:layout_constraintTop_toBottomOf="@id/tv_descipt_pl" />
+        app:layout_constraintEnd_toStartOf="@id/tv_playlist_count"
+        app:layout_constraintTop_toTopOf="@id/tv_playlist_time" />
 
     <!-- Кнопки ПОДЕЛИТЬСЯ и ЕЩЁ -->
     <ImageButton
@@ -148,9 +151,11 @@
     <LinearLayout
         android:id="@+id/playlists_bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="172dp"
+        android:layout_height="wrap_content"
+        app:behavior_peekHeight="160dp"
         android:background="@drawable/bottomsheet_rounded"
         android:orientation="vertical"
+        android:scrollbars="vertical"
         app:behavior_hideable="false"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -163,8 +168,8 @@
             android:src="@drawable/rectangle_1457" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_add_to_playlist"
-            android:layout_width="wrap_content"
+            android:id="@+id/recycler_tracks_of_playlist"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:listitem="@layout/layout_player_playlists" />
     </LinearLayout>
