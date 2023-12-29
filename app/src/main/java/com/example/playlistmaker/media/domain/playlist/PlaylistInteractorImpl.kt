@@ -19,8 +19,8 @@ class PlaylistInteractorImpl(private val repository: PlaylistRepository) : Playl
         return repository.getPlaylists()
     }
 
-    override fun getPlaylistById(idPl: Int): Playlist {
-        TODO("Not yet implemented")
+    override suspend fun getPlaylistById(idPl: Int): Playlist {
+        return repository.getPlaylistById(idPl)
     }
 
 

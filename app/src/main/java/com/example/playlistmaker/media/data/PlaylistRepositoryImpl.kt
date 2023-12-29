@@ -29,6 +29,11 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
         return playlistFlow.map { playlist -> playlist.map { convertToPlaylist(it) } }
     }
 
+    override suspend fun getPlaylistById (idPl : Int) : Playlist {
+        val playlist = appDatabase.playlistDao().getPlaylistById (idPl)
+        return convertToPlaylist(playlist)
+    }
+
     private fun convertToEntityPlaylist(playlist: Playlist): PlaylistEntity {
         var time_pl : Long = 1110L
         return PlaylistEntity(

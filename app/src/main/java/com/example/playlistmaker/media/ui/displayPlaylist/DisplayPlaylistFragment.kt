@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentDisplayPlaylistBinding
-import com.example.playlistmaker.media.ui.playlist.PlaylistState
+import com.example.playlistmaker.media.domain.Playlist
 import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.search.ui.SearchFragment.Companion.CLICK_DEBOUNCE_DELAY
 import com.example.playlistmaker.search.ui.SearchMusicAdapter
@@ -41,24 +41,17 @@ class DisplayPlaylistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val idPl = requireArguments().getInt("PLAYLIST")
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.playlistsBottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-
-        viewModel.getPlaylist()
-
-        viewModel.liveData.observe(viewLifecycleOwner)  { playlistState ->
-            Log.d ("MAALMI_DisplayPlaylistFragment", "playlistState= $playlistState")
-
-                when (playlistState) {
-                    is PlaylistState.Empty -> Log.d("MAALMI_DisplayPlaylistFragment", "playlistState= empty }") //adapter.tracks.clear()
-                    is PlaylistState.Playlists -> displayTracks (playlistState.playlists[0].tracksPl)
-                }
-        }
+        viewModel.getPlaylistById(idPl)
 
         viewModel.playlistLiveData.observe(viewLifecycleOwner) { playlist ->
             adapter.tracks.clear()
             adapter.tracks.addAll(playlist.tracksPl)
+            adapter.notifyDataSetChanged()
+            displayPlaylist(playlist)
             Log.d("MAALMI_DisplayPlaylistFragment", "playlist= $playlist")
         }
 
@@ -80,9 +73,27 @@ class DisplayPlaylistFragment : Fragment() {
         adapter.notifyDataSetChanged()
     }
 
+    private fun displayPlaylist(playlist:Playlist) {
+        binding.apply {
+            tvNamePl.text = playlist.namePl
+            tvDesciptPl.text = playlist.descriptPl
+            tvPlaylistCount.text = playlist.countTracks.toString()
+            tvPlaylistTime.text = (playlistTime (playlist)).toString()
+        }
+    }
+
     private fun runPlayer(trackId: String) {
         findNavController().navigate(R.id.playerFragment)
     }
+
+    private fun playlistTime (playlist: Playlist) : Long {
+        var result = 0L
+        for (track in playlist.tracksPl) {
+            result += track.trackTimeMillis
+        }
+        return result
+    }
+
 
     companion object {
         fun passArgs(playlistId: Int): Bundle = bundleOf("PLAYLIST" to playlistId)

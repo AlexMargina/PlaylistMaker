@@ -20,9 +20,9 @@ class DisplayPlaylistViewModel(private val interactor : PlaylistInteractor,priva
     val liveData: LiveData<PlaylistState> = _liveData
 
     // Получить нужный плэйлист и обработать его
-    fun getPlaylistById(playlistId: Int) {
+    fun getPlaylistById(idPl: Int) {
         viewModelScope.launch {
-            val playlist = interactor.getPlaylistById(playlistId)
+            val playlist = interactor.getPlaylistById(idPl)
             _playlistLiveData.postValue(playlist)
         }
     }

@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface PlaylistDao {
 
     @Query("SELECT * FROM playlist_table WHERE idPl = :idPl")
-    suspend fun getPl(idPl : Int): List<PlaylistEntity>
+    suspend fun getPlaylistById(idPl : Int): PlaylistEntity
 
     @Query("SELECT * FROM playlist_table")
     fun getPlaylists(): Flow<List<PlaylistEntity>>

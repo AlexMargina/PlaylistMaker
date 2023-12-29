@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
@@ -14,6 +15,8 @@ import com.example.playlistmaker.media.domain.Playlist
 import com.example.playlistmaker.media.ui.displayPlaylist.DisplayPlaylistFragment
 import com.example.playlistmaker.media.ui.newPlaylist.NewPlaylistViewModel
 import com.example.playlistmaker.media.ui.playlist.PlaylistState.Playlists
+import com.example.playlistmaker.search.ui.SearchFragment.Companion.CLICK_DEBOUNCE_DELAY
+import com.example.playlistmaker.utils.debounce
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFragment : Fragment() {
@@ -60,13 +63,40 @@ class PlaylistFragment : Fragment() {
         binding.recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2)
         binding.recyclerView.adapter = adapter
 
-        adapter.playlistClickListener= {playlist ->
-        findNavController().navigate(
-                R.id.displayPlaylist,
-                DisplayPlaylistFragment.passArgs (1) /// заменить на playlistId
-            )
-
+        adapter.playlistClickListener = debounce<Playlist>(
+            CLICK_DEBOUNCE_DELAY,
+            viewLifecycleOwner.lifecycleScope,
+            false
+        ) { playlist ->
+            displayPlaylist(playlist)
         }
+
+//
+//
+//        adapter.playlistClickListener= {playlist ->
+//        findNavController().navigate(
+//                R.id.displayPlaylist,
+//                DisplayPlaylistFragment.passArgs (0) /// заменить на playlistId
+//            )
+//
+//        }
+    }
+
+    private fun onPlaylistClickDebounce(playlist: Playlist) = debounce<Playlist>(
+            CLICK_DEBOUNCE_DELAY,
+            viewLifecycleOwner.lifecycleScope,
+            false
+        ) { playlist ->
+            displayPlaylist(playlist)
+        }
+
+
+
+    private fun displayPlaylist(playlist: Playlist) {
+        findNavController().navigate(
+            R.id.displayPlaylist,
+            DisplayPlaylistFragment.passArgs (playlist.idPl)
+        )
     }
 
     private fun showPlaylists(playlists: List<Playlist>) {
