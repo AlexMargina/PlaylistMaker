@@ -13,7 +13,7 @@ import com.example.playlistmaker.media.domain.newPlaylist.NewPlaylistInteractor
 import com.example.playlistmaker.media.domain.playlist.PlaylistInteractor
 import kotlinx.coroutines.launch
 
-class NewPlaylistViewModel(
+open class NewPlaylistViewModel(
     private val interactor: PlaylistInteractor,
     private val newPlaylistInteractor: NewPlaylistInteractor,
 ) : ViewModel() {

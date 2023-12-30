@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentDisplayPlaylistBinding
 import com.example.playlistmaker.media.domain.Playlist
+import com.example.playlistmaker.media.ui.updatePlaylist.UpdatePlaylistFragment
 import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.search.ui.SearchFragment.Companion.CLICK_DEBOUNCE_DELAY
 import com.example.playlistmaker.search.ui.SearchMusicAdapter
@@ -92,6 +93,24 @@ class DisplayPlaylistFragment : Fragment() {
         binding.ivBack.setOnClickListener {
             findNavController().navigate(R.id.playlistFragment)
         }
+
+        // Выбор меню РЕДАКТИРОВАТЬ ИНФОРМАЦИЮ
+        binding.updatePlBottomSheet.setOnClickListener {
+            findNavController().navigate(
+                R.id.updatePlaylistFragment,
+                UpdatePlaylistFragment.passArgs(
+                    idPl,
+                    binding.ivCoverPlaylist.toString(),  //imagePl
+                    binding.tvNamePl.toString(), //namePl,
+                    binding.tvDesciptPl.toString() //descriptPl
+                )
+            )
+        }
+
+        // Выбор меню УДАЛИТЬ ПЛЭЙЛИСТ
+
+        // Выбор меню ПОДЕЛИТЬСЯ
+
     }
 
     private fun displayTracks (tracks : List<TrackModel>) {

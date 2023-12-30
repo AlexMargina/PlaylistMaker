@@ -159,7 +159,7 @@
         app:behavior_hideable="false"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <!-- Вёрстка Bottom Sheet со списком -->
+        <!-- Вёрстка Bottom Sheet со списком трэков плэйлиста-->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -173,5 +173,111 @@
             android:layout_height="wrap_content"
             tools:listitem="@layout/layout_player_playlists" />
     </LinearLayout>
+
+
+    <!-- Вёрстка Bottom Sheet с меню ... -->
+     <LinearLayout
+        android:id="@+id/bottom_sheet_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bottomsheet_rounded"
+        android:orientation="vertical"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="200dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/size_xs"
+            android:src="@drawable/rectangle_1457" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/infoPl_constraint"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/frame_layout_height"
+            android:layout_marginTop="@dimen/size_xs"
+            android:background="@color/background_icon">
+
+            <ImageView
+                android:id="@+id/iv_imagePl_bottom_sheet"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/size_xs"
+                android:layout_marginTop="@dimen/size_xxs"
+                android:layout_marginBottom="@dimen/size_xxs"
+                android:src="@drawable/media_placeholder"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/namePl_bottom_sheet"
+                android:ellipsize="end"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_xxs"
+                android:layout_marginTop="@dimen/size_sl"
+                android:layout_marginEnd="@dimen/size_sl"
+                android:textColor="@color/text_color"
+                app:layout_constraintBottom_toTopOf="@id/bottom_sheet_tracks"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_imagePl_bottom_sheet"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Название плэйлиста" />
+
+            <TextView
+                android:id="@+id/bottom_sheet_tracks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_xxs"
+                android:fontFamily="@font/ys_display_regular"
+                android:textColor="@color/text_color"
+                app:layout_constraintStart_toEndOf="@id/iv_imagePl_bottom_sheet"
+                app:layout_constraintTop_toBottomOf="@id/namePl_bottom_sheet"
+                tools:text="98 трэков" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/share_bottom_sheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_sl"
+            android:layout_marginTop="@dimen/size_xl"
+            android:fontFamily="@font/ys_display_regular"
+            android:textColor="@color/text_color"
+            android:textFontWeight="400"
+            android:textSize="16sp"
+            android:text="Поделиться"/>
+
+        <TextView
+            android:id="@+id/updatePl_bottom_sheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_sl"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/ys_display_regular"
+            android:textColor="@color/text_color"
+            android:textFontWeight="400"
+            android:textSize="16sp"
+            android:text="Редактировать информацию" />
+
+        <TextView
+            android:id="@+id/deletePl_bottom_sheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_sl"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/ys_display_regular"
+            android:textColor="@color/text_color"
+            android:textFontWeight="400"
+            android:textSize="16sp"
+            android:text="Удалить плэйлист" />
+
+    </LinearLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

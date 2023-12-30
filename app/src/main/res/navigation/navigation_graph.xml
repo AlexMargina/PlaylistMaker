@@ -99,6 +99,17 @@
         <action
             android:id="@+id/action_displayPlaylist_to_playerFragment"
             app:destination="@id/playerFragment" />
+        <action
+            android:id="@+id/action_displayPlaylist_to_updatePlaylistFragment"
+            app:destination="@id/updatePlaylistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updatePlaylistFragment"
+        android:name="com.example.playlistmaker.media.ui.updatePlaylist.UpdatePlaylistFragment"
+        android:label="UpdatePlaylistFragment" >
+        <action
+            android:id="@+id/action_updatePlaylistFragment_to_newPlaylistFragment"
+            app:destination="@id/newPlaylistFragment" />
     </fragment>
 </navigation>
 
