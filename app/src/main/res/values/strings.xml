@@ -58,5 +58,8 @@
     <string name="message_dialog_new_playlist">Все несохраненные данные будут потеряны</string>
     <string name="cancel_button">Отмена</string>
     <string name="finish_button">Завершить</string>
+    <string name="delete_button">Удалить</string>
+    <string name="detete_track">Удалить трэк</string>
+    <string name="really_delete_track"> Вы уверены, что хотите удалить трек из плейлиста?</string>
 
 </resources>

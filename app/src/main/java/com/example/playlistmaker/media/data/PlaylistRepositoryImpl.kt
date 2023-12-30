@@ -1,5 +1,6 @@
 package com.example.playlistmaker.media.data
 
+import android.util.Log
 import com.example.playlistmaker.media.data.db.AppDatabase
 import com.example.playlistmaker.media.data.entity.PlaylistEntity
 import com.example.playlistmaker.media.domain.Playlist
@@ -34,8 +35,23 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
         return convertToPlaylist(playlist)
     }
 
+    override suspend fun deleteTrackFromPlaylist(trackId: String, idPl: Int) {
+        val playlist = convertToPlaylist(appDatabase.playlistDao().getPlaylistById(idPl))
+        for (track in playlist.tracksPl) {
+            if (track.trackId == trackId) {
+                playlist.tracksPl.remove(track)
+                Log.d ("PlaylistRepositoryImpl", "4. Удалил track с trackId= ${track.trackId} ")  //1
+                break
+            }
+        }
+        appDatabase.playlistDao().updatePl(convertToEntityPlaylist(playlist))
+    }
+
     private fun convertToEntityPlaylist(playlist: Playlist): PlaylistEntity {
-        var time_pl : Long = 1110L
+        var time_pl : Long = 0L
+        for (track in playlist.tracksPl) {
+            time_pl += track.trackTimeMillis
+        }
         return PlaylistEntity(
             idPl = playlist.idPl,
             namePl = playlist.namePl,
@@ -64,7 +80,8 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
             descriptPl = playlist.descriptPl,
             imagePl = playlist.imagePl,
             tracksPl = convertStringToList(playlist.tracksPl),
-            countTracks = playlist.countTracksPl
+            countTracks = playlist.countTracksPl,
+            timePl=playlist.timePl
         )
     }
 }

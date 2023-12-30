@@ -43,5 +43,8 @@
     <string name="message_dialog_new_playlist">All data will be canceled</string>
     <string name="cancel_button">Cancel</string>
     <string name="finish_button">Finish creation</string>
+    <string name="delete_button">Delete</string>
+    <string name="detete_track">Delete track</string>
+    <string name="really_delete_track">Are you sure you want to remove the track from the playlist?</string>
 
 </resources>

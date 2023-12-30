@@ -46,4 +46,13 @@ class DisplayPlaylistViewModel(private val interactor : PlaylistInteractor,priva
         Log.d("MAALMI_SearchVM", "2. addTrackToHistory")
         viewModelScope.launch { searchInteractor.addTrackToHistory(track) }
     }
+
+    fun deleteTrackFromPlaylist(trackId: String, idPl : Int  ) {
+        viewModelScope.launch { interactor.deleteTrackFromPlaylist(trackId, idPl)
+            //val playlist = interactor.getPlaylistById(idPl)
+            //_playlistLiveData.postValue(playlist)
+            getPlaylistById(idPl)}
+
+        Log.d("MAALMI_SearchVM", "deleteTrackFromPlaylist $trackId")
+    }
 }
