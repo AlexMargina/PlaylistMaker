@@ -9,7 +9,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UpdatePlaylistFragment : NewPlaylistFragment() {
 
-     private val viewModel by viewModel<UpdatePlaylistViewModel>()
+     override val viewModel by viewModel<UpdatePlaylistViewModel>()
 
      override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
           super.onViewCreated(view, savedInstanceState)
@@ -22,7 +22,17 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
           viewModel.update.observe(viewLifecycleOwner) { isUpdate ->
                if (isUpdate) findNavController().navigateUp()
           }
+
+
      }
+
+
+
+
+
+
+
+
 
      companion object {
           const val IDPL = "idPl"

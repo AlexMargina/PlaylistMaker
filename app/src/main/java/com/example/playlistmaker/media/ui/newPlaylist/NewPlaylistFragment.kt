@@ -25,7 +25,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 open class NewPlaylistFragment : Fragment() {
 
-    private val viewModel by viewModel<NewPlaylistViewModel>()
+    open val viewModel by viewModel<NewPlaylistViewModel>()
     private val playlistViewModel by viewModel<PlaylistViewModel>()
     private lateinit var binding: FragmentNewPlaylistBinding
     private lateinit var completeDialog: MaterialAlertDialogBuilder

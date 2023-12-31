@@ -52,7 +52,9 @@ class DisplayPlaylistFragment : Fragment() {
         binding.recyclerTracksOfPlaylist.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerTracksOfPlaylist.adapter = adapter
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.playlistsBottomSheet)
+        val bottomSheetBehaviorMenu = BottomSheetBehavior.from(binding.bottomSheetMenu)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_HIDDEN
 
         // 1. Получить аргументы с предыдущего экрана (idPl с PlaylistFragment)
         val idPl = requireArguments().getInt("PLAYLIST")
@@ -97,17 +99,23 @@ class DisplayPlaylistFragment : Fragment() {
             findNavController().navigate(R.id.playlistFragment)
         }
 
+        // Нажатие на кнопку МЕНЮ (...)
+        binding.ibMenu.setOnClickListener {
+            bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
         // Нажатие на кнопку ПОДЕЛИТЬСЯ
         binding.ibShare.setOnClickListener {
+            //!! надо сначала проверить не пустой ли лист
             var sharedPlaylist = getString(R.string.no_track_in_playlist)
             val titlePlaylist = ""
-            sharedPlaylist = createPlaylist(actualPlaylist!!)
-            viewModel.sharePlaylist(sharedPlaylist, titlePlaylist)
+            viewModel.sharePlaylist(createPlaylist(actualPlaylist!!), titlePlaylist)
         }
 
         // Выбор меню ПОДЕЛИТЬСЯ
         binding.shareBottomSheet.setOnClickListener {
-
+            val titlePlaylist = ""
+            viewModel.sharePlaylist(createPlaylist(actualPlaylist!!), titlePlaylist)
         }
 
         // Выбор меню РЕДАКТИРОВАТЬ ИНФОРМАЦИЮ
@@ -161,8 +169,7 @@ class DisplayPlaylistFragment : Fragment() {
         for (track in playlist.tracksPl) {
             result += track.trackTimeMillis
         }
-        return SimpleDateFormat("mm:ss", Locale.getDefault())
-            .format(result)
+        return SimpleDateFormat("mm:ss", Locale.getDefault()).format(result)
     }
 
     private fun deleteTrackDialog(trackId: String) = MaterialAlertDialogBuilder(requireActivity())
@@ -181,10 +188,12 @@ class DisplayPlaylistFragment : Fragment() {
     private fun createPlaylist(playlist: Playlist) : String {
         var sharedPlaylist = playlist.namePl + "\n " +
              playlist.descriptPl + "\n " +
-                playlist.countTracks.toString() + "\n "
-            for ( i in 1 ..  (playlist.tracksPl.size+1)) {
-                sharedPlaylist = sharedPlaylist + "$i. " + playlist.tracksPl[i].artistName + " - "
-                        playlist.tracksPl[i].trackName + " - " + playlist.tracksPl[i].trackTimeMillis
+                Converters().convertCountToTextTracks(playlist.countTracks) + "\n "
+            for ( i in 1 ..  (playlist.tracksPl.size)) {
+                sharedPlaylist = sharedPlaylist + "$i. " + playlist.tracksPl[i-1].artistName + " - " +
+                        playlist.tracksPl[i-1].trackName + " - " +
+                        SimpleDateFormat("mm:ss", Locale.getDefault())
+                            .format (playlist.tracksPl[i-1].trackTimeMillis) + "\n"
             }
         return sharedPlaylist
     }

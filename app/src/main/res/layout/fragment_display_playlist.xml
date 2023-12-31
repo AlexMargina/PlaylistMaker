@@ -33,11 +33,11 @@
         android:id="@+id/iv_cover_playlist"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="@dimen/size_xxl"
+        android:padding="@dimen/size_xl"
         android:layout_marginBottom="@dimen/size_xl"
         android:scaleType="fitCenter"
         android:src="@drawable/media_placeholder"
-        app:layout_constraintDimensionRatio="h,1:0.9"
+        app:layout_constraintDimensionRatio="h,1:0.85"
         app:layout_constraintBottom_toTopOf="@id/tv_name_pl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -152,7 +152,7 @@
         android:id="@+id/playlists_bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:behavior_peekHeight="160dp"
+        app:behavior_peekHeight="140dp"
         android:background="@drawable/bottomsheet_rounded"
         android:orientation="vertical"
         android:scrollbars="vertical"
@@ -183,7 +183,7 @@
         android:background="@drawable/bottomsheet_rounded"
         android:orientation="vertical"
         app:behavior_hideable="true"
-        app:behavior_peekHeight="200dp"
+        app:behavior_peekHeight="260dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <ImageView
