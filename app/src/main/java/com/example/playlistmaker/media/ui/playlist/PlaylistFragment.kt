@@ -71,15 +71,15 @@ class PlaylistFragment : Fragment() {
             displayPlaylist(playlist)
         }
 
-//
-//
-//        adapter.playlistClickListener= {playlist ->
-//        findNavController().navigate(
-//                R.id.displayPlaylist,
-//                DisplayPlaylistFragment.passArgs (0) /// заменить на playlistId
-//            )
-//
-//        }
+ } //=================================================================================
+
+    override fun onResume() {
+        super.onResume()
+        newViewModel.playlistLiveData.observe(viewLifecycleOwner) { playlist ->
+            adapter.playlists.clear()
+            adapter.playlists.addAll(playlist)
+            adapter.notifyDataSetChanged()
+        }
     }
 
     private fun onPlaylistClickDebounce(playlist: Playlist) = debounce<Playlist>(

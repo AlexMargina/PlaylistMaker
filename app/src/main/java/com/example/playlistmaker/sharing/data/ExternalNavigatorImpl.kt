@@ -27,6 +27,16 @@ class ExternalNavigatorImpl(private val application: Application) : ExternalNavi
          executeIntent(shareIntent)
     }
 
+    override fun shareText(sharedText : String, sharedTitle : String) {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, sharedText)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, sharedTitle)
+        executeIntent(shareIntent)
+    }
+
     override fun sendMail()  {
 
             val mailIntent = Intent(Intent.ACTION_SENDTO)

@@ -6,6 +6,10 @@ class SharingInteractorImpl (private val externalNavigator: ExternalNavigator) :
         externalNavigator.sendShare()
     }
 
+    override fun shareText(sharedText: String, sharedTitle: String) {
+        externalNavigator.shareText(sharedText, sharedTitle)
+    }
+
     override fun openTerms() {
         externalNavigator.sendOfer()
     }

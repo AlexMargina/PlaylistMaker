@@ -4,6 +4,8 @@ interface ExternalNavigator  {
 
       fun sendShare ()
 
+      fun shareText(sharedText : String, sharedTitle : String)
+
       fun sendMail ()
 
       fun sendOfer ()

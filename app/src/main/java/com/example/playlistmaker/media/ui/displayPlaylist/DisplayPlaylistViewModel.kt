@@ -10,9 +10,12 @@ import com.example.playlistmaker.media.domain.playlist.PlaylistInteractor
 import com.example.playlistmaker.media.ui.playlist.PlaylistState
 import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.TrackModel
+import com.example.playlistmaker.sharing.domain.SharingInteractor
 import kotlinx.coroutines.launch
 
-class DisplayPlaylistViewModel(private val interactor : PlaylistInteractor,private val searchInteractor : SearchInteractor) : ViewModel(){
+class DisplayPlaylistViewModel(private val interactor : PlaylistInteractor,
+                               private val searchInteractor : SearchInteractor,
+                               private val sharingInteractor : SharingInteractor) : ViewModel(){
 
     private var _playlistLiveData = MutableLiveData<Playlist>()
     val playlistLiveData: LiveData<Playlist> = _playlistLiveData
@@ -54,5 +57,9 @@ class DisplayPlaylistViewModel(private val interactor : PlaylistInteractor,priva
             getPlaylistById(idPl)}
 
         Log.d("MAALMI_SearchVM", "deleteTrackFromPlaylist $trackId")
+    }
+
+    fun sharePlaylist(sharedPlaylist: String, titlePlaylist:String) {
+        sharingInteractor.shareText(sharedPlaylist, titlePlaylist)
     }
 }

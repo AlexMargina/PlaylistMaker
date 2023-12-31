@@ -62,4 +62,5 @@
     <string name="detete_track">Удалить трэк</string>
     <string name="really_delete_track"> Вы уверены, что хотите удалить трек из плейлиста?</string>
     <string name="no_track_in_playlist">В этом плейлисте нет списка треков, которым можно поделиться</string>
+
 </resources>

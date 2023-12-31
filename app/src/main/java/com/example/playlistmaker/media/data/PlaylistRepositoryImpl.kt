@@ -58,7 +58,7 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
             descriptPl = playlist.descriptPl,
             imagePl = playlist.imagePl,
             tracksPl = convertListToString(playlist.tracksPl),
-            countTracksPl = playlist.countTracks,
+            countTracksPl = playlist.tracksPl.size,
             timePl = time_pl
         )
     }

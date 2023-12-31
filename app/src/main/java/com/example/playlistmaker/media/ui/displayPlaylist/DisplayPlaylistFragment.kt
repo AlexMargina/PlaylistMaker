@@ -20,10 +20,13 @@ import com.example.playlistmaker.media.ui.updatePlaylist.UpdatePlaylistFragment
 import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.search.ui.SearchFragment.Companion.CLICK_DEBOUNCE_DELAY
 import com.example.playlistmaker.search.ui.SearchMusicAdapter
+import com.example.playlistmaker.utils.Converters
 import com.example.playlistmaker.utils.debounce
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class DisplayPlaylistFragment : Fragment() {
 
@@ -94,6 +97,19 @@ class DisplayPlaylistFragment : Fragment() {
             findNavController().navigate(R.id.playlistFragment)
         }
 
+        // Нажатие на кнопку ПОДЕЛИТЬСЯ
+        binding.ibShare.setOnClickListener {
+            var sharedPlaylist = getString(R.string.no_track_in_playlist)
+            val titlePlaylist = ""
+            sharedPlaylist = createPlaylist(actualPlaylist!!)
+            viewModel.sharePlaylist(sharedPlaylist, titlePlaylist)
+        }
+
+        // Выбор меню ПОДЕЛИТЬСЯ
+        binding.shareBottomSheet.setOnClickListener {
+
+        }
+
         // Выбор меню РЕДАКТИРОВАТЬ ИНФОРМАЦИЮ
         binding.updatePlBottomSheet.setOnClickListener {
             findNavController().navigate(
@@ -108,8 +124,9 @@ class DisplayPlaylistFragment : Fragment() {
         }
 
         // Выбор меню УДАЛИТЬ ПЛЭЙЛИСТ
+        binding.deletePlBottomSheet.setOnClickListener {
 
-        // Выбор меню ПОДЕЛИТЬСЯ
+        }
 
     }
 
@@ -123,8 +140,8 @@ class DisplayPlaylistFragment : Fragment() {
         binding.apply {
             tvNamePl.text = playlist.namePl
             tvDesciptPl.text = playlist.descriptPl
-            tvPlaylistCount.text = playlist.tracksPl.size.toString()
-            tvPlaylistTime.text = (playlistTime (playlist)).toString()
+            tvPlaylistCount.text = Converters().convertCountToTextTracks (playlist.tracksPl.size)
+            tvPlaylistTime.text = (playlistTime (playlist))
         }
         val radius = resources.getDimensionPixelSize(R.dimen.corner_radius)
         val coverPlaylist = playlist.imagePl
@@ -139,12 +156,13 @@ class DisplayPlaylistFragment : Fragment() {
         findNavController().navigate(R.id.playerFragment)
     }
 
-    private fun playlistTime (playlist: Playlist) : Long {
+    private fun playlistTime (playlist: Playlist) : String {
         var result = 0L
         for (track in playlist.tracksPl) {
             result += track.trackTimeMillis
         }
-        return result
+        return SimpleDateFormat("mm:ss", Locale.getDefault())
+            .format(result)
     }
 
     private fun deleteTrackDialog(trackId: String) = MaterialAlertDialogBuilder(requireActivity())
@@ -158,6 +176,17 @@ class DisplayPlaylistFragment : Fragment() {
     private fun deleteTrackFromPlaylist(trackId: String, idPl : Int) {
         viewModel.deleteTrackFromPlaylist(trackId, idPl )
         viewModel.getPlaylistById(idPl)
+    }
+
+    private fun createPlaylist(playlist: Playlist) : String {
+        var sharedPlaylist = playlist.namePl + "\n " +
+             playlist.descriptPl + "\n " +
+                playlist.countTracks.toString() + "\n "
+            for ( i in 1 ..  (playlist.tracksPl.size+1)) {
+                sharedPlaylist = sharedPlaylist + "$i. " + playlist.tracksPl[i].artistName + " - "
+                        playlist.tracksPl[i].trackName + " - " + playlist.tracksPl[i].trackTimeMillis
+            }
+        return sharedPlaylist
     }
 
     companion object {
