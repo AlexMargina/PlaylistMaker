@@ -102,20 +102,18 @@ class DisplayPlaylistFragment : Fragment() {
         // Нажатие на кнопку МЕНЮ (...)
         binding.ibMenu.setOnClickListener {
             bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_COLLAPSED
+            displaybottomSheetBehaviorMenu ()
         }
 
         // Нажатие на кнопку ПОДЕЛИТЬСЯ
         binding.ibShare.setOnClickListener {
-            //!! надо сначала проверить не пустой ли лист
-            var sharedPlaylist = getString(R.string.no_track_in_playlist)
-            val titlePlaylist = ""
-            viewModel.sharePlaylist(createPlaylist(actualPlaylist!!), titlePlaylist)
+            shareDialog()
         }
 
         // Выбор меню ПОДЕЛИТЬСЯ
         binding.shareBottomSheet.setOnClickListener {
-            val titlePlaylist = ""
-            viewModel.sharePlaylist(createPlaylist(actualPlaylist!!), titlePlaylist)
+            bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_HIDDEN
+            shareDialog()
         }
 
         // Выбор меню РЕДАКТИРОВАТЬ ИНФОРМАЦИЮ
@@ -133,16 +131,14 @@ class DisplayPlaylistFragment : Fragment() {
 
         // Выбор меню УДАЛИТЬ ПЛЭЙЛИСТ
         binding.deletePlBottomSheet.setOnClickListener {
-
+            bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_HIDDEN
+            Log.d("MAALMI_DisplayPlaylistFragment", "Отправляем на удаление = ${actualPlaylist !!.idPl}")
+            deletePlaylistDialog (actualPlaylist !!.idPl).show()
+            Log.d("MAALMI_DisplayPlaylistFragment", "После возврата c удаление = ${actualPlaylist !!.idPl}")
         }
 
-    }
+    }   //============================================================
 
-    private fun displayTracks (tracks : List<TrackModel>) {
-        adapter.tracks.clear()
-        adapter.tracks.addAll(tracks)
-        adapter.notifyDataSetChanged()
-    }
 
     private fun displayPlaylist(playlist:Playlist) {
         binding.apply {
@@ -160,6 +156,31 @@ class DisplayPlaylistFragment : Fragment() {
             .into(binding.ivCoverPlaylist)
     }
 
+    private fun displaybottomSheetBehaviorMenu (){
+        val countTracks = Converters().convertCountToTextTracks (actualPlaylist!!.countTracks)
+        val radius = resources.getDimensionPixelSize(R.dimen.corner_radius)
+        binding.namePlBottomSheet.text = actualPlaylist!!.namePl
+        binding.tracksBottomSheet.text = countTracks
+        Glide.with(binding.ivImagePlBottomSheet)
+            .load(actualPlaylist!!.imagePl)
+            .transform(RoundedCorners(radius))
+            .placeholder(R.drawable.media_placeholder)
+            .into(binding.ivImagePlBottomSheet)
+    }
+
+    private fun shareDialog() {
+        val titlePlaylist = ""
+        if (actualPlaylist!!.tracksPl.size<1) {
+            var sharedPlaylist = getString(R.string.no_track_in_playlist)
+            MaterialAlertDialogBuilder(requireActivity())
+                .setTitle(sharedPlaylist) // Заголовок диалога
+                .setPositiveButton(R.string.cancel_button) { dialog, which ->    }
+                .show()
+        } else {
+            viewModel.sharePlaylist(createPlaylist(actualPlaylist !!), titlePlaylist)
+        }
+    }
+
     private fun runPlayer(trackId: String) {
         findNavController().navigate(R.id.playerFragment)
     }
@@ -172,12 +193,25 @@ class DisplayPlaylistFragment : Fragment() {
         return SimpleDateFormat("mm:ss", Locale.getDefault()).format(result)
     }
 
+    private fun deletePlaylistDialog(idPl: Int) = MaterialAlertDialogBuilder(requireActivity())
+        .setTitle(R.string.delete_playlist)
+        .setMessage(R.string.really_delete_playlist)
+        .setNeutralButton(getString(R.string.no)) { _, _ -> }
+        .setPositiveButton(getString(R.string.yes)) { _, _ ->
+            deletePlaylistById(idPl )
+        }
+
     private fun deleteTrackDialog(trackId: String) = MaterialAlertDialogBuilder(requireActivity())
-        .setTitle(R.string.detete_track)
+        .setTitle(R.string.delete_track)
         .setMessage(R.string.really_delete_track)
         .setNeutralButton(getString(R.string.cancel_button)) { _, _ -> }
         .setPositiveButton(getString(R.string.delete_button)) { _, _ ->
             deleteTrackFromPlaylist(trackId, actualPlaylist!!.idPl )
+    }
+
+    private fun deletePlaylistById(idPl : Int) {
+        viewModel.deletePl(idPl)
+        findNavController().navigateUp()
     }
 
     private fun deleteTrackFromPlaylist(trackId: String, idPl : Int) {

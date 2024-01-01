@@ -59,6 +59,12 @@ class DisplayPlaylistViewModel(private val interactor : PlaylistInteractor,
         Log.d("MAALMI_SearchVM", "deleteTrackFromPlaylist $trackId")
     }
 
+    fun deletePl (idPl : Int){
+        viewModelScope.launch {
+            interactor.deletePl(idPl)
+        }
+    }
+
     fun sharePlaylist(sharedPlaylist: String, titlePlaylist:String) {
         sharingInteractor.shareText(sharedPlaylist, titlePlaylist)
     }

@@ -30,6 +30,10 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
         return playlistFlow.map { playlist -> playlist.map { convertToPlaylist(it) } }
     }
 
+    override suspend fun deletePl (idPl : Int)  {
+        appDatabase.playlistDao().deletePl (idPl)
+    }
+
     override suspend fun getPlaylistById (idPl : Int) : Playlist {
         val playlist = appDatabase.playlistDao().getPlaylistById (idPl)
         return convertToPlaylist(playlist)

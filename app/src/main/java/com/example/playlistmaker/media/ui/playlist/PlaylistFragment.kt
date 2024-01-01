@@ -57,7 +57,7 @@ class PlaylistFragment : Fragment() {
 
         binding.btNewPlaylist.setOnClickListener {
             val navigation = findNavController()
-            navigation.navigate(R.id.action_mediaFragment_to_newPlaylistFragment)
+            navigation.navigate(R.id.newPlaylistFragment)
         }
 
         binding.recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2)

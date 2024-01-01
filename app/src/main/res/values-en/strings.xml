@@ -44,8 +44,14 @@
     <string name="cancel_button">Cancel</string>
     <string name="finish_button">Finish creation</string>
     <string name="delete_button">Delete</string>
-    <string name="detete_track">Delete track</string>
+    <string name="delete_track">Delete track</string>
     <string name="really_delete_track">Are you sure you want to remove the track from the playlist?</string>
     <string name="no_track_in_playlist">This playlist does not have a list of tracks to share</string>
+    <string name="delete_playlist">Delete_playlist</string>
+    <string name="really_delete_playlist">Are you sure you want to remove this playlist?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="update_info">Update info?</string>
+    <string name="share">Share</string>
 
 </resources>
