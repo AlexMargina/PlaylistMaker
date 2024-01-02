@@ -51,12 +51,9 @@ class DisplayPlaylistViewModel(private val interactor : PlaylistInteractor,
     }
 
     fun deleteTrackFromPlaylist(trackId: String, idPl : Int  ) {
-        viewModelScope.launch { interactor.deleteTrackFromPlaylist(trackId, idPl)
-            //val playlist = interactor.getPlaylistById(idPl)
-            //_playlistLiveData.postValue(playlist)
+        viewModelScope.launch {
+            interactor.deleteTrackFromPlaylist(trackId, idPl)
             getPlaylistById(idPl)}
-
-        Log.d("MAALMI_SearchVM", "deleteTrackFromPlaylist $trackId")
     }
 
     fun deletePl (idPl : Int){

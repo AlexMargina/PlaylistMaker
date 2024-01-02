@@ -27,7 +27,7 @@ open class NewPlaylistFragment : Fragment() {
 
     open val viewModel by viewModel<NewPlaylistViewModel>()
     private val playlistViewModel by viewModel<PlaylistViewModel>()
-    private lateinit var binding: FragmentNewPlaylistBinding
+    lateinit var binding: FragmentNewPlaylistBinding
     private lateinit var completeDialog: MaterialAlertDialogBuilder
     private var selectedUri: Uri? = null
 

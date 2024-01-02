@@ -35,7 +35,7 @@ class DisplayPlaylistFragment : Fragment() {
     private val viewModel by viewModel<DisplayPlaylistViewModel>()
     private lateinit var trackClickListener: (TrackModel) -> Unit
     private val adapter = SearchMusicAdapter(arrayListOf<TrackModel>(), {trackClickListener(it)})
-    var actualPlaylist : Playlist? = null
+    //var actualPlaylist : Playlist? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -122,9 +122,9 @@ class DisplayPlaylistFragment : Fragment() {
                 R.id.updatePlaylistFragment,
                 UpdatePlaylistFragment.passArgs(
                     idPl,
-                    binding.ivCoverPlaylist.toString(),  //imagePl
-                    binding.tvNamePl.toString(), //namePl,
-                    binding.tvDesciptPl.toString() //descriptPl
+                    actualPlaylist!!.imagePl,  //imagePl
+                    actualPlaylist!!.namePl, //namePl,
+                    actualPlaylist!!.descriptPl //descriptPl
                 )
             )
         }
@@ -234,5 +234,6 @@ class DisplayPlaylistFragment : Fragment() {
 
     companion object {
         fun passArgs(playlistId: Int): Bundle = bundleOf("PLAYLIST" to playlistId)
+        var actualPlaylist : Playlist? = Playlist(0, "", "", "", arrayListOf(), 0, 0L)
     }
 }
