@@ -22,7 +22,7 @@ interface PlaylistDao {
     suspend fun insertPl(playlist: PlaylistEntity)
 
     @Update( onConflict = OnConflictStrategy.REPLACE, entity = PlaylistEntity::class)
-    suspend fun updatePl(playlist: PlaylistEntity)
+    suspend fun updatePlaylist(playlist: PlaylistEntity) //(idPl: Int?, namePl: String?, imagePl: String?, descriptPl: String?)
 
     @Query("DELETE FROM playlist_table WHERE idPl = :idPl")
     suspend fun deletePl(idPl: Int)

@@ -39,6 +39,10 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
         return convertToPlaylist(playlist)
     }
 
+    override suspend fun updatePlaylist(idPl: Int?, namePl: String?, imagePl: String?, descriptPl: String?) {
+        appDatabase.playlistDao().updatePlaylist(idPl, namePl, imagePl, descriptPl)
+    }
+
     override suspend fun deleteTrackFromPlaylist(trackId: String, idPl: Int) {
         val playlist = convertToPlaylist(appDatabase.playlistDao().getPlaylistById(idPl))
         for (track in playlist.tracksPl) {

@@ -106,10 +106,27 @@
     <fragment
         android:id="@+id/updatePlaylistFragment"
         android:name="com.example.playlistmaker.media.ui.updatePlaylist.UpdatePlaylistFragment"
-        android:label="UpdatePlaylistFragment" >
+        android:label="UpdatePlaylistFragment"
+        tools:layout="@layout/fragment_new_playlist">
         <action
             android:id="@+id/action_updatePlaylistFragment_to_newPlaylistFragment"
             app:destination="@id/newPlaylistFragment" />
+        <argument
+            android:name="idPl"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="namePl"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="descriptPl"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="imagePl"
+            app:argType="string"
+            android:defaultValue='""' />
     </fragment>
 </navigation>
 

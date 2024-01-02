@@ -29,7 +29,7 @@ open class NewPlaylistFragment : Fragment() {
     private val playlistViewModel by viewModel<PlaylistViewModel>()
     lateinit var binding: FragmentNewPlaylistBinding
     private lateinit var completeDialog: MaterialAlertDialogBuilder
-    private var selectedUri: Uri? = null
+    var selectedUri: Uri? = null
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->

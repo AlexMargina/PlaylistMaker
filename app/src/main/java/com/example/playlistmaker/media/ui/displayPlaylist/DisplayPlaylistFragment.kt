@@ -16,7 +16,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentDisplayPlaylistBinding
 import com.example.playlistmaker.media.domain.Playlist
-import com.example.playlistmaker.media.ui.updatePlaylist.UpdatePlaylistFragment
 import com.example.playlistmaker.search.domain.TrackModel
 import com.example.playlistmaker.search.ui.SearchFragment.Companion.CLICK_DEBOUNCE_DELAY
 import com.example.playlistmaker.search.ui.SearchMusicAdapter
@@ -118,15 +117,13 @@ class DisplayPlaylistFragment : Fragment() {
 
         // Выбор меню РЕДАКТИРОВАТЬ ИНФОРМАЦИЮ
         binding.updatePlBottomSheet.setOnClickListener {
-            findNavController().navigate(
-                R.id.updatePlaylistFragment,
-                UpdatePlaylistFragment.passArgs(
-                    idPl,
-                    actualPlaylist!!.imagePl,  //imagePl
-                    actualPlaylist!!.namePl, //namePl,
-                    actualPlaylist!!.descriptPl //descriptPl
-                )
-            )
+            val bundle : Bundle = bundleOf()
+            bundle.putInt("idPl", idPl)
+            bundle.putString("namePl",actualPlaylist!!.namePl )
+            bundle.putString("imagePl",actualPlaylist!!.imagePl )
+            bundle.putString("descriptPl",actualPlaylist!!.descriptPl )
+            findNavController().navigate(R.id.updatePlaylistFragment, bundle)
+            bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_HIDDEN
         }
 
         // Выбор меню УДАЛИТЬ ПЛЭЙЛИСТ

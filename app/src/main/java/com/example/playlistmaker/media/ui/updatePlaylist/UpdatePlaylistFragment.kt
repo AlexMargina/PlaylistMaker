@@ -3,7 +3,9 @@ package com.example.playlistmaker.media.ui.updatePlaylist
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -20,12 +22,15 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
      override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
           super.onViewCreated(view, savedInstanceState)
 
-          val idPl = requireArguments().getInt("idPl")
-          val imagePl = requireArguments().getString("imagePl")
-          val namePl = requireArguments().getString("namePl")
-          val descriptPl = requireArguments().getString("descriptPl")
+          // Третий вариант передачи данных плэйлиста из DisplayPlaylistFragment
+          val idPl = getArguments()?.getInt("idPl")
+          var imagePl = getArguments()?.getString("imagePl")
+          var namePl = getArguments()?.getString("namePl")
+          var descriptPl = getArguments()?.getString("descriptPl")
+          Log.d("MAALMI_UpdatePlaylistF", "Получено из bundle: idPl = $idPl \n namePl = ${namePl.toString()}  \n " +
+                  "imagePl = $imagePl \n descriptPl = ${descriptPl} ")
 
-          viewModel.initialization()
+          viewModel.initialization() // Второй вариант передачи данных плэйлиста из DisplayPlaylistFragment
           viewModel.update.observe(viewLifecycleOwner) { isUpdate ->
                if (isUpdate) findNavController().navigateUp()
           }
@@ -35,7 +40,25 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
                fillFields (playlist)
           }
 
+           requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+               object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                         findNavController().navigateUp()
+                    }
+               })
 
+          binding.ivBack.setOnClickListener {
+               findNavController().navigateUp()
+          }
+
+          binding.tvButtonNew.setOnClickListener {
+               imagePl = binding.ivCoverPlImage.background.toString()
+               if (selectedUri != null) { imagePl = selectedUri.toString()  }
+               namePl = binding.etNamePl.editText.toString()
+               descriptPl = binding.etDescriptPl.editText.toString()
+
+               viewModel.updatePlaylist(idPl,imagePl,namePl, descriptPl)
+          }
 
           binding.etNamePl.setOnFocusChangeListener { _, hasFocus ->
                binding.tvButtonNew.isEnabled = true
@@ -43,8 +66,6 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
                else  binding.etNamePl.hint = namePl
           }
 
-          Log.d("MAALMI_UpdatePlaylistF", "Получено: idPl = $idPl \n namePl = ${namePl.toString()}  \n " +
-                  "imagePl = $imagePl \n descriptPl = ${descriptPl} ")
      } //==================================================
 
 
@@ -53,6 +74,7 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
           binding.tvButtonNew.setText("Сохранить")
           binding.etNamePl.hint = playlist.namePl
           binding.etDescriptPl.hint = playlist.descriptPl
+          binding.ivPicturePlus.isVisible = false
           val radius = resources.getDimensionPixelSize(R.dimen.corner_radius)
           Glide.with(binding.ivCoverPlImage)
                .load(DisplayPlaylistFragment.actualPlaylist !!.imagePl)
