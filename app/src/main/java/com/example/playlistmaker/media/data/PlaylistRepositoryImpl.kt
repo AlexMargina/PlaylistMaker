@@ -22,7 +22,7 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
     override suspend fun addNewTrack(track: TrackModel, playlist: Playlist) {
         playlist.tracksPl.add(0, track)
         playlist.countTracks = playlist.tracksPl.size
-        appDatabase.playlistDao().updatePl(convertToEntityPlaylist(playlist))
+        appDatabase.playlistDao().updatePlaylist(convertToEntityPlaylist(playlist))
     }
 
     override suspend fun getPlaylists(): Flow<List<Playlist>> {
@@ -39,8 +39,8 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
         return convertToPlaylist(playlist)
     }
 
-    override suspend fun updatePlaylist(idPl: Int?, namePl: String?, imagePl: String?, descriptPl: String?) {
-        appDatabase.playlistDao().updatePlaylist(idPl, namePl, imagePl, descriptPl)
+    override suspend fun updatePl(idPl: Int?, namePl: String?, imagePl: String?, descriptPl: String?) {
+        appDatabase.playlistDao().updatePl(idPl, namePl, imagePl, descriptPl)
     }
 
     override suspend fun deleteTrackFromPlaylist(trackId: String, idPl: Int) {
@@ -52,7 +52,7 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
                 break
             }
         }
-        appDatabase.playlistDao().updatePl(convertToEntityPlaylist(playlist))
+        appDatabase.playlistDao().updatePlaylist(convertToEntityPlaylist(playlist))
     }
 
     private fun convertToEntityPlaylist(playlist: Playlist): PlaylistEntity {

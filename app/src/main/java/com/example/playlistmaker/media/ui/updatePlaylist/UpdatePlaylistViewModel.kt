@@ -26,13 +26,13 @@ class UpdatePlaylistViewModel(private val interactor: PlaylistInteractor,
         descriptPl: String?,
     ) {
         viewModelScope.launch {
-            interactor. updatePlaylist(idPl, namePl, imagePl, descriptPl)
+            interactor. updatePl(idPl, namePl, imagePl, descriptPl)
                 }
         }
 
 
     fun initialization () {
-        // вариант вариант передачи данных плэйлиста из DisplayPlaylistFragment
+        // Второй вариант передачи данных плэйлиста из DisplayPlaylistFragment
         val actualPlaylist = DisplayPlaylistFragment.actualPlaylist
         _updateLiveData.postValue(actualPlaylist!!)
     }
