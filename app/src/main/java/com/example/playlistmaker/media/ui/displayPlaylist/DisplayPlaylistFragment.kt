@@ -174,10 +174,10 @@ class DisplayPlaylistFragment : Fragment() {
     private fun shareDialog() {
         val titlePlaylist = ""
         if (actualPlaylist!!.tracksPl.size<1) {
-            var sharedPlaylist = getString(R.string.no_track_in_playlist)
+            var sharedPlaylist = getString(R.string.no_track_to_share)
             MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(sharedPlaylist) // Заголовок диалога
-                .setPositiveButton(R.string.cancel_button) { dialog, which ->    }
+                .setPositiveButton(R.string.its_clear) { dialog, which ->    }
                 .show()
         } else {
             viewModel.sharePlaylist(createPlaylist(actualPlaylist !!), titlePlaylist)
@@ -199,8 +199,8 @@ class DisplayPlaylistFragment : Fragment() {
     private fun deletePlaylistDialog(idPl: Int) = MaterialAlertDialogBuilder(requireActivity())
         .setTitle(R.string.delete_playlist)
         .setMessage(R.string.really_delete_playlist)
-        .setNeutralButton(getString(R.string.no)) { _, _ -> }
-        .setPositiveButton(getString(R.string.yes)) { _, _ ->
+        .setNeutralButton(getString(R.string.cancel_button)) { _, _ -> }
+        .setPositiveButton(getString(R.string.delete_button)) { _, _ ->
             deletePlaylistById(idPl )
         }
 

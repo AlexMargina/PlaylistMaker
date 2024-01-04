@@ -136,6 +136,17 @@
         android:src="@drawable/more_black"
         android:background="@color/grey_upd_pl"
         />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_track_in_playlist"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:textSize="@dimen/text_19sp"
+        android:layout_margin="@dimen/size_xxl"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,7 +2,6 @@ package com.example.playlistmaker.media.ui.updatePlaylist
 
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
@@ -19,15 +18,16 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class UpdatePlaylistFragment : NewPlaylistFragment() {
 
      override val viewModel by viewModel<UpdatePlaylistViewModel>()
+     var updatePlaylist : Playlist = Playlist(0, "", "", "", arrayListOf(),0,0)
 
      override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
           super.onViewCreated(view, savedInstanceState)
 
           // Третий вариант передачи данных плэйлиста из DisplayPlaylistFragment
-          val idPl = getArguments()?.getInt("idPl")
-          var imagePl = getArguments()?.getString("imagePl")
-          var namePl = getArguments()?.getString("namePl")
-          var descriptPl = getArguments()?.getString("descriptPl")
+          val idPl = arguments?.getInt("idPl")
+          var imagePl = arguments?.getString("imagePl")
+          var namePl = arguments?.getString("namePl")
+          var descriptPl = arguments?.getString("descriptPl")
           Log.d("MAALMI_UpdatePlaylistF", "Получено из bundle: idPl = $idPl \n namePl = ${namePl.toString()}  \n " +
                   "imagePl = $imagePl \n descriptPl = ${descriptPl} ")
 
@@ -38,6 +38,7 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
 
           viewModel.updateLiveData.observe(viewLifecycleOwner) { playlist ->
                if (playlist.namePl.isEmpty()) findNavController().navigateUp()
+              updatePlaylist = playlist
                fillFields (playlist)
           }
 
@@ -52,15 +53,13 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
                findNavController().navigateUp()
           }
 
-         binding.etDescriptPl .setOnClickListener {
-             binding.tvButtonNew.isEnabled = true
+
+         binding.tvButtonNew.isEnabled = false
+
+         binding.allViewsLayout.setOnClickListener {
+             binding.tvButtonNew.isEnabled = checkChanges()
+
          }
-          binding.ivCoverPlImage.setOnTouchListener { v, event ->
-              when (event?.action) {
-                  MotionEvent.ACTION_DOWN -> binding.tvButtonNew.isEnabled = true
-              }
-              v?.onTouchEvent(event) ?: true
-          }
 
          binding.tvButtonNew.setOnClickListener {
               // запомнить старое название
@@ -90,7 +89,6 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
           }
 
           binding.etNamePl.setOnFocusChangeListener { _, hasFocus ->
-               binding.tvButtonNew.isEnabled = true
                if (hasFocus) binding.etNamePl.hint = "Название*"
                else  binding.etNamePl.hint = namePl
           }
@@ -99,10 +97,12 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
 
 
      private fun fillFields (playlist : Playlist) {
+          binding.tvButtonNew.text = "Сохранить"
           binding.tvNewPlaylist.text = "Редактировать"
-          binding.tvButtonNew.setText("Сохранить")
+          binding.ietNamePl.setText(playlist.namePl)
           binding.etNamePl.hint = playlist.namePl
           binding.etDescriptPl.hint = playlist.descriptPl
+          binding.ietDescriptPl.setText(playlist.descriptPl)
           binding.ivPicturePlus.isVisible = false
           val radius = resources.getDimensionPixelSize(R.dimen.corner_radius)
           Glide.with(binding.ivCoverPlImage)
@@ -112,6 +112,13 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
                .into(binding.ivCoverPlImage)
      }
 
+    private fun checkChanges() : Boolean {
+        if  (binding.ietNamePl.text!!.isEmpty())   { return false }
+        if  (!binding.ietNamePl.text !!.equals(updatePlaylist.namePl))   { return true }
+        if  (!binding.ietDescriptPl.text !!.equals(updatePlaylist.descriptPl))   { return true }
+        if  (selectedUri != null) { return true }
+        return false
+    }
 
      companion object {
           // Первый вариант передачи данных плэйлиста из DisplayPlaylistFragment
