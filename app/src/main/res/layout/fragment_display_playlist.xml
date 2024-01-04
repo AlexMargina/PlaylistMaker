@@ -15,6 +15,18 @@
     >
 
     <ImageView
+        android:id="@+id/iv_cover_playlist"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/size_xl"
+        android:src="@drawable/media_placeholder"
+        app:layout_constraintDimensionRatio="h,1:1"
+        app:layout_constraintBottom_toTopOf="@id/tv_name_pl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_back" />
+
+    <ImageView
         android:id="@+id/iv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,24 +36,10 @@
         android:padding="@dimen/size_xs"
         android:layout_marginStart="@dimen/size_s"
         android:src="@drawable/back"
-        android:tint="@color/text_color"
+        android:tint="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="UseAppTint" />
-
-    <ImageView
-        android:id="@+id/iv_cover_playlist"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:padding="@dimen/size_xl"
-        android:layout_marginBottom="@dimen/size_xl"
-        android:scaleType="fitCenter"
-        android:src="@drawable/media_placeholder"
-        app:layout_constraintDimensionRatio="h,1:0.85"
-        app:layout_constraintBottom_toTopOf="@id/tv_name_pl"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/iv_back" />
 
     <!-- Информация о ПЛЭЙЛИСТЕ -->
     <TextView

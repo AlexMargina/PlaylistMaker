@@ -86,6 +86,7 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
                    imagePl = imagePl,
                    descriptPl = binding.etDescriptPl.editText!!.text.toString())
                findNavController().navigateUp()
+
           }
 
           binding.etNamePl.setOnFocusChangeListener { _, hasFocus ->

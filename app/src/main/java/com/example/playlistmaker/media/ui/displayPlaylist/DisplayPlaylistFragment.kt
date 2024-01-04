@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -34,6 +35,7 @@ class DisplayPlaylistFragment : Fragment() {
     private val viewModel by viewModel<DisplayPlaylistViewModel>()
     private lateinit var trackClickListener: (TrackModel) -> Unit
     private val adapter = SearchMusicAdapter(arrayListOf<TrackModel>(), {trackClickListener(it)})
+    private lateinit var bottomSheetBehaviorMenu : BottomSheetBehavior <LinearLayout>
     //var actualPlaylist : Playlist? = null
 
     override fun onCreateView(
@@ -51,7 +53,7 @@ class DisplayPlaylistFragment : Fragment() {
         binding.recyclerTracksOfPlaylist.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerTracksOfPlaylist.adapter = adapter
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.playlistsBottomSheet)
-        val bottomSheetBehaviorMenu = BottomSheetBehavior.from(binding.bottomSheetMenu)
+        bottomSheetBehaviorMenu = BottomSheetBehavior.from(binding.bottomSheetMenu)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_HIDDEN
 
@@ -91,11 +93,11 @@ class DisplayPlaylistFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().navigate(R.id.mediaFragment)
+                    findNavController().navigateUp()
                 }
             })
         binding.ivBack.setOnClickListener {
-            findNavController().navigate(R.id.mediaFragment)
+            findNavController().navigateUp()
         }
 
         // Нажатие на кнопку МЕНЮ (...)
@@ -117,13 +119,13 @@ class DisplayPlaylistFragment : Fragment() {
 
         // Выбор меню РЕДАКТИРОВАТЬ ИНФОРМАЦИЮ
         binding.updatePlBottomSheet.setOnClickListener {
+            bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_HIDDEN
             val bundle : Bundle = bundleOf()
             bundle.putInt("idPl", idPl)
             bundle.putString("namePl",actualPlaylist!!.namePl )
             bundle.putString("imagePl",actualPlaylist!!.imagePl )
             bundle.putString("descriptPl",actualPlaylist!!.descriptPl )
             findNavController().navigate(R.id.updatePlaylistFragment, bundle)
-            bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_HIDDEN
         }
 
         // Выбор меню УДАЛИТЬ ПЛЭЙЛИСТ
@@ -136,6 +138,10 @@ class DisplayPlaylistFragment : Fragment() {
 
     }   //============================================================
 
+    override fun onResume() {
+        super.onResume()
+        bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_HIDDEN
+    }
 
     private fun displayPlaylist(playlist:Playlist) {
         binding.apply {
