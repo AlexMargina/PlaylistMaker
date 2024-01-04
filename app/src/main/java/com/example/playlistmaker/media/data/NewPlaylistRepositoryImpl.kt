@@ -22,6 +22,14 @@ class NewPlaylistRepositoryImpl  (val context: Context) : NewPlaylistRepository 
     }
 
     override fun imagePath () : String = filePath.path
+    override suspend fun deletePicture(oldNamePl: String) {
+        //создаём экземпляр класса File, который указывает на файл внутри каталога
+        val file = File(filePath, "$oldNamePl.jpg")
+        if (file.exists()) { file.delete() }
+        val cacheFile = File(context.cacheDir, "$oldNamePl.jpg")
+        if (cacheFile.exists()) { cacheFile.delete() }
+        Log.d ("MAALMI_deletePicture", "Удален ${file.toString()} ")
+    }
 
     override suspend fun savePicture(uri: Uri, fileName: String) {
 

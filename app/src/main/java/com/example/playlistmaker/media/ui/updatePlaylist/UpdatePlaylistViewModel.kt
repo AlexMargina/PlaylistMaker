@@ -1,5 +1,7 @@
 package com.example.playlistmaker.media.ui.updatePlaylist
 
+import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -10,30 +12,44 @@ import com.example.playlistmaker.media.ui.displayPlaylist.DisplayPlaylistFragmen
 import com.example.playlistmaker.media.ui.newPlaylist.NewPlaylistViewModel
 import kotlinx.coroutines.launch
 
-class UpdatePlaylistViewModel(private val interactor: PlaylistInteractor,
-                              private val newPlaylistInteractor: NewPlaylistInteractor)
-    : NewPlaylistViewModel(interactor, newPlaylistInteractor)
-{
+class UpdatePlaylistViewModel(
+      interactor: PlaylistInteractor,
+      newPlaylistInteractor: NewPlaylistInteractor
+) : NewPlaylistViewModel(interactor, newPlaylistInteractor) {
     private var _updateLiveData = MutableLiveData<Playlist>()
     val updateLiveData: LiveData<Playlist> = _updateLiveData
     private val _update = MutableLiveData<Boolean>()
     val update: LiveData<Boolean> = _update
 
-    fun updatePlaylist(
-        idPl: Int?,
-        imagePl: String?,
-        namePl: String?,
-        descriptPl: String?,
-    ) {
+
+    fun updatePl(idPl: Int?, imagePl: String?, namePl: String?, descriptPl: String?) {
         viewModelScope.launch {
-            interactor. updatePl(idPl, namePl, imagePl, descriptPl)
-                }
+            interactor.updatePl(idPl, namePl, imagePl, descriptPl)
         }
+    }
 
 
-    fun initialization () {
+    fun deletePicture(oldNamePl: String) {
+        Log.d("MAALMI_NewPlaylistVM", "Готовим на удаление  ${oldNamePl}")
+        viewModelScope.launch {
+                newPlaylistInteractor.deletePicture(oldNamePl)
+                Log.d("MAALMI_NewPlaylistVM", "Удалили = ${oldNamePl}")
+        }
+    }
+
+    override fun savePicture(uri: Uri?, namePl: String) {
+        Log.d("MAALMI_NewPlaylistVM", "Готовим на сохранение = ${uri?.encodedPath}")
+        viewModelScope.launch {
+            if (uri != null) {
+                newPlaylistInteractor.savePicture(uri, namePl)
+                Log.d("MAALMI_NewPlaylistVM", "Отправляем на сохранение = ${uri.encodedPath}")
+            }
+        }
+    }
+
+    fun initialization() {
         // Второй вариант передачи данных плэйлиста из DisplayPlaylistFragment
         val actualPlaylist = DisplayPlaylistFragment.actualPlaylist
-        _updateLiveData.postValue(actualPlaylist!!)
+        _updateLiveData.postValue(actualPlaylist !!)
     }
 }

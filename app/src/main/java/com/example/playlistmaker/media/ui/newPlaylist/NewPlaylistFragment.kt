@@ -81,7 +81,8 @@ open class NewPlaylistFragment : Fragment() {
 
         // 3. Нажатие на кнопку Создать
         binding.tvButtonNew.setOnClickListener {
-            val imageFileNamePl = viewModel.imagePath() + "/" + binding.etNamePl.editText!!.text.toString() + ".jpg"
+            val imageFileNamePl = viewModel.imagePath() + "/" +
+                    binding.etNamePl.editText!!.text.toString() + ".jpg"
             Log.d ("MAALMI_NewPlaylistFragment", "imageFileNamePl = ${imageFileNamePl}")
             viewModel.insertPlaylist(
                 Playlist(

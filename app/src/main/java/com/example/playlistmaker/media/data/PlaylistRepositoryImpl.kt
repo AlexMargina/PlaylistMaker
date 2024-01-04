@@ -40,6 +40,7 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
     }
 
     override suspend fun updatePl(idPl: Int?, namePl: String?, imagePl: String?, descriptPl: String?) {
+        Log.d ("PlaylistRepositoryImpl", "updatePl idPl= ${idPl} ")  //1
         appDatabase.playlistDao().updatePl(idPl, namePl, imagePl, descriptPl)
     }
 

@@ -16,4 +16,8 @@ class NewPlaylistInteractorImpl(private val repository: NewPlaylistRepository) :
     override fun imagePath () : String {
         return repository.imagePath()
     }
+
+    override suspend fun deletePicture(oldNamePl: String) {
+        return repository.deletePicture(oldNamePl)
+    }
 }

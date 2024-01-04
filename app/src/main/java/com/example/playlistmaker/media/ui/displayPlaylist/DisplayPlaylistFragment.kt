@@ -91,11 +91,11 @@ class DisplayPlaylistFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().navigate(R.id.playlistFragment)
+                    findNavController().navigate(R.id.mediaFragment)
                 }
             })
         binding.ivBack.setOnClickListener {
-            findNavController().navigate(R.id.playlistFragment)
+            findNavController().navigate(R.id.mediaFragment)
         }
 
         // Нажатие на кнопку МЕНЮ (...)
@@ -187,7 +187,7 @@ class DisplayPlaylistFragment : Fragment() {
         for (track in playlist.tracksPl) {
             result += track.trackTimeMillis
         }
-        return SimpleDateFormat("mm:ss", Locale.getDefault()).format(result)
+        return Converters().convertMillisToTextMinutes(result)
     }
 
     private fun deletePlaylistDialog(idPl: Int) = MaterialAlertDialogBuilder(requireActivity())

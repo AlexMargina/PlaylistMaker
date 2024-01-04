@@ -52,12 +52,31 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
           }
 
           binding.tvButtonNew.setOnClickListener {
-               imagePl = binding.ivCoverPlImage.background.toString()
-               if (selectedUri != null) { imagePl = selectedUri.toString()  }
-               namePl = binding.etNamePl.editText.toString()
-               descriptPl = binding.etDescriptPl.editText.toString()
+              // запомнить старое название
+              val oldNamePl = namePl
+              //получить новое имя файла если есть изменения
+              if (binding.etNamePl.editText!!.text.toString().isNotEmpty()) namePl = binding.etNamePl.editText!!.text.toString()
+              if (selectedUri != null) {
+                  //удалить старый файл deletePicture(oldNamePl)
+                  if (oldNamePl != null) {
+                      viewModel.deletePicture(oldNamePl)
+                  }
+                  // записать новый файл
+                  viewModel.savePicture(selectedUri, namePl !!)
+                    // новый путь к файлу
+                  imagePl = viewModel.imagePath() + "/" + namePl + ".jpg"
+              }     // если не выбрана новая обложка, то остается старый файл со старым названием
 
-               viewModel.updatePlaylist(idPl,imagePl,namePl, descriptPl)
+
+
+               Log.d("MAALMI_UpdatePlaylistF", "СОХРАНИТЬ: idPl = $idPl \n namePl = $namePl  \n " +
+                       "imagePl = $imagePl \n descriptPl = ${descriptPl} \n selectedUri = ${selectedUri.toString()}")
+              viewModel.updatePl(
+                   idPl,
+                   namePl = namePl ,
+                   imagePl = imagePl,
+                   descriptPl = binding.etDescriptPl.editText!!.text.toString())
+               findNavController().navigateUp()
           }
 
           binding.etNamePl.setOnFocusChangeListener { _, hasFocus ->
