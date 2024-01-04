@@ -2,6 +2,7 @@ package com.example.playlistmaker.media.ui.updatePlaylist
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
@@ -51,7 +52,17 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
                findNavController().navigateUp()
           }
 
-          binding.tvButtonNew.setOnClickListener {
+         binding.etDescriptPl .setOnClickListener {
+             binding.tvButtonNew.isEnabled = true
+         }
+          binding.ivCoverPlImage.setOnTouchListener { v, event ->
+              when (event?.action) {
+                  MotionEvent.ACTION_DOWN -> binding.tvButtonNew.isEnabled = true
+              }
+              v?.onTouchEvent(event) ?: true
+          }
+
+         binding.tvButtonNew.setOnClickListener {
               // запомнить старое название
               val oldNamePl = namePl
               //получить новое имя файла если есть изменения
@@ -66,8 +77,6 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
                     // новый путь к файлу
                   imagePl = viewModel.imagePath() + "/" + namePl + ".jpg"
               }     // если не выбрана новая обложка, то остается старый файл со старым названием
-
-
 
                Log.d("MAALMI_UpdatePlaylistF", "СОХРАНИТЬ: idPl = $idPl \n namePl = $namePl  \n " +
                        "imagePl = $imagePl \n descriptPl = ${descriptPl} \n selectedUri = ${selectedUri.toString()}")
