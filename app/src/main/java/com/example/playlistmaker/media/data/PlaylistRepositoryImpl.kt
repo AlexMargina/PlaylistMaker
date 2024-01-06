@@ -57,9 +57,9 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
     }
 
     private fun convertToEntityPlaylist(playlist: Playlist): PlaylistEntity {
-        var time_pl : Long = 0L
+        var timeAllTracks = 0L
         for (track in playlist.tracksPl) {
-            time_pl += track.trackTimeMillis
+            timeAllTracks += track.trackTimeMillis
         }
         return PlaylistEntity(
             idPl = playlist.idPl,
@@ -68,7 +68,7 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
             imagePl = playlist.imagePl,
             tracksPl = convertListToString(playlist.tracksPl),
             countTracksPl = playlist.tracksPl.size,
-            timePl = time_pl
+            timePl = timeAllTracks
         )
     }
 

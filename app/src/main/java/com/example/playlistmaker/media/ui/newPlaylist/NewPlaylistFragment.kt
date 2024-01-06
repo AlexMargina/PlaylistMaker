@@ -83,7 +83,8 @@ open class NewPlaylistFragment : Fragment() {
         binding.tvButtonNew.setOnClickListener {
             val imageFileNamePl = viewModel.imagePath() + "/" +
                     binding.etNamePl.editText!!.text.toString() + ".jpg"
-            Log.d ("MAALMI_NewPlaylistF", "imageFileNamePl = ${imageFileNamePl}")
+
+            Log.d ("MAALMI_NewPlaylistF", "imageFileNamePl = ${imageFileNamePl} imagePath = ${viewModel.imagePath()}")
             Log.d ("MAALMI_NewPlaylistF", "ietNamePl = ${binding.ietNamePl.text} etNamePl=  ${binding.etNamePl.editText !!.text.toString()}" )
             Log.d ("MAALMI_NewPlaylistF", "ietDescriptPl = ${binding.ietDescriptPl.text} etDescriptPl=  ${binding.etDescriptPl.editText !!.text.toString()}" )
             viewModel.insertPlaylist(

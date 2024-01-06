@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/Theme.PlaylistMaker"
     android:id="@+id/main_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,7 +21,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/size_xl"
         android:src="@drawable/media_placeholder"
-        app:layout_constraintDimensionRatio="h,1:1"
+        app:layout_constraintDimensionRatio="h,1:0.85"
         app:layout_constraintBottom_toTopOf="@id/tv_name_pl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -210,7 +211,7 @@
             android:background="@color/background_icon">
 
             <ImageView
-                android:id="@+id/iv_imagePl_bottom_sheet"
+                android:id="@+id/iv_imagepl_bottom_sheet"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/size_xs"
@@ -234,7 +235,7 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@id/tracks_bottom_sheet"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_imagePl_bottom_sheet"
+                app:layout_constraintStart_toEndOf="@id/iv_imagepl_bottom_sheet"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Название плэйлиста" />
 
@@ -247,7 +248,7 @@
                 android:textColor="@color/text_color"
                 android:paddingTop="2dp"
                 android:textSize="11sp"
-                app:layout_constraintStart_toEndOf="@id/iv_imagePl_bottom_sheet"
+                app:layout_constraintStart_toEndOf="@id/iv_imagepl_bottom_sheet"
                 app:layout_constraintTop_toBottomOf="@id/namePl_bottom_sheet"
                 tools:text="98 трэков" />
 

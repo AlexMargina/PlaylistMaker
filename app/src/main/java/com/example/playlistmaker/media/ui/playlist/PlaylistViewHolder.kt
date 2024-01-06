@@ -14,7 +14,7 @@ class PlaylistViewHolder (private val binding: LayoutPlaylistsBinding) : Recycle
 
     fun bind(playlist: Playlist) {
         binding.tvTitle .text = playlist.namePl
-        binding.tvCount.text = Converters().convertCountToTextTracks (playlist.countTracks)
+        binding.tvCount.text = Converters(itemView.context).convertCountToTextTracks (playlist.countTracks)
         Log.d ("MAALMI_PlaylistViewHolder", "imagePl = ${playlist.imagePl}")
         Glide.with(itemView)
             .load(playlist.imagePl)
@@ -23,14 +23,4 @@ class PlaylistViewHolder (private val binding: LayoutPlaylistsBinding) : Recycle
             .transform(RoundedCorners(8))
             .into(binding.ivCover)
     }
-
-//    private fun convertCountToText(countTracks: Int): String {
-//
-//        val s = when (countTracks % 10) {
-//            1 -> "$countTracks трек"
-//            2, 3, 4 -> "$countTracks трека"
-//            else -> "$countTracks треков"
-//        }
-//        return s
-//    }
 }

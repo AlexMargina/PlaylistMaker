@@ -71,5 +71,13 @@
     <string name="yes">Да</string>
     <string name="update_info">Редактировать информацию</string>
     <string name="share">Поделиться</string>
+    <string name="save">Сохранить</string>
+    <string name="edit">Редактировать</string>
+    <string name="track">трек</string>
+    <string name="tracks_2">трека</string>
+    <string name="tracks">трэков</string>
+    <string name="minutes">минут</string>
+    <string name="minutes_2">минуты</string>
+    <string name="minute">минута</string>
 
 </resources>

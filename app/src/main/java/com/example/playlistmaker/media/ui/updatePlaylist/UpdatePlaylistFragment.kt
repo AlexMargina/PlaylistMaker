@@ -85,7 +85,6 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
                    imagePl = imagePl,
                    descriptPl = binding.etDescriptPl.editText!!.text.toString())
                findNavController().navigateUp()
-
           }
 
           binding.etNamePl.setOnFocusChangeListener { _, hasFocus ->
@@ -97,8 +96,8 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
 
 
      private fun fillFields (playlist : Playlist) {
-          binding.tvButtonNew.text = "Сохранить"
-          binding.tvNewPlaylist.text = "Редактировать"
+          binding.tvButtonNew.text = getString(R.string.save)
+          binding.tvNewPlaylist.text = getString(R.string.edit)
           binding.ietNamePl.setText(playlist.namePl)
           binding.etNamePl.hint = playlist.namePl
           binding.etDescriptPl.hint = playlist.descriptPl

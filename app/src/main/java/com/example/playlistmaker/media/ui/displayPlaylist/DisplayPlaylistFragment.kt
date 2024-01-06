@@ -44,7 +44,6 @@ class DisplayPlaylistFragment : Fragment() {
     ): View? {
         _binding = FragmentDisplayPlaylistBinding.inflate(inflater, container, false)
         return binding.root
-        Log.d("MAALMI_DisplayPlaylistFragment", "playlistId = ${Bundle.CONTENTS_FILE_DESCRIPTOR}")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -98,6 +97,7 @@ class DisplayPlaylistFragment : Fragment() {
             })
         binding.ivBack.setOnClickListener {
             findNavController().navigateUp()
+            //MediaFragment().binding.viewPager.currentItem = 1
         }
 
         // Нажатие на кнопку МЕНЮ (...)
@@ -131,9 +131,7 @@ class DisplayPlaylistFragment : Fragment() {
         // Выбор меню УДАЛИТЬ ПЛЭЙЛИСТ
         binding.deletePlBottomSheet.setOnClickListener {
             bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_HIDDEN
-            Log.d("MAALMI_DisplayPlaylistFragment", "Отправляем на удаление = ${actualPlaylist !!.idPl}")
             deletePlaylistDialog (actualPlaylist !!.idPl).show()
-            Log.d("MAALMI_DisplayPlaylistFragment", "После возврата c удаление = ${actualPlaylist !!.idPl}")
         }
 
     }   //============================================================
@@ -147,7 +145,7 @@ class DisplayPlaylistFragment : Fragment() {
         binding.apply {
             tvNamePl.text = playlist.namePl
             tvDesciptPl.text = playlist.descriptPl
-            tvPlaylistCount.text = Converters().convertCountToTextTracks (playlist.tracksPl.size)
+            tvPlaylistCount.text = Converters(requireContext()).convertCountToTextTracks (playlist.tracksPl.size)
             tvPlaylistTime.text = (playlistTime (playlist))
         }
         val radius = resources.getDimensionPixelSize(R.dimen.corner_radius)
@@ -160,15 +158,15 @@ class DisplayPlaylistFragment : Fragment() {
     }
 
     private fun displaybottomSheetBehaviorMenu (){
-        val countTracks = Converters().convertCountToTextTracks (actualPlaylist!!.countTracks)
+        val countTracks = Converters(requireContext()).convertCountToTextTracks (actualPlaylist!!.countTracks)
         val radius = resources.getDimensionPixelSize(R.dimen.corner_radius)
         binding.namePlBottomSheet.text = actualPlaylist!!.namePl
         binding.tracksBottomSheet.text = countTracks
-        Glide.with(binding.ivImagePlBottomSheet)
+        Glide.with(binding.ivImageplBottomSheet)
             .load(actualPlaylist!!.imagePl)
             .transform(RoundedCorners(radius))
             .placeholder(R.drawable.media_placeholder)
-            .into(binding.ivImagePlBottomSheet)
+            .into(binding.ivImageplBottomSheet)
     }
 
     private fun shareDialog() {
@@ -193,7 +191,7 @@ class DisplayPlaylistFragment : Fragment() {
         for (track in playlist.tracksPl) {
             result += track.trackTimeMillis
         }
-        return Converters().convertMillisToTextMinutes(result)
+        return Converters(requireContext()).convertMillisToTextMinutes(result)
     }
 
     private fun deletePlaylistDialog(idPl: Int) = MaterialAlertDialogBuilder(requireActivity())
@@ -225,7 +223,7 @@ class DisplayPlaylistFragment : Fragment() {
     private fun createPlaylist(playlist: Playlist) : String {
         var sharedPlaylist = playlist.namePl + "\n " +
              playlist.descriptPl + "\n " +
-                Converters().convertCountToTextTracks(playlist.countTracks) + "\n "
+                Converters(requireContext()).convertCountToTextTracks(playlist.countTracks) + "\n "
             for ( i in 1 ..  (playlist.tracksPl.size)) {
                 sharedPlaylist = sharedPlaylist + "$i. " + playlist.tracksPl[i-1].artistName + " - " +
                         playlist.tracksPl[i-1].trackName + " - " +
