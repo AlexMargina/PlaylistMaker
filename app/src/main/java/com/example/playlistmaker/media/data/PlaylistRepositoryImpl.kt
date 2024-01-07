@@ -2,7 +2,9 @@ package com.example.playlistmaker.media.data
 
 import android.util.Log
 import com.example.playlistmaker.media.data.db.AppDatabase
+import com.example.playlistmaker.media.data.entity.LinkTrackPlEntity
 import com.example.playlistmaker.media.data.entity.PlaylistEntity
+import com.example.playlistmaker.media.data.entity.TrackEntity
 import com.example.playlistmaker.media.domain.Playlist
 import com.example.playlistmaker.media.domain.playlist.PlaylistRepository
 import com.example.playlistmaker.search.domain.TrackModel
@@ -23,6 +25,8 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
         playlist.tracksPl.add(0, track)
         playlist.countTracks = playlist.tracksPl.size
         appDatabase.playlistDao().updatePlaylist(convertToEntityPlaylist(playlist))
+        appDatabase.linkTrackPlDao().insertLinkPl(LinkTrackPlEntity(0, track.trackId, playlist.idPl))
+        appDatabase.trackDao().insertTrack(convertToTrackDto(track))
     }
 
     override suspend fun getPlaylists(): Flow<List<Playlist>> {
@@ -32,6 +36,8 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
 
     override suspend fun deletePl (idPl : Int)  {
         appDatabase.playlistDao().deletePl (idPl)
+        appDatabase.linkTrackPlDao().deleteLinkPl()
+        appDatabase.linkTrackPlDao().deleteOrfanTrack()
     }
 
     override suspend fun getPlaylistById (idPl : Int) : Playlist {
@@ -42,6 +48,7 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
     override suspend fun updatePl(idPl: Int?, namePl: String?, descriptPl: String?) {
         Log.d ("PlaylistRepositoryImpl", "updatePl idPl= ${idPl} ")  //1
         appDatabase.playlistDao().updatePl(idPl, namePl,  descriptPl)
+        appDatabase.linkTrackPlDao().deleteOrfanTrack()
     }
 
     override suspend fun deleteTrackFromPlaylist(trackId: String, idPl: Int) {
@@ -54,6 +61,8 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
             }
         }
         appDatabase.playlistDao().updatePlaylist(convertToEntityPlaylist(playlist))
+        appDatabase.linkTrackPlDao().deleteLinkTrackPl(trackId, idPl)
+        appDatabase.linkTrackPlDao().deleteOrfanTrack()
     }
 
     private fun convertToEntityPlaylist(playlist: Playlist): PlaylistEntity {
@@ -91,4 +100,18 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
             timePl=playlist.timePl
         )
     }
+
+    private fun convertToTrackDto(track: TrackModel) =
+        TrackEntity(
+            track.trackId,
+            track.trackName,
+            track.artistName,
+            track.trackTimeMillis,
+            track.artworkUrl100,
+            track.collectionName,
+            track.releaseDate,
+            track.primaryGenreName,
+            track.country,
+            track.previewUrl
+        )
 }
