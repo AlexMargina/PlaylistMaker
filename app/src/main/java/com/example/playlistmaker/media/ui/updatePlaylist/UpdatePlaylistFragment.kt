@@ -81,7 +81,6 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
               viewModel.updatePl(
                    idPl,
                    namePl = namePl ,
-                   imagePl = imagePl,
                    descriptPl = binding.etDescriptPl.editText!!.text.toString())
                findNavController().navigateUp()
           }

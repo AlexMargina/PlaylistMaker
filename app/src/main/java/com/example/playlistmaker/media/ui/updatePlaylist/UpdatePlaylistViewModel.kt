@@ -22,9 +22,9 @@ class UpdatePlaylistViewModel(
     val update: LiveData<Boolean> = _update
 
 
-    fun updatePl(idPl: Int?, imagePl: String?, namePl: String?, descriptPl: String?) {
+    fun updatePl(idPl: Int?, namePl: String?, descriptPl: String?) {
         viewModelScope.launch {
-            interactor.updatePl(idPl, namePl, imagePl, descriptPl)
+            interactor.updatePl(idPl, namePl,  descriptPl)
         }
     }
 

@@ -24,8 +24,8 @@ interface PlaylistDao {
     @Update( onConflict = OnConflictStrategy.REPLACE, entity = PlaylistEntity::class)
     suspend fun updatePlaylist(playlist: PlaylistEntity) //(idPl: Int?, namePl: String?, imagePl: String?, descriptPl: String?)
 
-    @Query("UPDATE playlist_table SET namePl = :namePl, imagePl =:imagePl, descriptPl = :descriptPl WHERE idPl = :idPl")
-    suspend fun updatePl(idPl: Int?, namePl: String?, imagePl: String?, descriptPl: String?)
+    @Query("UPDATE playlist_table SET namePl = :namePl, descriptPl = :descriptPl WHERE idPl = :idPl")
+    suspend fun updatePl(idPl: Int?, namePl: String?,  descriptPl: String?)
 
     @Query("DELETE FROM playlist_table WHERE idPl = :idPl")
     suspend fun deletePl(idPl: Int)

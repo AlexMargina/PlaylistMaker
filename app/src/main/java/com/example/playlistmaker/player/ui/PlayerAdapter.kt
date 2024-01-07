@@ -9,6 +9,7 @@ import com.example.playlistmaker.media.domain.Playlist
 class PlayerAdapter(): RecyclerView.Adapter<PlayerViewHolder>(){
     var playlists = arrayListOf<Playlist>()
     var clickListener: ((Playlist) -> Unit)? = null
+    var imagePath = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerViewHolder {
         val layoutInspector = LayoutInflater.from(parent.context)
@@ -25,7 +26,7 @@ class PlayerAdapter(): RecyclerView.Adapter<PlayerViewHolder>(){
     override fun getItemCount() = playlists.size
 
     override fun onBindViewHolder(holder: PlayerViewHolder, position: Int) {
-        holder.bind(playlists[position])
+        holder.bind(playlists[position], imagePath)
         holder.itemView.setOnClickListener { clickListener?.invoke(playlists[position]) }
     }
 }

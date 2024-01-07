@@ -63,5 +63,6 @@
     <string name="minutes">minutes</string>
     <string name="minutes_2">minutes</string>
     <string name="minute">minute</string>
+    <string name="playlist">Playlist</string>
 
 </resources>

@@ -39,9 +39,9 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
         return convertToPlaylist(playlist)
     }
 
-    override suspend fun updatePl(idPl: Int?, namePl: String?, imagePl: String?, descriptPl: String?) {
+    override suspend fun updatePl(idPl: Int?, namePl: String?, descriptPl: String?) {
         Log.d ("PlaylistRepositoryImpl", "updatePl idPl= ${idPl} ")  //1
-        appDatabase.playlistDao().updatePl(idPl, namePl, imagePl, descriptPl)
+        appDatabase.playlistDao().updatePl(idPl, namePl,  descriptPl)
     }
 
     override suspend fun deleteTrackFromPlaylist(trackId: String, idPl: Int) {
@@ -65,7 +65,6 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
             idPl = playlist.idPl,
             namePl = playlist.namePl,
             descriptPl = playlist.descriptPl,
-            imagePl = playlist.imagePl,
             tracksPl = convertListToString(playlist.tracksPl),
             countTracksPl = playlist.tracksPl.size,
             timePl = timeAllTracks
@@ -87,7 +86,6 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
             idPl = playlist.idPl,
             namePl = playlist.namePl,
             descriptPl = playlist.descriptPl,
-            imagePl = playlist.imagePl,
             tracksPl = convertStringToList(playlist.tracksPl),
             countTracks = playlist.countTracksPl,
             timePl=playlist.timePl

@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentDisplayPlaylistBinding
@@ -64,8 +65,9 @@ class DisplayPlaylistFragment : Fragment() {
 
         // 3. Передать трэки плейлиста в адаптер и отобразить плэйлист
         viewModel.playlistLiveData.observe(viewLifecycleOwner) { playlist ->
+            val tracks = replaceCoverTrackToArtwork160(playlist.tracksPl)
             adapter.tracks.clear()
-            adapter.tracks.addAll(playlist.tracksPl)
+            adapter.tracks.addAll(tracks)
             adapter.notifyDataSetChanged()
             actualPlaylist = playlist
             displayPlaylist(actualPlaylist!!)
@@ -120,10 +122,12 @@ class DisplayPlaylistFragment : Fragment() {
         // Выбор меню РЕДАКТИРОВАТЬ ИНФОРМАЦИЮ
         binding.updatePlBottomSheet.setOnClickListener {
             bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_HIDDEN
+            // новый путь к файлу
+            val imagePl = viewModel.imagePath() + "/" + actualPlaylist!!.namePl + ".jpg"
             val bundle : Bundle = bundleOf()
             bundle.putInt("idPl", idPl)
             bundle.putString("namePl",actualPlaylist!!.namePl )
-            bundle.putString("imagePl",actualPlaylist!!.imagePl )
+            bundle.putString("imagePl", imagePl )
             bundle.putString("descriptPl",actualPlaylist!!.descriptPl )
             findNavController().navigate(R.id.updatePlaylistFragment, bundle)
         }
@@ -153,8 +157,10 @@ class DisplayPlaylistFragment : Fragment() {
         Log.d ("MAALMI_DisplayPl_F", "coverPlaylist = $coverPlaylist")
         Glide.with(binding.ivCoverPlaylist)
             .load(coverPlaylist)
-            .transform(RoundedCorners(radius))
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .placeholder(R.drawable.media_placeholder)
+            .transform(RoundedCorners(radius))
             .into(binding.ivCoverPlaylist)
     }
 
@@ -163,8 +169,11 @@ class DisplayPlaylistFragment : Fragment() {
         val radius = resources.getDimensionPixelSize(R.dimen.corner_radius)
         binding.namePlBottomSheet.text = actualPlaylist!!.namePl
         binding.tracksBottomSheet.text = countTracks
+        val coverPlaylist = viewModel.imagePath() +"/"+ actualPlaylist!!.namePl + ".jpg"
         Glide.with(binding.ivImageplBottomSheet)
-            .load(actualPlaylist!!.imagePl)
+            .load(coverPlaylist)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .transform(RoundedCorners(radius))
             .placeholder(R.drawable.media_placeholder)
             .into(binding.ivImageplBottomSheet)
@@ -222,7 +231,7 @@ class DisplayPlaylistFragment : Fragment() {
     }
 
     private fun createPlaylist(playlist: Playlist) : String {
-        var sharedPlaylist = playlist.namePl + "\n " +
+        var sharedPlaylist = getString(R.string.playlist) +": " +playlist.namePl + "\n " +
              playlist.descriptPl + "\n " +
                 Converters(requireContext()).convertCountToTextTracks(playlist.countTracks) + "\n "
             for ( i in 1 ..  (playlist.tracksPl.size)) {
@@ -232,6 +241,15 @@ class DisplayPlaylistFragment : Fragment() {
                             .format (playlist.tracksPl[i-1].trackTimeMillis) + "\n"
             }
         return sharedPlaylist
+    }
+
+    private fun replaceCoverTrackToArtwork160(tracks : ArrayList<TrackModel>) : ArrayList<TrackModel> {
+        for (track in tracks) {
+            val coverUrl100 = track.artworkUrl100
+            val coverUrl60 = coverUrl100.replaceAfterLast('/', "60x60bb.jpg")
+            track.artworkUrl100 = coverUrl60
+        }
+        return tracks
     }
 
     companion object {

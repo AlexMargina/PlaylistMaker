@@ -12,6 +12,7 @@ class Converters (val context:Context){
 
     fun convertCountToTextTracks(countTracks: Int): String {
         var s = ""
+        if (countTracks in 5..20) return "$countTracks ${context.getText(R.string.tracks)}"
         return try {
             s = when (countTracks % 10) {
                 1 -> "$countTracks ${context.getString(R.string.track) }"
@@ -25,11 +26,10 @@ class Converters (val context:Context){
     }
 
     fun convertMillisToTextMinutes(ms: Long): String {
-        var minutes = ""
-        try {
-            minutes = SimpleDateFormat("m", Locale.getDefault()).format(ms)
-            return when (ms / 60000L % 10) {
-                11L -> "$minutes ${context.getText(R.string.minutes)}"
+        val minutes = SimpleDateFormat("m", Locale.getDefault()).format(ms)
+        if (ms / 60000L in 5..20) return "$minutes ${context.getText(R.string.minutes)}"
+        return try {
+            when (ms / 60000L % 10) {
                 1L -> "$minutes ${context.getText(R.string.minute)}"
                 2L, 3L, 4L -> "$minutes ${context.getText(R.string.minutes_2)}"
                 else -> {
@@ -37,7 +37,7 @@ class Converters (val context:Context){
                 }
             }
         } catch (er: Error) {
-            return er.toString()
+            er.toString()
         }
     }
 }

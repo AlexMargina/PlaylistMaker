@@ -79,5 +79,6 @@
     <string name="minutes">минут</string>
     <string name="minutes_2">минуты</string>
     <string name="minute">минута</string>
+    <string name="playlist">Плэйлист</string>
 
 </resources>
