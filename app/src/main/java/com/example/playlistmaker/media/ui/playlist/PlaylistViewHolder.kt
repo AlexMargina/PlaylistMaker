@@ -12,9 +12,10 @@ import com.example.playlistmaker.utils.Converters
 class PlaylistViewHolder (private val binding: LayoutPlaylistsBinding) : RecyclerView.ViewHolder(binding.root)
 {
 
-    fun bind(playlist: Playlist) {
+    fun bind(playlist: Playlist, imagePath: String) {
         binding.tvTitle .text = playlist.namePl
         binding.tvCount.text = Converters(itemView.context).convertCountToTextTracks (playlist.countTracks)
+        val coverPl = imagePath + "/" + playlist.namePl + ".jpg"
         Log.d ("MAALMI_PlaylistViewHolder", "imagePl = ${playlist.imagePl}")
         Glide.with(itemView)
             .load(playlist.imagePl)

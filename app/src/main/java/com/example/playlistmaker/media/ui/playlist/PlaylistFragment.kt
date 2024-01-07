@@ -50,6 +50,7 @@ class PlaylistFragment : Fragment() {
         }
 
         newViewModel.playlistLiveData.observe(viewLifecycleOwner) { playlist ->
+            adapter.imagePath = newViewModel.imagePath()
             adapter.playlists.clear()
             adapter.playlists.addAll(playlist)
             adapter.notifyDataSetChanged()
@@ -76,6 +77,7 @@ class PlaylistFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         newViewModel.playlistLiveData.observe(viewLifecycleOwner) { playlist ->
+            adapter.imagePath = newViewModel.imagePath()
             adapter.playlists.clear()
             adapter.playlists.addAll(playlist)
             adapter.notifyDataSetChanged()
@@ -104,7 +106,7 @@ class PlaylistFragment : Fragment() {
         binding.recyclerView.visibility = View.VISIBLE
         binding.ivEmptyPlaylist.visibility = View.GONE
         binding.tvEmptyPlaylist.visibility = View.GONE
-
+        adapter.imagePath = newViewModel.imagePath()
         adapter.playlists.clear()
         adapter.playlists.addAll(playlists)
         adapter.notifyDataSetChanged()

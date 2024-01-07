@@ -149,7 +149,8 @@ class DisplayPlaylistFragment : Fragment() {
             tvPlaylistTime.text = (playlistTime (playlist))
         }
         val radius = resources.getDimensionPixelSize(R.dimen.corner_radius)
-        val coverPlaylist = playlist.imagePl
+        val coverPlaylist = viewModel.imagePath() +"/"+ playlist.namePl + ".jpg"
+        Log.d ("MAALMI_DisplayPl_F", "coverPlaylist = $coverPlaylist")
         Glide.with(binding.ivCoverPlaylist)
             .load(coverPlaylist)
             .transform(RoundedCorners(radius))

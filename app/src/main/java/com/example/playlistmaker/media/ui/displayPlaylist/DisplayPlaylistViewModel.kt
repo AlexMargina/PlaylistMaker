@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.media.domain.Playlist
+import com.example.playlistmaker.media.domain.newPlaylist.NewPlaylistInteractor
 import com.example.playlistmaker.media.domain.playlist.PlaylistInteractor
 import com.example.playlistmaker.media.ui.playlist.PlaylistState
 import com.example.playlistmaker.search.domain.SearchInteractor
@@ -14,6 +15,7 @@ import com.example.playlistmaker.sharing.domain.SharingInteractor
 import kotlinx.coroutines.launch
 
 class DisplayPlaylistViewModel(private val interactor : PlaylistInteractor,
+                               private val newPlaylistInteractor: NewPlaylistInteractor,
                                private val searchInteractor : SearchInteractor,
                                private val sharingInteractor : SharingInteractor) : ViewModel(){
 
@@ -60,6 +62,10 @@ class DisplayPlaylistViewModel(private val interactor : PlaylistInteractor,
         viewModelScope.launch {
             interactor.deletePl(idPl)
         }
+    }
+
+    fun imagePath () : String {
+        return newPlaylistInteractor.imagePath()
     }
 
     fun sharePlaylist(sharedPlaylist: String, titlePlaylist:String) {

@@ -61,7 +61,6 @@ class NewPlaylistRepositoryImpl(val context: Context) : NewPlaylistRepository {
         Log.d("MAALMI_loadPicture", "load... uri= ${file.toUri()}, fileName=$imageFileName ")
         return if (file.exists()) {
             file.toUri()
-
         } else {
             null
         }

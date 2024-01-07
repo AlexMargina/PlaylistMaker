@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.media.domain.Playlist
-import com.example.playlistmaker.media.ui.displayPlaylist.DisplayPlaylistFragment
 import com.example.playlistmaker.media.ui.newPlaylist.NewPlaylistFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -104,8 +103,9 @@ class UpdatePlaylistFragment : NewPlaylistFragment() {
           binding.ietDescriptPl.setText(playlist.descriptPl)
           binding.ivPicturePlus.isVisible = false
           val radius = resources.getDimensionPixelSize(R.dimen.corner_radius)
+          val coverPl = viewModel.imagePath() + "/" + playlist.namePl + ".jpg"
           Glide.with(binding.ivCoverPlImage)
-               .load(DisplayPlaylistFragment.actualPlaylist !!.imagePl)
+               .load(coverPl)
                .transform(RoundedCorners(radius))
                .placeholder(R.drawable.media_placeholder)
                .into(binding.ivCoverPlImage)
