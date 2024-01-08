@@ -21,6 +21,8 @@ interface PlaylistRepository {
 
     suspend fun updatePl(idPl: Int?, namePl: String?,  descriptPl: String?)
 
+    suspend fun deleteLinkTrackPl (trackId: String, idPl: Int)
+
     suspend fun deletePlfromTable (idPl : Int)
 
     suspend fun deleteLinkPl (idPl : Int)

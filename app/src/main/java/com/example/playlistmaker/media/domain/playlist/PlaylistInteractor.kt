@@ -18,6 +18,8 @@ interface PlaylistInteractor {
 
     suspend fun deleteTrackFromPlaylist(trackId: String, idPl : Int  )
 
+    suspend fun deleteLinkTrackPl (trackId: String, idPl: Int)
+
     suspend fun updatePl(idPl: Int?, namePl: String?,  descriptPl: String?)
 
     suspend fun deletePlfromTable (idPl : Int)

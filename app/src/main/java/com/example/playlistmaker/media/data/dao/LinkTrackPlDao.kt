@@ -21,4 +21,7 @@ interface LinkTrackPlDao {
 
     @Query("DELETE FROM track_table WHERE (((trackId) Not In (SELECT t2.trackId FROM trackId_idpl_table AS t2)))")
     suspend fun deleteOrfanTrack()
+
+    @Query("SELECT  FROM track_table WHERE (((trackId) Not In (SELECT t2.trackId FROM trackId_idpl_table AS t2)))")
+    suspend fun getPlById(idPl: Int)
 }
