@@ -35,12 +35,28 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
     }
 
     override suspend fun deletePl (idPl : Int)  {
+        Log.d("MAALMI_PlRepoImpl", "Перед удалением appDatabase.playlistDao().deletePl ($idPl)")
         appDatabase.playlistDao().deletePl (idPl)
+        deletePlfromTable(idPl)
+        deleteLinkPl(idPl)
+    }
+
+    override  suspend fun deletePlfromTable (idPl : Int){
+        Log.d("MAALMI_PlRepoImpl", "Удаляем appDatabase.playlistDao().deletePl ($idPl)")
+        appDatabase.playlistDao().deletePl (idPl)
+    }
+    override suspend fun deleteLinkPl (idPl : Int){
+        Log.d("MAALMI_PlRepoImpl", "Удаляем appDatabase.playlistDao().deleteLinkPl()")
         appDatabase.linkTrackPlDao().deleteLinkPl()
+
+    }
+
+    override suspend fun deleteOrfanTrack () {
+        Log.d("MAALMI_PlRepoImpl", "Удаляем appDatabase.playlistDao().deleteOrfanTrack()")
         appDatabase.linkTrackPlDao().deleteOrfanTrack()
     }
 
-    override suspend fun getPlaylistById (idPl : Int) : Playlist {
+            override suspend fun getPlaylistById (idPl : Int) : Playlist {
         val playlist = appDatabase.playlistDao().getPlaylistById (idPl)
         return convertToPlaylist(playlist)
     }

@@ -60,7 +60,13 @@ class DisplayPlaylistViewModel(private val interactor : PlaylistInteractor,
 
     fun deletePl (idPl : Int){
         viewModelScope.launch {
-            interactor.deletePl(idPl)
+            interactor.deletePlfromTable(idPl)
+        }
+        viewModelScope.launch {
+            interactor.deleteLinkPl(idPl)
+        }
+        viewModelScope.launch {
+            interactor.deleteOrfanTrack()
         }
     }
 
