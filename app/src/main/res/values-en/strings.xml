@@ -46,7 +46,7 @@
     <string name="delete_button">Delete</string>
     <string name="delete_track">Delete track</string>
     <string name="really_delete_track">Are you sure you want to remove the track from the playlist?</string>
-    <string name="no_track_in_playlist">This playlist does not have a tracks</string>
+    <string name="no_track_in_playlist">This playlist does not have any tracks</string>
     <string name="its_clear">It\'s clear</string>
     <string name="delete_playlist">Delete playlist</string>
     <string name="really_delete_playlist">Are you sure you want to remove this playlist?</string>

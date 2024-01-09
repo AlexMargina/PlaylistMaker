@@ -34,7 +34,6 @@
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_marginHorizontal="@dimen/size_xxs"
-        android:background="@color/background_icon"
         app:cardBackgroundColor="@color/background_icon"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"

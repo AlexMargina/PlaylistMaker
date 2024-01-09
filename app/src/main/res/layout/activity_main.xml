@@ -2,8 +2,8 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_screen"
-    android:theme="@style/Theme.PlaylistMaker"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:foregroundTint="@color/YP_blue">
@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/navigation_graph"/>
+        app:navGraph="@navigation/navigation_graph" />
 
     <View
         android:layout_width="0dp"
@@ -32,8 +32,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:addStatesFromChildren="true"
-        app:itemTextColor="@drawable/icon_selector"
+        android:background="@color/background_icon"
+        android:backgroundTintMode="multiply"
+        app:backgroundTint="@color/buton_background"
         app:itemIconTint="@drawable/icon_selector"
+        app:itemTextColor="@drawable/icon_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

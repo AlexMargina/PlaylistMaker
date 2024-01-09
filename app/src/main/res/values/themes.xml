@@ -1,7 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <!-- Было theme="Theme.AppCompat.DayNight.DarkActionBar" -->
+    <!-- Было theme="Theme.AppCompat.DayNight.DarkActionBar"    Theme.MaterialComponents.DayNight.NoActionBar -->
     <style name="Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -11,10 +13,11 @@
         <item name="colorSecondaryVariant">@color/purple_500</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/black</item>
         <item name="colorAccent">@color/YP_blue</item>
         <item name="android:outlineAmbientShadowColor">@color/YP_blue</item>
     </style>
+
 
 <style name="NavigationBar" parent="Theme.AppCompat.DayNight">
     <!-- Primary brand color. -->
