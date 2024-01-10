@@ -2,7 +2,6 @@ package com.example.playlistmaker.media.data
 
 import android.util.Log
 import com.example.playlistmaker.media.data.db.AppDatabase
-import com.example.playlistmaker.media.data.entity.LinkTrackPlEntity
 import com.example.playlistmaker.media.data.entity.PlaylistEntity
 import com.example.playlistmaker.media.data.entity.TrackEntity
 import com.example.playlistmaker.media.domain.Playlist
@@ -25,8 +24,8 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
         playlist.tracksPl.add(0, track)
         playlist.countTracks = playlist.tracksPl.size
         appDatabase.playlistDao().updatePlaylist(convertToEntityPlaylist(playlist))
-        appDatabase.linkTrackPlDao().insertLinkPl(LinkTrackPlEntity(0, track.trackId, playlist.idPl))
-        appDatabase.trackDao().insertTrack(convertToTrackDto(track))
+//        appDatabase.linkTrackPlDao().insertLinkPl(LinkTrackPlEntity(0, track.trackId, playlist.idPl))
+//        appDatabase.trackDao().insertTrack(convertToTrackDto(track))
     }
 
     override suspend fun getPlaylists(): Flow<List<Playlist>> {
@@ -68,7 +67,6 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
     override suspend fun updatePl(idPl: Int?, namePl: String?, descriptPl: String?) {
         Log.d ("PlaylistRepositoryImpl", "updatePl idPl= ${idPl} ")  //1
         appDatabase.playlistDao().updatePl(idPl, namePl,  descriptPl)
-        appDatabase.linkTrackPlDao().deleteOrfanTrack()
     }
 
     override suspend fun deleteTrackFromPlaylist(trackId: String, idPl: Int) {
@@ -81,8 +79,7 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
             }
         }
         appDatabase.playlistDao().updatePlaylist(convertToEntityPlaylist(playlist))
-        appDatabase.linkTrackPlDao().deleteLinkTrackPl(trackId, idPl)
-        appDatabase.linkTrackPlDao().deleteOrfanTrack()
+
     }
 
 

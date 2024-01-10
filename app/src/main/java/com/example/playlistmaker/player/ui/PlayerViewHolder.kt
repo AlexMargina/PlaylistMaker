@@ -18,7 +18,7 @@ class PlayerViewHolder(private val binding: LayoutPlayerPlaylistsBinding) : Recy
             .load(imagePl)
             .placeholder(R.drawable.media_placeholder)
             .centerCrop()
-            .transform(RoundedCorners(3))
+            .transform(RoundedCorners(8))
             .into(binding.imagePlaylist)
     }
 }
