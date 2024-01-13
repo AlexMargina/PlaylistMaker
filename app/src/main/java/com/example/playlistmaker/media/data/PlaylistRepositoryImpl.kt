@@ -2,6 +2,7 @@ package com.example.playlistmaker.media.data
 
 import android.util.Log
 import com.example.playlistmaker.media.data.db.AppDatabase
+import com.example.playlistmaker.media.data.entity.LinkTrackPlEntity
 import com.example.playlistmaker.media.data.entity.PlaylistEntity
 import com.example.playlistmaker.media.data.entity.TrackEntity
 import com.example.playlistmaker.media.domain.Playlist
@@ -24,8 +25,9 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
         playlist.tracksPl.add(0, track)
         playlist.countTracks = playlist.tracksPl.size
         appDatabase.playlistDao().updatePlaylist(convertToEntityPlaylist(playlist))
-//        appDatabase.linkTrackPlDao().insertLinkPl(LinkTrackPlEntity(0, track.trackId, playlist.idPl))
-//        appDatabase.trackDao().insertTrack(convertToTrackDto(track))
+        appDatabase.linkTrackPlDao().insertLinkPl(LinkTrackPlEntity(0, track.trackId, playlist.idPl))
+        Log.d("MAALMI_Pl_Repo", "insertTrack (${track.isFavorite})")
+        appDatabase.trackDao().insertTrack(convertToTrackDto(track))
     }
 
     override suspend fun getPlaylists(): Flow<List<Playlist>> {
@@ -34,7 +36,7 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
     }
 
     override suspend fun deletePl (idPl : Int)  {
-        Log.d("MAALMI_PlRepoImpl", "эту процедуру можно удалить ($idPl)")
+        Log.d("MAALMI_Pl_Repo", "эту процедуру можно удалить ($idPl)")
         appDatabase.playlistDao().deletePl (idPl)
         deletePlfromTable(idPl)
         deleteLinkPl(idPl)
@@ -130,6 +132,7 @@ class PlaylistRepositoryImpl (val appDatabase: AppDatabase) : PlaylistRepository
             track.releaseDate,
             track.primaryGenreName,
             track.country,
-            track.previewUrl
+            track.previewUrl,
+            track.isFavorite
         )
 }

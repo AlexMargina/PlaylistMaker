@@ -19,7 +19,7 @@ interface LinkTrackPlDao {
     @Query("DELETE FROM trackid_idpl_table WHERE  (((idPl) Not In (SELECT t1.idPl FROM playlist_table AS t1)))")
     suspend fun deleteLinkPl()
 
-    @Query("DELETE FROM track_table WHERE (((trackId) Not In (SELECT t2.trackId FROM trackId_idpl_table AS t2)))")
+    @Query("DELETE FROM track_table WHERE  isFavorite=0 AND (((trackId) Not In (SELECT t2.trackId FROM trackId_idpl_table AS t2)))")
     suspend fun deleteOrfanTrack()
 
 }
