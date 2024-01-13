@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener {_, nd, _ ->
             bottomNavigationView.isVisible =
-                ! (nd.id == R.id.newPlaylistFragment || nd.id == R.id.playerFragment)
+                ! (nd.id == R.id.newPlaylistFragment || nd.id == R.id.playerFragment ||
+                        nd.id==R.id.displayPlaylist || nd.id==R.id.updatePlaylistFragment)
         }
     }
 }

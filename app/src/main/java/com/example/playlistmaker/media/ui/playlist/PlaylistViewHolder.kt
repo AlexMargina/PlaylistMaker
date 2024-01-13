@@ -3,33 +3,28 @@ package com.example.playlistmaker.media.ui.playlist
 import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.LayoutPlaylistsBinding
 import com.example.playlistmaker.media.domain.Playlist
+import com.example.playlistmaker.utils.Converters
 
 class PlaylistViewHolder (private val binding: LayoutPlaylistsBinding) : RecyclerView.ViewHolder(binding.root)
 {
 
-    fun bind(playlist: Playlist) {
+    fun bind(playlist: Playlist, imagePath: String) {
         binding.tvTitle .text = playlist.namePl
-        binding.tvCount.text = convertCountToText(playlist.countTracks)
-        Log.d ("MAALMI_PlaylistViewHolder", "imagePl = ${playlist.imagePl}")
+        binding.tvCount.text = Converters(itemView.context).convertCountToTextTracks (playlist.countTracks)
+        val coverPl = imagePath + "/" + playlist.namePl + ".jpg"
+        Log.d ("MAALMI_PlaylistViewHolder", "imagePl = ${ coverPl}")
         Glide.with(itemView)
-            .load(playlist.imagePl)
+            .load(coverPl )
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .placeholder(R.drawable.media_placeholder)
             .centerCrop()
             .transform(RoundedCorners(8))
             .into(binding.ivCover)
-    }
-
-    private fun convertCountToText(countTracks: Int): String {
-
-        val s = when (countTracks % 10) {
-            1 -> "$countTracks трек"
-            2, 3, 4 -> "$countTracks трека"
-            else -> "$countTracks треков"
-        }
-        return s
     }
 }

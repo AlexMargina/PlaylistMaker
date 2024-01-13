@@ -1,6 +1,7 @@
 package com.example.playlistmaker.media.ui.newPlaylist
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,13 +14,13 @@ import com.example.playlistmaker.media.domain.newPlaylist.NewPlaylistInteractor
 import com.example.playlistmaker.media.domain.playlist.PlaylistInteractor
 import kotlinx.coroutines.launch
 
-class NewPlaylistViewModel(
-    private val interactor: PlaylistInteractor,
-    private val newPlaylistInteractor: NewPlaylistInteractor,
+open class NewPlaylistViewModel(
+     val interactor: PlaylistInteractor,
+     val newPlaylistInteractor: NewPlaylistInteractor,
 ) : ViewModel() {
 
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
-    private var selectedUri: Uri? = null
+     var selectedUri: Uri? = null
 
     private var _playlistLiveData = MutableLiveData<List<Playlist>>()
     val playlistLiveData: LiveData<List<Playlist>> = _playlistLiveData
@@ -39,11 +40,19 @@ class NewPlaylistViewModel(
             }
     }
 
+    open fun savePicture(uri: Uri?, namePl: String) {
+        viewModelScope.launch {
+            if (uri != null) {
+                newPlaylistInteractor.savePicture(uri, namePl)
+                Log.d("MAALMI_NewPlaylistVM", "Отправляем на сохранение = ${uri.encodedPath}")
+            }
+        }
+    }
+
     fun insertPlaylist(playlist: Playlist) {
         viewModelScope.launch {
-            if (selectedUri != null) {
-                newPlaylistInteractor.savePicture(selectedUri !!, playlist.namePl)
-            }
+            savePicture(selectedUri, playlist.namePl)
+
             interactor.insertPlaylist(playlist)
             interactor.getPlaylists().collect { list ->
                 _playlistLiveData.postValue(list)

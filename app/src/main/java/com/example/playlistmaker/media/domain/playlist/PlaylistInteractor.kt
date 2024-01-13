@@ -8,8 +8,23 @@ interface PlaylistInteractor {
 
     suspend fun insertPlaylist(playlist: Playlist)
 
+    suspend fun deletePl (idPl : Int)
+
     suspend fun addNewTrack(track: TrackModel, playlist: Playlist)
 
     suspend fun getPlaylists(): Flow<List<Playlist>>
 
+    suspend fun getPlaylistById(idPl: Int) : Playlist
+
+    suspend fun deleteTrackFromPlaylist(trackId: String, idPl : Int  )
+
+    suspend fun deleteLinkTrackPl (trackId: String, idPl: Int)
+
+    suspend fun updatePl(idPl: Int?, namePl: String?,  descriptPl: String?)
+
+    suspend fun deletePlfromTable (idPl : Int)
+
+    suspend fun deleteLinkPl (idPl : Int)
+
+    suspend fun deleteOrfanTrack ()
 }

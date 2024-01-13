@@ -13,6 +13,7 @@ import com.example.playlistmaker.search.domain.SearchRepository
 import com.example.playlistmaker.search.domain.TrackModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlin.coroutines.coroutineContext
 
 class SearchRepositoryImpl(
     private val networkClient: NetworkClient,
@@ -34,6 +35,15 @@ class SearchRepositoryImpl(
                 200 -> {
                     with(response as TracksSearchResponse) {
                         val data = results.map {
+                            Log.d ("Maalmi_SearchRepositoryImpl","it.trackTimeMillis1 = ${it.toString()}")
+                            if (it.trackTimeMillis !is Long) it.trackTimeMillis = 0L
+                            if (it.releaseDate == null ) it.releaseDate = "2001.01.01"
+                            if (it.previewUrl ==null ) it.previewUrl = ""
+                            if (it.primaryGenreName==null) it.primaryGenreName = ""
+                            if (it.collectionName ==null ) it.collectionName = ""
+                            if (it.artistName ==null ) it.artistName = ""
+                            if (it.country ==null ) it.country = ""
+                            if (it.artworkUrl100 ==null ) it.artworkUrl100 = ""
                             TrackModel(
                                 trackId = it.trackId,
                                 trackName = it.trackName,

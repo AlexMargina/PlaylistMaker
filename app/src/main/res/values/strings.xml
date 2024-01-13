@@ -58,5 +58,27 @@
     <string name="message_dialog_new_playlist">Все несохраненные данные будут потеряны</string>
     <string name="cancel_button">Отмена</string>
     <string name="finish_button">Завершить</string>
+    <string name="delete_button">Удалить</string>
+    <string name="delete_track">Удалить трэк</string>
+    <string name="really_delete_track"> Вы уверены, что хотите удалить трек из плейлиста?</string>
+    <string name="no_track_to_share">В этом плейлисте нет треков чтобы поделиться</string>
+    <string name="its_clear">Понятно</string>
+    <string name="no_track_in_playlist">В этом плейлисте еще нет треков</string>
+
+    <string name="delete_playlist">Удалить плейлист</string>
+    <string name="really_delete_playlist">Хотите удалить этот плейлист?</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
+    <string name="update_info">Редактировать информацию</string>
+    <string name="share">Поделиться</string>
+    <string name="save">Сохранить</string>
+    <string name="edit">Редактировать</string>
+    <string name="track">трек</string>
+    <string name="tracks_2">трека</string>
+    <string name="tracks">трэков</string>
+    <string name="minutes">минут</string>
+    <string name="minutes_2">минуты</string>
+    <string name="minute">минута</string>
+    <string name="playlist">Плэйлист</string>
 
 </resources>

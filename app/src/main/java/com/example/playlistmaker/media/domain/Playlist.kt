@@ -10,4 +10,5 @@ data class Playlist(
     val imagePl: String = "",
     val tracksPl: ArrayList<TrackModel> = arrayListOf(),
     var countTracks: Int = 0,
+    val timePl : Long = 0
 )

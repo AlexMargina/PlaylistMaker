@@ -11,9 +11,6 @@
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings" >
         <action
-            android:id="@+id/action_settingsActivity_to_searchFragment2"
-            app:destination="@id/searchFragment" />
-        <action
             android:id="@+id/action_settingsActivity_to_mediaFragment"
             app:destination="@id/mediaFragment" />
     </fragment>
@@ -25,9 +22,6 @@
         <action
             android:id="@+id/action_searchFragment2_to_mediaFragment"
             app:destination="@id/mediaFragment" />
-        <action
-            android:id="@+id/action_searchFragment2_to_settingsActivity"
-            app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_searchFragment_to_playerFragment"
             app:destination="@id/playerFragment" />
@@ -61,6 +55,9 @@
         <action
             android:id="@+id/action_playlistFragment_to_mediaFragment"
             app:destination="@id/mediaFragment" />
+        <action
+            android:id="@+id/action_playlistFragment_to_displayPlaylist"
+            app:destination="@id/displayPlaylist" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -93,6 +90,43 @@
         <action
             android:id="@+id/action_playerFragment_to_newPlaylistFragment"
             app:destination="@id/newPlaylistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/displayPlaylist"
+        android:name="com.example.playlistmaker.media.ui.displayPlaylist.DisplayPlaylistFragment"
+        android:label="DisplayPlaylist"
+        tools:layout="@layout/fragment_display_playlist">
+        <action
+            android:id="@+id/action_displayPlaylist_to_playerFragment"
+            app:destination="@id/playerFragment" />
+        <action
+            android:id="@+id/action_displayPlaylist_to_updatePlaylistFragment"
+            app:destination="@id/updatePlaylistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updatePlaylistFragment"
+        android:name="com.example.playlistmaker.media.ui.updatePlaylist.UpdatePlaylistFragment"
+        android:label="UpdatePlaylistFragment"
+        tools:layout="@layout/fragment_new_playlist">
+        <action
+            android:id="@+id/action_updatePlaylistFragment_to_newPlaylistFragment"
+            app:destination="@id/newPlaylistFragment" />
+        <argument
+            android:name="idPl"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="namePl"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="descriptPl"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="imagePl"
+            app:argType="string"
+            android:defaultValue='""' />
     </fragment>
 </navigation>
 

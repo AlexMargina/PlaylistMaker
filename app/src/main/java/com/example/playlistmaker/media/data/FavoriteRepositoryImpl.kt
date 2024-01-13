@@ -16,7 +16,7 @@ class FavoriteRepositoryImpl(
 ) : FavoriteRepository {
 
     override fun favoriteTracks(): Flow<ArrayList<TrackModel>> = flow {
-        val tracks = appDatabase.trackDao().getTracksByTime()
+        val tracks = appDatabase.trackDao().getFavoriteTracksByTime()
         emit(convertFromTrackEntity(tracks as ArrayList<TrackEntity>))
     }
 
@@ -52,10 +52,12 @@ class FavoriteRepositoryImpl(
     }
 
     override suspend fun deleteDbTrackFromFavorite(trackId: String) {
-        appDatabase.trackDao().deleteTrack(trackId)
+
         val trackDislikeOnPosition =
             clickedTracks.filter { trackModel -> trackModel.trackId == trackId }[0]
         val position = clickedTracks.indexOf(trackDislikeOnPosition)
         clickedTracks[position].isFavorite = false
+        appDatabase.trackDao().deleteTrackFromFavorite(trackId)
+        appDatabase.linkTrackPlDao().deleteOrfanTrack()
     }
 }

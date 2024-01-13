@@ -19,14 +19,17 @@
     <dimen name="margin_bottom">14dp</dimen>
     <dimen name="size_sl">16dp</dimen>
     <dimen name="size_l">18dp</dimen>
+    <dimen name="size_sxl">21dp</dimen>
     <dimen name="size_xl">24dp</dimen>
     <dimen name="size_xxl">32dp</dimen>
     <dimen name="size_xxxl">48dp</dimen>
+
     <dimen name="corner_radius">8dp</dimen>
     <dimen name="big_icon">44dp</dimen>
     <dimen name="big_margin">136dp</dimen>
     <dimen name="text_22sp">22sp</dimen>
     <dimen name="text_19sp">19sp</dimen>
     <dimen name="text_14sp">14sp</dimen>
+    <dimen name="text_11sp">11sp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
 </resources>

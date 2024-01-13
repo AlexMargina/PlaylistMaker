@@ -6,15 +6,14 @@ import java.io.Serializable
 data class TrackDto(
 
     val trackId: String,
-    val trackName: String,
-    val artistName: String,
-    val trackTimeMillis: Long,
-    val artworkUrl100: String,
-    val collectionName: String,
-    val releaseDate: String,
-    val primaryGenreName: String,
-    val country: String,
-    val previewUrl: String,
+    val trackName: String = "",
+    var artistName: String= "",
+    var trackTimeMillis: Long= 0L,
+    var artworkUrl100: String= "",
+    var collectionName: String= "",
+    var releaseDate: String= "",
+    var primaryGenreName: String= "",
+    var country: String= "",
+    var previewUrl: String= "",
     val isFavorite: Boolean = false
-    ) : Serializable {
-}
+    ) : Serializable
