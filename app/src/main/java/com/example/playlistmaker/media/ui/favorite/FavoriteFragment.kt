@@ -79,12 +79,13 @@ class FavoriteFragment : Fragment() {
                     favoriteMusicAdapter.tracks.addAll(state.tracks)
                     favoriteMusicAdapter.notifyDataSetChanged()
                 }
-
-                else -> {
+                is FavoriteState.Empty -> {
                     Log.d("MAALMI_FavFrag", "Выполняем Empty")
-                    binding.groupFavorited.isVisible = false
                     binding.ivEmptyFavorite.isVisible=true
-                    binding.tvEmptyFavorite.isVisible=true
+                    binding.groupFavorited.isVisible = false
+                }
+                else -> {
+
                 }
             }
         }

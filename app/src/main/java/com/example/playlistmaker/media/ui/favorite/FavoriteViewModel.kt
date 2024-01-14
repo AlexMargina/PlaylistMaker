@@ -1,7 +1,6 @@
 package com.example.playlistmaker.media.ui.favorite
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,11 +21,10 @@ class FavoriteViewModel(
 
     init {
         fillData()
-        Log.d("MAALMI_FavoriteViewModel", "init}")
     }
 
     fun fillData() {
-        renderState(FavoriteState.Loading)
+        _stateLiveData.postValue(FavoriteState.Loading)
         viewModelScope.launch {
             favoriteInteractor
                 .favoriteTracks()
@@ -38,14 +36,10 @@ class FavoriteViewModel(
 
     private fun processResult(tracks: ArrayList<TrackModel>) {
         if (tracks.isEmpty()) {
-            renderState(FavoriteState.Empty(context.getString(R.string.empty_favorites)))
+            _stateLiveData.postValue(FavoriteState.Empty(context.getString(R.string.empty_favorites)))
         } else {
-            renderState(FavoriteState.Content(tracks))
+            _stateLiveData.postValue(FavoriteState.Content(tracks))
         }
-    }
-
-    private fun renderState(state: FavoriteState) {
-        _stateLiveData.postValue(state)
     }
 
     fun setClickedTrack(track: TrackModel, favoriteFragment: FavoriteFragment) {
