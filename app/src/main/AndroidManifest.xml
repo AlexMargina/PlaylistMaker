@@ -32,10 +32,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".player.ui.PlayerFragment"
-            android:exported="false">
-        </activity>
     </application>
 
 </manifest>
